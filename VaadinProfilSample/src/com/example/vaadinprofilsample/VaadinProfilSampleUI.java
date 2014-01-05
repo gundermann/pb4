@@ -2,7 +2,6 @@ package com.example.vaadinprofilsample;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.example.vaadin.VertragsMappenView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;

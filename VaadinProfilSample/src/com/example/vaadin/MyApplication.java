@@ -6,6 +6,7 @@
 
 package com.example.vaadin;
 
+import com.example.vaadinprofilsample.VertragsMappenView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.TabSheet;
