@@ -21,7 +21,7 @@ import com.example.mappe.Vertragsblatt;
 import com.example.mappe.Zuwendung;
 import com.vaadin.server.VaadinService;
 
-public class SAXLesen extends DefaultHandler {
+public class MappenLoader extends DefaultHandler {
 	static final String neueZeile = System.getProperty("line.separator");
 
 	static private Writer out = null;
@@ -88,11 +88,6 @@ public class SAXLesen extends DefaultHandler {
 			s = "\n";
 		}
 
-		// if (s.equals(" \n\t") || s.equals("\n    ") || s.equals(" \n    ")
-		// || s.equals(" \n") || s.equals("\n\t\t") || s.equals("\n\t")
-		// || s.equals("\n\t\t    ")) {
-		// s = "\n";
-		// }
 		else if (textBuffer == null)
 			textBuffer = new StringBuffer(s);
 		else
@@ -110,9 +105,6 @@ public class SAXLesen extends DefaultHandler {
 	}
 
 	private void createVorgang(String value) {
-		// if(vorgang != null){
-		// mappe.getTeilvorgaenge().add(vorgang);
-		// }
 		if (value.equals("VNS-Vertrag")) {
 			vorgang = new Vertrag();
 		}

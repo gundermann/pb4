@@ -6,13 +6,13 @@ package com.example.vaadinprofilsample;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 
+import com.example.Label;
 import com.example.helper.CommonGuiProblems;
 import com.example.mappe.Document;
 import com.example.mappe.VertragsMappe;
 import com.example.mappe.Vertragsblatt;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalSplitPanel;
@@ -37,15 +37,11 @@ class VertragsblattView extends HorizontalLayout {
 		TabSheet tabPane = new TabSheet();
 
 		GridLayout tab1 = initVertragView();
-		// tab1.setClosable(false);
 		tab1.setCaption("Vertrag");
-		// tab1.setContent(initVertragView());
 		tabPane.addTab(tab1);
 
 		VerticalSplitPanel tab2 = initZuwendungenView();
-		// tab2.setClosable(false);
 		tab2.setCaption("Zuwendungen");
-		// tab2.setContent();
 		tabPane.addComponent(tab2);
 
 		this.addComponent(tabPane);

@@ -4,11 +4,11 @@
  */
 package com.example.vaadinprofilsample;
 
+import com.example.Label;
 import com.example.helper.CommonGuiProblems;
 import com.example.mappe.VertragsMappe;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 
 /**
  * 
@@ -16,6 +16,7 @@ import com.vaadin.ui.Label;
  */
 class AllgDatenView extends HorizontalLayout {
 
+	private static final long serialVersionUID = 6550453322676475529L;
 	VertragsMappe currentMappe;
 
 	public AllgDatenView(VertragsMappe currentMappe) {
@@ -24,13 +25,13 @@ class AllgDatenView extends HorizontalLayout {
 
 		HorizontalLayout uebersicht = new HorizontalLayout();
 		GridLayout innerGrid = new GridLayout(2, 7);
-		Label lbazA = new Label("Aktenzeichen A:");
-		Label lbazB = new Label("Aktenzeichen B:");
-		Label lbamt = new Label("Amt:");
-		Label lbfp = new Label("Förderprogramm:");
-		Label lbeuc = new Label("EU-Code");
-		Label lberstauszahlung = new Label("Erstauszahlungsjahr:");
-		Label lbstatus = new Label("Status:");
+		Label lbazA = new Label("azA");
+		Label lbazB = new Label("azB");
+		Label lbamt = new Label("amt");
+		Label lbfp = new Label("fp");
+		Label lbeuc = new Label("eucode");
+		Label lberstauszahlung = new Label("ezj");
+		Label lbstatus = new Label("status");
 		Label azA = new Label();
 		Label azB = new Label();
 		Label amt = new Label();

@@ -35,7 +35,7 @@ public class CommonGuiProblems {
 	public static ArrayList<VertragsMappe> ladeMappen() {
 		ArrayList<VertragsMappe> vertragsMappen = new ArrayList<VertragsMappe>();
 
-		SAXLesen xmlReader = new SAXLesen();
+		MappenLoader xmlReader = new MappenLoader();
 		int i = 0;
 		while (true) {
 			try {
