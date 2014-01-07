@@ -4,20 +4,18 @@
  */
 package com.example.vaadinprofilsample;
 
-import helper.CommonGuiProblems;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 
-import Mappe.Auszahlung;
-import Mappe.Document;
-import Mappe.Vertrag;
-import Mappe.VertragsMappe;
-import Mappe.Vertragsblatt;
-
+import com.example.helper.CommonGuiProblems;
+import com.example.mappe.Auszahlung;
+import com.example.mappe.Document;
+import com.example.mappe.Vertrag;
+import com.example.mappe.VertragsMappe;
+import com.example.mappe.Vertragsblatt;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
@@ -174,7 +172,7 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 	}
 
 	private void initMappen(String parameter) {
-		ArrayList<Mappe.VertragsMappe> vertragsMappen = CommonGuiProblems
+		ArrayList<VertragsMappe> vertragsMappen = CommonGuiProblems
 				.ladeMappen();
 		if (parameter == null) {
 			try {
@@ -186,7 +184,7 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 			}
 		} else {
 			this.verweise.addAll(CommonGuiProblems.findeVerweise(parameter));
-			for (Mappe.VertragsMappe mappe : vertragsMappen) {
+			for (VertragsMappe mappe : vertragsMappen) {
 				if (mappe.getAzB().equals(parameter)) {
 					this.currentMappe = mappe;
 				}
@@ -270,7 +268,6 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 
 	private HorizontalLayout initToolbar() {
 		HorizontalLayout toolBar = new HorizontalLayout();
-		// toolbar.prefWidthProperty().bind(scene.widthProperty());
 		String basepath = VaadinService.getCurrent().getBaseDirectory()
 				.getPath();
 

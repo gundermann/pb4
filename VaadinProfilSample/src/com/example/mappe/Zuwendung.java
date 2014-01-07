@@ -1,4 +1,4 @@
-package Mappe;
+package com.example.mappe;
 
 public class Zuwendung {
 

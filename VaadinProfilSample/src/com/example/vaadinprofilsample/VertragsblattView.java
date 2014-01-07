@@ -4,14 +4,12 @@
  */
 package com.example.vaadinprofilsample;
 
-import helper.CommonGuiProblems;
-
 import org.vaadin.addon.borderlayout.BorderLayout;
 
-import Mappe.Document;
-import Mappe.VertragsMappe;
-import Mappe.Vertragsblatt;
-
+import com.example.helper.CommonGuiProblems;
+import com.example.mappe.Document;
+import com.example.mappe.VertragsMappe;
+import com.example.mappe.Vertragsblatt;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -25,6 +23,7 @@ import com.vaadin.ui.VerticalSplitPanel;
  */
 class VertragsblattView extends HorizontalLayout {
 
+	private static final long serialVersionUID = 1014813638405269942L;
 	private Vertragsblatt vertragsblatt;
 	private VertragsMappe vertragsMappe;
 
@@ -71,7 +70,6 @@ class VertragsblattView extends HorizontalLayout {
 		details.addComponent(headlineDetails, BorderLayout.Constraint.NORTH);
 		details.addComponent(detailTable, BorderLayout.Constraint.CENTER);
 
-		// split.setOrientation(Orientation.VERTICAL);
 		split.setFirstComponent(zuwendungen);
 		split.setSecondComponent(details);
 
@@ -85,9 +83,6 @@ class VertragsblattView extends HorizontalLayout {
 		Label partnerHead = new Label("Vertragspartner");
 
 		GridLayout partnerGrid = new GridLayout();
-		// partnerGrid.setHgap(10);
-		// partnerGrid.setVgap(10);
-		// partnerGrid.setPadding(new Insets(15, 15, 15, 15));
 
 		Label bnrzd = new Label("BNRZD:");
 		TextField tfbnrzd = new TextField();
@@ -115,9 +110,6 @@ class VertragsblattView extends HorizontalLayout {
 		BorderLayout vertragsinformationen = new BorderLayout();
 		Label infoHead = new Label("Vertragsinformationen");
 		GridLayout infoGrid = new GridLayout();
-		// infoGrid.setHgap(10);
-		// infoGrid.setVgap(10);
-		// infoGrid.setPadding(new Insets(15, 15, 15, 15));
 
 		Label vertragsnummer = new Label("Vertragsnummer:");
 		TextField tfvertragsnummer = new TextField();

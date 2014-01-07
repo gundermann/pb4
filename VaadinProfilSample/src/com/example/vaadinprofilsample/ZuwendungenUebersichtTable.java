@@ -4,17 +4,20 @@
  */
 package com.example.vaadinprofilsample;
 
-import Mappe.Vertragsblatt;
+import com.example.mappe.Vertragsblatt;
 import com.vaadin.ui.HorizontalLayout;
 
 /**
- *
+ * 
  * @author lede92
  */
-class ZuwendungenUebersichtTable extends HorizontalLayout{
+class ZuwendungenUebersichtTable extends HorizontalLayout {
 
-    ZuwendungenUebersichtTable(Vertragsblatt vertragsblatt, ZuwendungenDetailTable detailTable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+	private static final long serialVersionUID = -4000502385897480712L;
+
+	ZuwendungenUebersichtTable(Vertragsblatt vertragsblatt,
+			ZuwendungenDetailTable detailTable) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
 }

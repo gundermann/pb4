@@ -1,4 +1,4 @@
-package Mappe;
+package com.example.mappe;
 
 import java.util.ArrayList;
 import java.util.List;

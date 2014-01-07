@@ -9,9 +9,8 @@ import java.util.Map;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 
-import Mappe.Document;
-import Mappe.Vertrag;
-
+import com.example.mappe.Document;
+import com.example.mappe.Vertrag;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
