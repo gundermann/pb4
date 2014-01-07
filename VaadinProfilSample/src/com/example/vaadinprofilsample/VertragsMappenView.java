@@ -18,8 +18,6 @@ import Mappe.Vertrag;
 import Mappe.VertragsMappe;
 import Mappe.Vertragsblatt;
 
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
@@ -38,7 +36,7 @@ import com.vaadin.ui.VerticalSplitPanel;
  * 
  * @author lede92
  */
-public class VertragsMappenView extends VerticalLayout {
+public class VertragsMappenView extends VerticalLayout implements MappenView {
 
 	private static final long serialVersionUID = 942285785207819440L;
 	VertragsMappe currentMappe;
@@ -49,21 +47,19 @@ public class VertragsMappenView extends VerticalLayout {
 		HorizontalLayout splitPaneBereich = new HorizontalLayout();
 
 		HorizontalSplitPanel horizontalerSplit = new HorizontalSplitPanel();
-		horizontalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE); // horizontalerSplit.setDividerPositions(0.3);
+		horizontalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE);
 
-		VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel(); // vertikalerSplit.setOrientation(Orientation.VERTICAL);
-
+		VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel();
 		VerticalLayout obereBereich = initDocumentBaum();
 		VerticalLayout untererBereich = initVerweiseBaum();
-
-		VerticalLayout right = new VerticalLayout();
-		VerticalLayout rightArea = initBearbeitungInhalt();
-		right.addComponent(rightArea);// setCenter(rightArea);
-		VerticalLayout leftArea = new VerticalLayout();
-
 		vertikalerSplit.setFirstComponent(obereBereich);
 		vertikalerSplit.setSecondComponent(untererBereich);
 
+		VerticalLayout right = new VerticalLayout();
+		VerticalLayout rightArea = initBearbeitungInhalt();
+		right.addComponent(rightArea);
+
+		VerticalLayout leftArea = new VerticalLayout();
 		leftArea.setHeight("500px");
 		leftArea.addComponent(vertikalerSplit);
 
@@ -76,53 +72,32 @@ public class VertragsMappenView extends VerticalLayout {
 
 	private MenuBar initMenu() {
 		MenuBar menu = new MenuBar();
-
 		MenuBar.MenuItem bearbeitung = menu.addItem("Bearbeitung", null);
-
-		MenuBar.MenuItem drucken = bearbeitung.addItem("Drucken", null); // (CAPTION,
-																			// ACTION)
+		MenuBar.MenuItem drucken = bearbeitung.addItem("Drucken", null);
 		MenuBar.MenuItem seitenansicht = bearbeitung.addItem("Seitenansicht",
 				null);
-		MenuBar.MenuItem schliessen = bearbeitung.addItem("Schließen", null);
-
+		MenuBar.MenuItem schliessen = bearbeitung.addItem("Schlie�en", null);
 		MenuBar.MenuItem hilfe = menu.addItem("Hilfe", null, null);
-
 		MenuBar.MenuItem sample = hilfe.addItem("JavaFX sample", null);
-
 		menu.setWidth("100%"); // CSS
 
 		return menu;
 	}
 
 	private HorizontalLayout initStatusbar() {
-		HorizontalLayout statusbar = new HorizontalLayout(); // VBox
-		// HorizontalSplitPanel split = new HorizontalSplitPanel(); //Splitpane
-		// statusbar.getStyleClass().add("statusbar");
-
+		HorizontalLayout statusbar = new HorizontalLayout();
 		Label status = new Label(currentMappe.getStatus());
-		// status.setTextAlignment(TextAlignment.RIGHT);
-		// status.getStyleClass().add("statusLabel");
-		// status.setMinWidth(300);
 		Label mappe = new Label(currentMappe.getFp());
-		// mappe.setTextAlignment(TextAlignment.RIGHT);
-		// mappe.getStyleClass().add("statusLabel");
-		// mappe.setMinWidth(300);
 		Label original = new Label();
-		// original.setTextAlignment(TextAlignment.RIGHT);
-		original.setCaption("Original"); // setText
-		// original.getStyleClass().add("statusLabel");
-		// original.setMinWidth(100);
-
+		original.setCaption("Original");
 		Button btRefresh = new Button(null);
 		FileResource imgAbbrechen = new FileResource(new File(VaadinService
 				.getCurrent().getBaseDirectory().getPath()
 				+ "/WEB-INF/img/TbCopy.gif"));
 		btRefresh.setIcon(imgAbbrechen);
 		btRefresh.addStyleName("statusButton");
-
 		guiElemente.put("StatusBarOriginalLabel", original);
-
-		statusbar.addComponents(btRefresh, mappe, status, original); // getChildren().addAll(...)
+		statusbar.addComponents(btRefresh, mappe, status, original);
 
 		return statusbar;
 	}
@@ -139,16 +114,11 @@ public class VertragsMappenView extends VerticalLayout {
 
 	private VerticalLayout initDocumentBaum() {
 		VerticalLayout documentBox = new VerticalLayout();
-
-		Tree documentTree = new Tree(); // TreeView
+		Tree documentTree = new Tree();
 		Object[][] documentRoot = new Object[][] { new Object[] { currentMappe
 				.getFp() } };
-
 		documentTree.addItem(documentRoot[0][0]);
-
-		appendDocuments(currentMappe, documentTree);// appendDocuments(currentMappe,
-													// documentRoot);
-
+		appendDocuments(currentMappe, documentTree);
 		documentBox.addComponent(documentTree);
 		guiElemente.put("Dokumente", documentTree);
 
@@ -157,39 +127,25 @@ public class VertragsMappenView extends VerticalLayout {
 
 	private VerticalLayout initVerweiseBaum() {
 		VerticalLayout verweiseBox = new VerticalLayout();
-		Tree verweiseTree = new Tree(); // TreeView
+		Tree verweiseTree = new Tree();
 		Object[][] verweiseRoot = new Object[][] { new Object[] { "Verweise" } };
-
 		verweiseTree.addItem(verweiseRoot[0][0]);
 
 		for (String verweis : verweise) {
 			verweiseTree.addItem(verweis);
-			verweiseTree.setParent(verweis, verweiseRoot[0][0]); // Hier nötig
-																	// !!!!
+			verweiseTree.setParent(verweis, verweiseRoot[0][0]);
 			verweiseTree.setChildrenAllowed(verweis, false);
 		}
-
 		guiElemente.put("Verweise", verweiseTree);
-
 		verweiseBox.addComponent(verweiseTree);
 		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
-
 		return verweiseBox;
 	}
 
 	private VerticalLayout initBearbeitungInhalt() {
 		VerticalLayout inhalt = new VerticalLayout();
-
 		guiElemente.put("Bearbeitungsfeld", inhalt);
-		// inhalt.getStyleClass().add("bearbeitungsfeld");
-
 		return inhalt;
-	}
-
-	private void showMappe() {
-		getBearbeitungsFeld().removeAllComponents();
-
-		getBearbeitungsFeld().addComponent(new MappenView(currentMappe));
 	}
 
 	private VerticalLayout getBearbeitungsFeld() {
@@ -208,21 +164,11 @@ public class VertragsMappenView extends VerticalLayout {
 		menuPane.addComponent(toolbar, 0, 1);
 		menuPane.setWidth("100%"); // CSS
 
-		HorizontalLayout statusbar = initStatusbar(); // statusbar.prefWidthProperty().bind(scene.widthProperty());
-
+		HorizontalLayout statusbar = initStatusbar();
 		borderLayout.addComponent(menuPane, BorderLayout.Constraint.NORTH);
 		borderLayout.addComponent(splitPane, BorderLayout.Constraint.CENTER);
 		borderLayout.addComponent(statusbar, BorderLayout.Constraint.SOUTH);
-
-		// borderLayout.prefHeightProperty().bind(scene.heightProperty());
-		// borderLayout.prefWidthProperty().bind(scene.widthProperty());
-
 		this.addComponent(borderLayout);
-
-		// String css = "layout.css";
-		// ObservableList<String> cssStyle = loadSkin(css);
-		// scene.getStylesheets().clear();
-		// scene.getStylesheets().addAll(cssStyle);
 
 		showMappe();
 	}
@@ -231,16 +177,14 @@ public class VertragsMappenView extends VerticalLayout {
 		ArrayList<Mappe.VertragsMappe> vertragsMappen = CommonGuiProblems
 				.ladeMappen();
 		if (parameter == null) {
-			// einfach die erst beste Mappe anzeigen
 			try {
-				this.verweise.addAll(CommonGuiProblems
-						.findeVerweise(vertragsMappen.get(0).getAzB()));
-				this.currentMappe = vertragsMappen.get(0);
+				verweise.addAll(CommonGuiProblems.findeVerweise(vertragsMappen
+						.get(0).getAzB()));
+				currentMappe = vertragsMappen.get(0);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		} else {
-			// Mappe mit übergebenen AzB heraussuchen
 			this.verweise.addAll(CommonGuiProblems.findeVerweise(parameter));
 			for (Mappe.VertragsMappe mappe : vertragsMappen) {
 				if (mappe.getAzB().equals(parameter)) {
@@ -253,23 +197,19 @@ public class VertragsMappenView extends VerticalLayout {
 	private void appendDocuments(Document doc, Tree tree) {
 		for (Document children : doc.getChildren()) {
 			tree.addItem(children.getTitel());
-			tree.setParent(children.getTitel(), getRootItem(tree)); // Hier
-																	// nötig
-																	// !!!!
+			tree.setParent(children.getTitel(), getRootItem(tree));
 			tree.setChildrenAllowed(children.getTitel(), false);
 		}
-
 	}
 
+	// TODO casten
 	private Object getRootItem(Tree tree) {
 		Object rootItem = null;
 		for (Object i : tree.rootItemIds()) {
 			rootItem = i;
 			break;
 		}
-
 		return rootItem;
-
 	}
 
 	private void initController() {
@@ -279,50 +219,19 @@ public class VertragsMappenView extends VerticalLayout {
 	}
 
 	private void initToolbarController() {
+		// TODO
 		// throw new UnsupportedOperationException("Not supported yet."); //To
 		// change body of generated methods, choose Tools | Templates.
 	}
 
 	private void initVerweiseBaumController() {
 		getVerweiseTree().setImmediate(true);
-		getVerweiseTree().addItemClickListener(new ItemClickListener() {
-
-			@Override
-			public void itemClick(ItemClickEvent event) {
-				// TODO changed - important for pb
-				String selectedDocument = event.getItemId().toString();
-				if (!selectedDocument.equals("Verweise")) {
-					ladeUndOeffneEntsprechendeMappe(selectedDocument);
-				}
-			}
-		});
+		getVerweiseTree().addItemClickListener(new VerweiseClickListenernew());
 	}
 
 	private void initDocumentTreeController() {
 		getDocumentTree().setImmediate(true);
-		getDocumentTree().addItemClickListener(new ItemClickListener() {
-
-			@Override
-			public void itemClick(ItemClickEvent event) {
-
-				// TODO changed - important for pb
-				String selectedDocument = event.getItemId().toString();
-				if (selectedDocument.contains(currentMappe.getTitel())) {
-					showMappe();
-				} else {
-					changeViewToDoc(currentMappe, selectedDocument);
-				}
-			}
-		});
-	}
-
-	private void ladeUndOeffneEntsprechendeMappe(String selectedDocument) {
-		VertragsMappenView neueVertragsMappenView = new VertragsMappenView(
-				selectedDocument);
-		VaadinProfilSampleUI.tabsheet.addTab(neueVertragsMappenView,
-				neueVertragsMappenView.getTitle());
-		VaadinProfilSampleUI.tabsheet.getTab(neueVertragsMappenView)
-				.setClosable(true);
+		getDocumentTree().addItemClickListener(new DokumentClickListener(this));
 	}
 
 	private Tree getVerweiseTree() {
@@ -331,15 +240,6 @@ public class VertragsMappenView extends VerticalLayout {
 
 	private Tree getDocumentTree() {
 		return ((Tree) guiElemente.get("Dokumente"));
-	}
-
-	private void changeViewToDoc(Document document, String selectedDocument) {
-		for (Document doc : document.getChildren()) {
-			if (selectedDocument.contains(doc.getTitel())) {
-				showDocument(doc);
-				break;
-			}
-		}
 	}
 
 	public void showDocument(Document doc) {
@@ -408,5 +308,26 @@ public class VertragsMappenView extends VerticalLayout {
 		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);
 
 		return toolBar;
+	}
+
+	@Override
+	public void showMappe() {
+		getBearbeitungsFeld().removeAllComponents();
+		getBearbeitungsFeld().addComponent(new AllgDatenView(currentMappe));
+	}
+
+	@Override
+	public String getCurrentMappenTitle() {
+		return currentMappe.getTitel();
+	}
+
+	@Override
+	public void changeDocView(String documentTitle) {
+		for (Document doc : currentMappe.getChildren()) {
+			if (documentTitle.contains(doc.getTitel())) {
+				showDocument(doc);
+				break;
+			}
+		}
 	}
 }
