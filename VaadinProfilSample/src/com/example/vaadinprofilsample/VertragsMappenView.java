@@ -11,6 +11,7 @@ import java.util.HashMap;
 import org.vaadin.addon.borderlayout.BorderLayout;
 
 import com.example.helper.CommonGuiProblems;
+import com.example.helper.ImageButton;
 import com.example.mappe.Auszahlung;
 import com.example.mappe.Document;
 import com.example.mappe.Vertrag;
@@ -19,7 +20,6 @@ import com.example.mappe.Vertragsblatt;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -88,11 +88,10 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		Label mappe = new Label(currentMappe.getFp());
 		Label original = new Label();
 		original.setCaption("Original");
-		Button btRefresh = new Button(null);
 		FileResource imgAbbrechen = new FileResource(new File(VaadinService
 				.getCurrent().getBaseDirectory().getPath()
 				+ "/WEB-INF/img/TbCopy.gif"));
-		btRefresh.setIcon(imgAbbrechen);
+		ImageButton btRefresh = new ImageButton(imgAbbrechen);
 		btRefresh.addStyleName("statusButton");
 		guiElemente.put("StatusBarOriginalLabel", original);
 		statusbar.addComponents(btRefresh, mappe, status, original);
@@ -119,7 +118,6 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		appendDocuments(currentMappe, documentTree);
 		documentBox.addComponent(documentTree);
 		guiElemente.put("Dokumente", documentTree);
-
 		return documentBox;
 	}
 
@@ -268,39 +266,28 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 
 	private HorizontalLayout initToolbar() {
 		HorizontalLayout toolBar = new HorizontalLayout();
-		String basepath = VaadinService.getCurrent().getBaseDirectory()
-				.getPath();
+		String imageBasepath = VaadinService.getCurrent().getBaseDirectory()
+				.getPath()
+				+ "/WEB-INF/img/";
 
-		System.out.println(basepath);
+		FileResource imageDrop = new FileResource(new File(imageBasepath
+				+ "TbCopy.gif"));
+		FileResource imagePrint = new FileResource(new File(imageBasepath
+				+ "TbPrint.gif"));
+		FileResource imageOrg = new FileResource(new File(imageBasepath
+				+ "TbOriginal.gif"));
+		FileResource imageGetOrg = new FileResource(new File(imageBasepath
+				+ "TbKopie.gif"));
+		FileResource imageHelp = new FileResource(new File(imageBasepath
+				+ "TbHelp.gif"));
 
-		FileResource imageDrop = new FileResource(new File(basepath
-				+ "/WEB-INF/img/TbCopy.gif"));
-		FileResource imagePrint = new FileResource(new File(basepath
-				+ "/WEB-INF/img/TbPrint.gif"));
-		FileResource imageOrg = new FileResource(new File(basepath
-				+ "/WEB-INF/img/TbOriginal.gif"));
-		FileResource imageGetOrg = new FileResource(new File(basepath
-				+ "/WEB-INF/img/TbKopie.gif"));
-		FileResource imageHelp = new FileResource(new File(basepath
-				+ "/WEB-INF/img/TbHelp.gif"));
-
-		Button btDrop = new Button();
-		btDrop.setIcon(imageDrop);
-		btDrop.addStyleName("barbutton");
-		Button btPrint = new Button();
-		btPrint.setIcon(imagePrint);
-		btPrint.addStyleName("barbutton");
+		ImageButton btDrop = new ImageButton(imageDrop);
+		ImageButton btPrint = new ImageButton(imagePrint);
+		ImageButton btLossOrg = new ImageButton(imageOrg);
+		ImageButton btGetOrg = new ImageButton(imageGetOrg);
+		ImageButton btHelp = new ImageButton(imageHelp);
 		btPrint.setEnabled(false);
-		Button btLossOrg = new Button();
-		btLossOrg.setIcon(imageOrg);
-		btLossOrg.addStyleName("barbutton");
-		Button btGetOrg = new Button();
-		btGetOrg.setIcon(imageGetOrg);
-		btGetOrg.addStyleName("barbutton");
 		btGetOrg.setEnabled(false);
-		Button btHelp = new Button();
-		btHelp.setIcon(imageHelp);
-		btHelp.addStyleName("barbutton");
 
 		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);
 

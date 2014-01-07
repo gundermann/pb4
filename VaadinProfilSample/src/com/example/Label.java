@@ -20,7 +20,7 @@ public class Label extends com.vaadin.ui.Label {
 				setStyleName("label");
 			}
 		} catch (StringNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 

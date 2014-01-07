@@ -17,7 +17,7 @@ public class Strings {
 		try {
 			stringMap = new StringLoader().ladeStrings();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
