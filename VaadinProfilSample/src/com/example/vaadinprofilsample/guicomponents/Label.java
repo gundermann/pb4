@@ -1,4 +1,4 @@
-package com.example;
+package com.example.vaadinprofilsample.guicomponents;
 
 import com.example.helper.StringNotFoundException;
 import com.example.helper.Strings;

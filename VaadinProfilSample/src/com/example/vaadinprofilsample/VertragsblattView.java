@@ -6,11 +6,11 @@ package com.example.vaadinprofilsample;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 
-import com.example.Label;
 import com.example.helper.CommonGuiProblems;
 import com.example.mappe.Document;
 import com.example.mappe.VertragsMappe;
 import com.example.mappe.Vertragsblatt;
+import com.example.vaadinprofilsample.guicomponents.Label;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
