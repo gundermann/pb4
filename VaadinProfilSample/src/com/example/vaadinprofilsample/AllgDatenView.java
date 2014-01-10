@@ -32,7 +32,7 @@ class AllgDatenView extends HorizontalLayout {
 
 		GridLayout border = new GridLayout(1, 2);
 		Label teilvorgaengeHeader = new Label("Teilvorgänge");
-		HorizontalLayout tableTeilvorgaenge = new TeilvorgaengeTable(
+		HorizontalLayout tableTeilvorgaenge = new TeilvorgaengeTableView(
 				currentMappe.getTeilvorgaenge());
 		border.addComponent(teilvorgaengeHeader, 0, 0);
 		border.addComponent(tableTeilvorgaenge, 0, 1);

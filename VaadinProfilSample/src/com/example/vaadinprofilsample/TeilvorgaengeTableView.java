@@ -14,7 +14,7 @@ import com.vaadin.ui.HorizontalLayout;
  * 
  * @author lede92
  */
-class TeilvorgaengeTable extends HorizontalLayout {
+class TeilvorgaengeTableView extends HorizontalLayout {
 
 	/**
 	 * 
@@ -22,9 +22,10 @@ class TeilvorgaengeTable extends HorizontalLayout {
 	private static final long serialVersionUID = -6308502518305308264L;
 	private ArrayList<Document> teilvorgaenge;
 
-	public TeilvorgaengeTable(ArrayList<Document> teilvorgaenge) {
+	public TeilvorgaengeTableView(ArrayList<Document> teilvorgaenge) {
 		this.setTeilvorgaenge(teilvorgaenge);
 		initTable();
+		setStyleName("tableview");
 	}
 
 	private void initTable() {
