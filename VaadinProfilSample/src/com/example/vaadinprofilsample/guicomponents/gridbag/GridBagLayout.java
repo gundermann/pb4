@@ -14,25 +14,28 @@ public class GridBagLayout extends GridLayout {
 	}
 
 	public void setContraints(AbstractComponent component, Constraint constraint) {
-		while (rows <= constraint.getGridy() + constraint.getGridHeigth()) {
+		while (rows < constraint.getGridy() + constraint.getGridHeigth()) {
 			rows++;
 		}
 		super.setRows(rows);
-		while (cols <= constraint.getGridx() + constraint.getGridWidth()) {
-			cols = +constraint.getGridWidth();
+		while (cols < constraint.getGridx() + constraint.getGridWidth()) {
+			cols++;
 		}
+		super.setColumns(cols);
 
 		int x1 = constraint.getGridx();
 		int y1 = constraint.getGridy();
-		int x2 = x1 + constraint.getGridWidth();
-		int y2 = y1 + constraint.getGridHeigth();
+		int x2 = x1 + constraint.getGridWidth() - 1;
+		int y2 = y1 + constraint.getGridHeigth() - 1;
 		if (constraint.getFill() == Constraint.HORIZONTAL) {
 			x2 = cols;
 		}
 		if (constraint.getFill() == Constraint.VERTICAL) {
 			y2 = rows;
 		}
-		super.addComponent(component, y1, x1, y2, x2);
+
+		component.setSizeFull();
+		super.addComponent(component, x1, y1, x2, y2);
 
 		// TODO Insets erst möglich, wenn margin an den Componenten gesetzt
 		// werden kann

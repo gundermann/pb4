@@ -41,6 +41,12 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 	HashMap<String, Component> guiElemente = new HashMap<String, Component>();
 	ArrayList<String> verweise = new ArrayList<String>();
 
+	public VertragsMappenView(String parameter) {
+		initMappen(parameter);
+		initGUI();
+		initController();
+	}
+
 	private HorizontalLayout initSplitPane() {
 		HorizontalLayout splitPaneBereich = new HorizontalLayout();
 
@@ -97,12 +103,6 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		statusbar.addComponents(btRefresh, mappe, status, original);
 
 		return statusbar;
-	}
-
-	public VertragsMappenView(String parameter) {
-		initMappen(parameter);
-		initGUI();
-		initController();
 	}
 
 	public String getTitle() {
@@ -286,8 +286,8 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		ImageButton btLossOrg = new ImageButton(imageOrg);
 		ImageButton btGetOrg = new ImageButton(imageGetOrg);
 		ImageButton btHelp = new ImageButton(imageHelp);
-		btPrint.setEnabled(false);
-		btGetOrg.setEnabled(false);
+		// btPrint.setEnabled(false);
+		// btGetOrg.setEnabled(false);
 
 		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);
 

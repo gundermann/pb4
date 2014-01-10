@@ -2,14 +2,15 @@ package com.example.vaadinprofilsample.guicomponents.gridbag;
 
 public class Constraint {
 
-	public static final int HORIZONTAL = 0;
-	public static final int VERTICAL = 1;
+	public static final int NONE = 0;
+	public static final int HORIZONTAL = 1;
+	public static final int VERTICAL = 2;
 	private int fill = 0;
 	private Insets insets = new Insets(0, 0, 0, 0);
 	private int gridx = 0;
 	private int gridy = 0;
-	private int gridHeigth = 0;
-	private int gridWidth = 0;
+	private int gridHeigth = 1;
+	private int gridWidth = 1;
 
 	public int getFill() {
 		return fill;
