@@ -1,0 +1,582 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[ansinew]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{listings} 
+\usepackage{multirow}
+\usepackage{cite}
+\lstset{language=command.com} 
+\lstset{basicstyle=\scriptsize}
+\lstset{numbers=left, numberstyle=\tiny, numbersep=2pt} 
+
+\graphicspath{{Bilder/}}
+
+\linespread{1.5}
+
+\title{Praxisbericht: Prototypische Implementierung eines JavaFX/Web-Channels zur Integration ins MulitChannel-Framework der deg}
+\author{Niels Gundermann}
+
+\begin{document}
+\bibliographystyle{geralpha}
+\large
+\maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\listoffigures
+\pagebreak
+
+\section{Einleitung}
+Ausgehend von dem Fazit des Praxisberichtes \grqq Prototypische Implementierung
+eines JavaFX-Channels zur Integration ins MulitChannel-Framework der deg\grqq
+  ist Swing ein veraltetes Framework, dass durch ein neues Framework ersetzt
+werden sollte. Dies bezieht sich nur auf den Bereich der Desktopanwedungen bzw.
+dem Desktoprendering.\\
+PROFIL-C/S wird nicht nur als Desktopanwendung verwendet, sondern auch im
+Web-Bereich. Das bedeutet, dass bei einer Neuausrichtung der Technologien für
+die unterschiedlichen Channels auch der Einsatz in Browsern bedacht werden
+muss.\\
+Derzeit setzt die deg dafür das Wings-Framework ein.
+Dieses Framework ist allerdings genauso wie Swing veraltet und wird nicht mehr
+gewartet. Support für dieses Framework wird demnach vergebens gesucht.\\
+Aufgrund dessen wird in dieser Arbeit nach einer Alternative für den
+WingS-Channel der deg und PROFIL C/S gesucht.\\ 
+%TODO Erklärung Multichannel
+%Neben den für PROFIL C/S
+%wichtigen Technologien ist die Ähnlichkeit zwischen den eingesetzten Frameworks
+%ebenfalls von Belang. Das führt zu einer geringeren Komplexität des
+%Multichannels, was das Entwickeln von und Arbeiten mit unterscheidlichen
+%Clients weitaus erleichtert.\\
+Da sich der vorherige Praxisbericht mit JavaFX beschäftigte, 
+wird zu Beginn auf Möglichkeiten eingegangen, 
+den implementierten Prototypen des JavaFX-Channel direkt im Browser zu
+rendern.\\
+Im Anschluss wird das Vaadin-Framework, als Beispiel für ein mögliches
+Web-Framework, genauer beleuchtet. Dazu gehört auch ein Vergleich zum
+bestehenden Wings-Framework.\\ 
+%TODO Systaktische Ähnlichkeit zu JavaFX später 
+Zum Ende wird ein Prototyp einer PROFIL-C/S
+GUI für den Einsatz im Web vorgestellt und auf Probleme in Bezug auf das
+Multichannel-Framework der deg eingegangen.
+
+
+\section{JavaFX alleine als Multichannel?}
+Ausgehend davon, dass ein Multichannel die Möglichkeit bieten soll, die UIs nur
+einmal implementieren zu müssen und im Anschluss auf mehreren Oberflächen
+eingesetzt zu werden. Von einer zumindest ähnlichen Darstellung auf den
+unterschiedlichen Oberflächen wird dabei ebenfalls ausgegangen.\\
+JavaFX bietet die Möglichkeit sowohl auf dem Desktop, als auch in
+einem Browser gerendert zu werden\cite{JavaFXDoc:Online}
+Hierbei handelt es sich um ein Java-Applet. Das Deployment solcher Applets ist
+jedoch vergleichsweise sehr zeitaufwändig. Der Grund dafür ist vor allem, dass
+die JVM zuvor initialisiert werden muss.\cite{} Dem entgegenzuhalten ist, dass man
+somit gezwungen ist, die Clients möglichst klein\footnote{bedeutet in diesem Kontext, dass sich die Funktionen, die
+im Client implementiert sind, weites gehend nur auf die GUI und entsprechenden
+Listener, die zum Steuern der Anwendung benötigt werden, beschränkt. Die Logik
+und Funktionen, die über die Bedienung der GUI hinaus gehen, sollten sich nach
+Möglichkeit auf dem Server befinden - unter der Voraussetzung, dass dort
+genügend Speicher vorhanden ist, um die Anfragen der Clients in angemessener
+Zeit beantworten zu können} zu halten. Allerdings sind Größe und Funktionalität
+in einem bestehenden System schwer beeinflussbar. Weiterhin ist es auch
+nicht das Ziel die Clients umzustricken.\\
+Der große Vorteil dieser Technologie ist, dass für die GUI für beide
+Oberflächen (Browser und Desktop) nur einmal entwickelt werden muss. Die Zusammenarbeit mit
+Applikationsservern, was für Profil C/S unbedingt von Nöten ist, ist unter
+Umständen möglich. Dafür müssen die Applets lediglich signiert werden. Das bedeutet, dass das Applet mit einem digitalen Zertifikat
+unterzeichnet werden muss und somit gewährleistet wird, dass es sich dabei um
+ein von der deg enntwickeltes Programm handelt. Somit kann der Nutzer eventuelle
+Fehler und aufkommende Sicherheitslücken genau zuordnen.\cite{DeployTutJar}\\
+Notwendig für die Nutzung von Java-Applets ist eine entsprechende html-Datei, in
+der eine jnlp-Datei mittels Java-Script eingebunden wird. Weiterhin muss der Anwender mit einem
+Browser arbeiten, in dem das Java-Plugin integriert oder installiert werden
+kann. Zusätzlich ist die Aktivierung von Java-Script und damit das
+Umgehen von Sicherheitsrichtlinien von Nöten.\cite{DeployTutApp}\\
+Abbildung 1 zeigt eine Tabelle in der Vor- und Nachteile dieser Technologie
+aufgelistet sind.\\
+
+
+
+\section{Web-Frameworks}
+Bei einem Web-Framework handelt es sich um ein anderes Framework, als JavaFX.
+Hier wird auf der Basis von Java-Code eine Datei generiert, die anschließend im
+Browser gerendert wird und die implementierten Funktionalitäten bereitstellt.\\
+Fakt ist, dass durch den Einsatz dieser Technologien, eine \grqq doppelte\grqq
+~Implementierung der GUI im gewissen Maße notwendig ist. Um dieses Maß möglichst
+klein zu halten, wird nach einem Framework gesucht, dass die wichtigen Features
+für Profil C/S mitbringt und vom Aufbau her so viele Ähnlichkeiten wie möglich
+zu JavaFX besitzt. Grund dafür ist, dass es dann weniger umfangreich ist ein
+Multichannel-Framework zu implementieren.\\
+Ausgehend von den eben genannten Bedingungen, liegt es nahe ein Frameworks zu
+betrachten das auf Java basiert, um grobe syntaktische Differenzen von
+vornherein auszuschließen. Aus diesen Grund wird im Folgenden das
+Vaadin-Framework vorgestellt. Da die deg momentan das Wings-Framework einsetzt,
+werden nach der Vorstellung von Vaadin beide Frameworks verglichen.
+\subsection{Vaadin}
+Das Vaadin-Framework ist ein Open-Source Framework, das es relativ einfach
+erlaubt Userinterfaces zu implementieren. Dies kann wie bei JavaFX auf zwei
+Wegen geschehen. Zum einen durch Java-Code und zum Anderen durch einen
+Editor. Im weiteren Verlauf wird auf die erste Möglichkeit Bezug
+genommen.\\
+Entwickelt wird Vaadin seit 2002. Damals zunächst als Adapter für ein anderes
+Web-Framework. Ab 2006 wurde es als eigenes Produkt
+entwickelt\footnote{text}.\\
+Es enthält zum Einen einen großen Pool an UI-Komponenten, die dem Nutzer für
+den Aufbau einer Web-GUI zur Verfügung stehen. Genauso wie bei andere
+GUI-Frameworks, die auf Java basieren, ist es möglich neue und eigene
+GUI-Komponenten zu entwickeln. Aus diesem Grund sind im Web viele AddOns für
+das Vaadin-Framework zu finden, die noch nicht in das Standardframework
+integriert wurden.\\
+Der Service bzw. die Unterstützung ist gegeben. Durch verständliche Tutorials,
+der guten Dokumentation sowie entsprechenden Plugins für unterschiedliche
+Entwicklungsumgebungen findet man leicht einen Zugang zu dem Framework und kann
+es ohne große Konfiguration einsetzen. Auch wenn in der offiziellen
+Dokumentation \footnote{Book of Vaadin} lediglich die Standardkomponenten
+erklärt sind, gibt es zu jedem AddOn eine kurze Einweisung, sowie Beispiele und
+Erklärungen. Auch die Community macht einen sehr aktiven Eindruck
+\footnote{https://vaadin.com/forum}. Des weiteren stellen die Vaadin-Entwickler
+ihr Know-How als externe Berater zur Verfügung.\\
+Implementieren lassen sich die GUI-Komponenten nicht nur mittels Java-Code. Da
+das Vaadin auf der Client-Seite auf das Google-Web-Toolkit (GWT) aufbaut,
+können die UIs auch mittels anderer Sprachen, die zu der JVM kompatibel
+sind.\footnote{Bspw. Scala, Ruby, Groovy, Clojure, Python} Weiterhin kann
+Vaadin auf allen Servern bereitgestellt werden, die einen Servlet- oder
+Portlet-Container enthalten\footnote{Bspw. Tomcat, Glasfish, JBoss}.\\
+Die Entwicklung findet auf dem Server statt. Die Kommunikation zwischen Server
+und Client wird Mittels AJax abgewickelt. Das führt zum Einen zu sehr schmalen
+Clients die wenig Logik enthalten und dazu, dass das Java-Plugin nicht benötigt
+wird.
+
+\subsection{Syntaktische Gemeinsamkeiten und Unterschiede zu JavaFX} 
+Um das Arbeiten mit unterschiedlichen Client so einfach wie möglich zu machen
+ist es von Vorteil die Frameworks zu verwenden, die syntaktisch große
+Ähnlichkeiten besitzen. Beispielsweise ist es bei syntaktisch gleichen
+Frameworks nur notwendig darauf zu achten die richtigen Bibliotheken für den
+entsprechenden Client zu nutzen. Je unterschiedlicher die Frameworks sind,
+desto mehr Ausnahmen sind dabei zu beachten. Der Multichannel würde durch große
+Unterschiede ein größeres Ausmaß annehmen.\\
+Der Prototyp enthält die gleichen Funktionen und den gleichen Aufbau wie der,
+der mit JavaFX im Praxisbericht \grqq Prototypische Implementierung eines
+JavaFX-Channels zur Integration ins MulitChannel-Framework der deg\grqq
+~implementiert wurde. Die Logik konnte aufgrund dessen, dass beide Frameworks
+auf Java aufsetzen komplett übernommen werden. Einige der wichtigsten
+Komponenten brauchten nicht verändert zu werden.
+Lediglich die importierten Bibliotheken mussten angepasst werden.
+\begin{lstlisting}
+Label lb = new Label();
+Button bt = new Button();
+TextField tf = new TextField();
+MenuBar menu = new MenuBar();
+\end{lstlisting}
+Des weiteren enthält Vaadin alle Komponenten, die für die Umsetzung des
+Prototypen notwendig waren. Der Aufbau musste somit nicht verändert werden,
+sondern nur einige Typen angepasst werden. Im Folgenden sind die
+korrespondierenden Komponenten von JavaFX und Vaadin aufgelistet die zur
+Umsetzung notwendig waren.\\
+\emph{Vaadin}
+\begin{lstlisting}
+Tree documentTree = new Tree();
+VerticalLayout documentBox = new VerticalLayout();
+HorizontalLayout statusbar = new HorizontalLayout();
+HorizontalSplitPanel horizontalerSplit = new HorizontalSplitPanel();
+GridLayout menuPane = new GridLayout(1,2);
+BorderLayout borderLayout = new BorderLayout();
+Table table = new Table();
+\end{lstlisting}
+\emph{JavaFX}
+\begin{lstlisting}
+TreeView<String> documentTree = new TreeView<String>();
+VBox documentBox = new VBox();
+HBox statusbar = new HBox();
+SplitPane horizontalerSplit = new SplitPane();
+GridPane menuPane = new GridPane();
+BorderPane borderPane = new BorderPane();
+TableView<TeilvorgaeneTableData> table = new TableView<TeilvorgaeneTableData>();
+\end{lstlisting}
+Die ersten Unterschiede treten bei der Implementation des Menüs auf. Bei JavaFX
+gibt es ein spezielles Objekt namens \emph{Menu} bzw. \emph{MenuItem}. Diese
+Elemente sind speziell zum füllen eines Menüs entworfen worden. Dabei ist ein
+\emph{Menu} das Obermenü, dem entsprechende Menüpunkte \emph{Menu} oder
+wiederum weitere Untermenüs hinzugefügt werden können. Vaadin hingegen
+unterstützt nur das \emph{MenuItem}. Damit ist es jedoch auch möglich eine
+Hierarchie innerhalb eines Menüs aufzubauen.\\ 
+\emph{Vaadin}
+\begin{lstlisting}
+MenuBar menu = new MenuBar();
+MenuBar.MenuItem bearbeitung = menu.addItem("Bearbeitung", null);
+\end{lstlisting}
+\emph{JavaFX}
+\begin{lstlisting}
+MenuBar menu = new MenuBar();
+
+Menu bearbeitung = new Menu("Bearbeiten");
+menu.getMenus().add(bearbeitung);
+
+MenuItem drucken = new MenuItem("Drucken");
+bearbeitung.getItems().add(drucken);
+\end{lstlisting}
+Weitere leichte Unterschiede gibt es bei den Layouts. Diese beschränken sich
+weitestgehend auf die Methoden zum hinzufügen von Elementen. Eine Ausnahme die
+auffiel ist, dass JavaFX die Ausrichtung von gesplitteten Layouts durch eine
+Instanzvariable im Objekt steuert. Vaadin hingegen kennt zwei Objekte mit
+unterschiedlichen Ausrichtungen dafür.\\
+\emph{Vaadin}
+\begin{lstlisting}
+VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel();
+
+vertikalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE);	
+// --> Standardposition des Trennbalkens
+	
+vertikalerSplit.setFirstComponent(Component);
+vertikalerSplit.setSecondComponent(Component);
+\end{lstlisting}
+  \emph{JavaFX}
+ \begin{lstlisting}
+SplitPane vertikalerSplit = new SplitPane();
+vertikalerSplit.setOrientation(Orientation.VERTICAL);
+	
+vertikalerSplit.setDividerPositions(0.3); // --> Standardposition des Trennbalkens
+ 
+vertikalerSplit.getItems().add(Node);
+vertikalerSplit.getItems().add(Node);
+ \end{lstlisting}
+  Bei den Tabellen sind die Unterschiede etwas größer. Die Klassen für die
+  Strukturierung der Inhalte von Tabellen konnten übernommen werden. Die
+  Implementation für den Aufbau der Tabellen-GUI sind weniger deckungsgleich.
+  Grund dafür ist vor allem, dass Tabellen bei JavaFX generisch implementiert
+  werden und bei Vaadin nicht. Dennoch ist es bei beiden Implementationen
+  möglich den Inhalt der Zellen zu typisieren.\\
+  \emph{Vaadin}
+ \begin{lstlisting}
+ Table table = new Table();
+ table.addContainerProperty("Vorgang", String.class, ""); //(VALUE, TYPE, DEFAULT)
+ table.addContainerProperty("Status", String.class, ""); 
+ table.addContainerProperty("Zuwendungs-\nsumme [EUR]", String.class, ""); 
+ table.addContainerProperty("Zahlungs-\nbetrag [EUR]", String.class, ""); 
+ table.addContainerProperty("Zahlungs-\ndatum", String.class, ""); 
+ 		
+ initLines(table);
+... 		
+ 		
+ private void initLines(Table table) {
+ 	int i = 0;
+ 	for(Document teilvorgang : teilvorgaenge){
+ 		TeilvorgaeneTableData data = new TeilvorgaeneTableData(teilvorgang);
+ 		table.addItem(new Object[]{ data.getVorgang(), data.getStatus(), 
+ 		data.getZuwendungssumme(), data.getZahlungsbetrag(), data.getZahlungsdatum()}, i++);
+ 	}
+ }
+ \end{lstlisting}
+ 
+ \emph{JavaFX}
+ \begin{lstlisting}
+ TableView<TeilvorgaeneTableData> table = new TableView<TeilvorgaeneTableData>();
+ TableColumn<TeilvorgaeneTableData, String> vorgangCol = 
+ 	new TableColumn<TeilvorgaeneTableData, String>("Vorgang");
+ vorgangCol.setCellValueFactory(
+ 	new PropertyValueFactory<TeilvorgaeneTableData, String>("vorgang"));
+ TableColumn<TeilvorgaeneTableData, String> statusCol = 
+ 	new TableColumn<TeilvorgaeneTableData, String>("Status");
+ statusCol.setCellValueFactory(
+ 	new PropertyValueFactory<TeilvorgaeneTableData, String>("status"));
+ TableColumn<TeilvorgaeneTableData, String> zuwendungssummeCol = 
+ 	new TableColumn<TeilvorgaeneTableData, String>("Zuwendungs-\nsumme [EUR]");
+ zuwendungssummeCol.setCellValueFactory(
+ 	new PropertyValueFactory<TeilvorgaeneTableData, String>("zuwendungssumme"));
+ TableColumn<TeilvorgaeneTableData, String> zahlungsbetragCol = 
+ 	new TableColumn<TeilvorgaeneTableData, String>("Zahlungs-\nbetrag [EUR]");
+ zahlungsbetragCol.setCellValueFactory(
+ 	new PropertyValueFactory<TeilvorgaeneTableData, String>("zahlungsbetrag"));
+ TableColumn<TeilvorgaeneTableData, String> zahlungdatumCol = 
+ 	new TableColumn<TeilvorgaeneTableData, String>("Zahlungs-\ndatum");
+ zahlungdatumCol.setCellValueFactory(
+ 	new PropertyValueFactory<TeilvorgaeneTableData, String>("zahlungsdatum"));
+ table.getColumns().addAll(vorgangCol, statusCol, 
+ zuwendungssummeCol, zahlungsbetragCol, zahlungdatumCol);
+ 		
+ private void initLines(TableView<TeilvorgaeneTableData> table) {
+ 	ObservableList<TeilvorgaeneTableData> vorgaenge = FXCollections.observableArrayList();
+ 	for(Document teilvorgang : teilvorgaenge){
+ 		vorgaenge.add(new TeilvorgaeneTableData(teilvorgang));		
+ 	}
+ 	table.setItems(vorgaenge);
+ }
+ \end{lstlisting}
+  Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
+  Diese werden durch ein zweidimensionales Array abgebildet. Hinzu kommt noch,
+  dass Elternelemente speziell gesetzt werden müssen. Bei JavaFX unterscheidet
+  sich die Prozedur nicht sonderlich von anderen Codeabschnitten in denen einem
+  Element ein anderes hinzugefügt wird. Das liegt vor allem an der
+  Baumstruktur\footnote{Abbildung 3}, die sich durch JavaFX zieht.\\
+ \emph{Vaadin}
+ \begin{lstlisting}
+ private void appendDocuments(Document doc, Tree tree) {
+ 	for (Document children : doc.getChildren()) {
+ 		tree.addItem(children.getTitel());
+ 		tree.setParent(children.getTitel(), getRootItem(tree));
+ 		tree.setChildrenAllowed(children.getTitel(), false);
+ 	}
+ }
+ \end{lstlisting}
+ 
+ \emph{JavaFX}
+ \begin{lstlisting}
+ private void appendDocuments(Document doc, TreeItem treeItem) {
+ 	for (Document children : doc.getChildren()) {
+ 		TreeItem documentItem = new TreeItem();
+ 		documentItem.setValue(children.getTitel());
+ 		treeItem.getChildren().add(documentItem);
+ 	}
+ }
+ \end{lstlisting}
+Das größte Problem bei der Umsetzung des Prototypen war die Toolbar. Das
+Problem ist, dass dies keine Standardkomponente von Vaadin ist. Jedoch gibt es
+ein Addon dafür. Die Dokumentation dafür ist allerdings veraltet. Daher war es
+nicht möglich die Funktionsweise nachzuvollziehen und die Toolbar als
+bestehende Komponente zu implementieren. Deshalb ist Implementation an dieser
+Stelle etwas umfangreicher. Letztendlich schafft das die Möglichkeit eine
+Toolbar-Klasse zu implementieren, die eine gleiche Syntax ausweist wie die aus
+JavaFX.\\
+\emph{Vaadin}
+\begin{lstlisting}
+		HorizontalLayout toolBar = new HorizontalLayout();
+
+		String basepath = VaadinService.getCurrent().getBaseDirectory().getPath();
+		FileResource imageDrop = new FileResource(new File(basepath+"/img/TbCopy.gif"));
+		FileResource imagePrint = new FileResource(new File(basepath+"/img/TbPrint.gif"));
+ 		
+		Button btDrop = new Button();
+		btDrop.setIcon(imageDrop);
+
+		Button btPrint = new Button();
+		btPrint.setIcon(imagePrint);
+		btPrint.setEnabled(false);
+	 
+		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
+\end{lstlisting}
+  \emph{JavaFX}
+ \begin{lstlisting}
+		ToolBar toolbar = new ToolBar();
+				
+		Image imageDrop = new Image("ressources/TbCopy.gif");
+		Image imagePrint = new Image("ressources/TbPrint.gif");
+		
+		Button btDrop = new Button(null, new ImageView(imageDrop));
+		Button btPrint = new Button(null, new ImageView(imagePrint));
+		btPrint.setDisable(true);
+		
+		toolbar.getItems().addAll(btDrop, new Separator(), btPrint);
+ \end{lstlisting}
+  Der Web-Client der deg hält die unterschiedlichen Fenster in Tabs. Dadurch
+  musste bei diesem Prototyp eine Tab-Ansicht als übergreifendes GUI-Element
+  implementiert werden. Dadurch verändern sich auch die Methoden zum öffnen
+  neuer Mappen. Das einzige Problem welches dann noch bleibt ist, die
+  Tab-Ansicht für jeden Tree-Controller zugänglich zu machen. Im Controller
+  sind nämlich die Events zum öffnen einer neuen Mappe implementiert. Für den
+  Prototypen wurde die Tab-Ansicht einfach statisch implementiert.
+ \begin{lstlisting}
+static TabSheet tabsheet = new TabSheet();
+VertragsMappenView vertragsMappe = new VertragsMappenView(null); 
+// Parameter ist die Bezeichnung der zu oeffnenden Mappe
+// null = Standard-Mappe
+tabsheet.addTab(vertragsMappe).setCaption(vertragsMappe.getTitle());
+tabsheet.getTab(vertragsMappe).setClosable(true);
+\end{lstlisting}
+Bei den Klick-Events für die Bäume ist folgende Codezeile besonders wichtig.
+\begin{lstlisting}
+getVerweiseTree().setImmediate(true);
+\end{lstlisting}
+Das hat zur Folge, dass der Listener sofort auf den Klick reagiert. Ansonsten
+wird das entsprechende Event später abgesetzt.
+\begin{lstlisting}
+getVerweiseTree().addValueChangeListener(new Property.ValueChangeListener() {
+	@Override
+	public void valueChange(Property.ValueChangeEvent event) {
+		String selectedDocument =  getVerweiseTree().getValue().toString();
+		ladeUndOeffneEntsprechendeMappe(selectedDocument);
+	}
+});           
+\end{lstlisting}
+Das Styling lässt sich bei Vaadin auch mittels Cascading-Style-Sheets umsetzen.
+Somit ist es möglich dieselbe Datei zu verwenden, die auch bei JavaFX zum Einsatz
+kommt. Die Einbindung der CSS-Datein erfolgt bei Vaadin jedoch auf einem
+anderen Weg. Hier wird sie in folgendes Verzeichnis gelegt:
+\emph{WebContent/VAADIN/themes/sampletheme/sample.css}. Im Code erfolgt die
+Einbindung in der Hauptklasse wie folgt.\\
+\emph{Vaadin}
+\begin{lstlisting}
+@Theme("sampletheme")
+public class MyApplication extends UI {
+\end{lstlisting}
+\emph{JavaFX}
+\begin{lstlisting}
+String css = "layout.css";
+ObservableList<String> cssStyle = loadSkin(css);
+
+protected final ObservableList<String> loadSkin(String cssFileName) {
+	ObservableList<String> cssStyle = FXCollections.observableArrayList();
+	cssStyle.addAll(getClass().getResource(cssFileName).toExternalForm());
+	return cssStyle;
+}
+\end{lstlisting}
+
+Innerhalb der CSS-Datei ist es wichtig, dass ein Standard-Theme importiert
+wird. Es sei denn das eigene Layout umfasst das komplette Styling und bedarf
+somit keiner Standardeinstellung. Bei den Standards handelt es sich um zwei
+unterschiedliche Layout, die wie folgt importiert werden.
+\begin{lstlisting}
+@import url("<../reindeer/styles.css"<)
+
+@import url("<../runo/styles.css"<)
+\end{lstlisting}
+
+
+\subsection{Vergleich zu Wings}
+Wings ist das Web-Framework welches momentan von der deg eingesetzt wird. Das
+korrespondierende Framework für den Desktop-Client ist derzeit Swing.
+Das größte Problem das sich bei dem Einsatz von Wings abzeichnet ist der
+rückläufige Support. Die letzten Updates für Wings stammen aus dem Jahr 2008.
+Seit dem wurde das Framework nicht weiterentwickelt. Das lässt ein baldiges
+aussterben des Frameworks vermuten. \\
+Die größte Gemeinsamkeit von Wings und Vaadin besteht darin, dass beide die
+Kommunikation zwischen Serven und Client über AJAX abwickeln.\\
+Die größten Unterschieden bestehen darin, das Vaadin eine weitaus größere
+Community hat. Das liegt unter anderem auch daran, dass Vaadin auf dem GWT
+aufsetzt. Weiterhin ist die Struktur von Vaadin nicht so stark an Swing
+orientiert.\\
+Weitere Unterschiede sind Abbildung 2 zu entnehmen:
+
+Die Unterschiede zwischen den Frameworks in Bezug auf die obigen Schwerpunkte
+sind nicht sehr groß. Das zeigt, dass Vaadin ebenfalls die nötigen Features mit
+sich bringt, die zur Implementation eines Web-Channels für Profil C/S notwendig
+sind.\\
+Ein weiterer großer Unterschied ist in der Architektur zu finden. Diese
+unterscheiden sich dahingehend, dass bei WingS\footnote{Abbildung 4} die
+Kommunikation zwischen Client und Server ausschließlig über eine Java Servlet
+API abgewickelt wird. Bei Vaadin\footnote{Abbildung 5} hingegen wird ebenfalls
+das Servlet angesprochen. Weiterhin werden aber auch aus den Themes, die den
+Style der GUI festlegen, bestimmte Daten geladen. Das fördert die Ersetzbarkeit
+der einzelnen Komponenten innerhalb des Servers.
+
+
+\section{Fazit - Ausblick auf den Multichannel}
+Das Wings abgelöst werden muss steht aufgrund der Stagnation und des mangelnden
+Supports fest. Das Vaadin-Framework eignet sich als Ersatz aufgrund der
+entsprechenden Standardkomponenten sowie dem Support der an vielen Stellen in
+Anspruch genommen werden kann. Zur Not kann man dieses auch von den Entwicklern
+in Anspruch nehmen. Auch wenn das Vaadin-Framework vorgestellt wurde, gibt es
+zahlreiche andere Web-Frameworks, die dafür in Frage kommen. Vor allem das GWT,
+auf dem Vaadin aufsetzt ist ebenfalls ein Kandidat dafür. Dennoch sollte man
+die Gemeinsamkeiten von Frameworks für die GUI im Web und die für den Desktop
+in Bezug auf ein Multichannel-Framework nicht außer Acht lassen. Das Vaadin gut
+dafür geeignet ist neben JavaFX als GUI-Framework eingesetzt zu  werden, sollte
+verdeutlicht worden sein.\\
+Das Multichannel-Framework wird benötigt, um den Arbeitsaufwand zum Erstellen
+neuer User-Interfaces oder Client-seitigen Präsentationen möglichst gering zu
+halten. Ziel ist es die GUIs nur ein einziges mal implementieren zu müssen und
+die Kommunikation zwischen Server und Client möglichst allgemein zu halten. Das
+Ganze wird auf der Basis eines Multichannel-Frameworks erreicht. Der
+Multichannel steht somit architektonisch zwischen dem Server und den
+unterschiedlichen Clients. Je mehr Gemeinsamkeiten die unterschiedlichen
+Client-Frameworks dabei haben, desto einfacher ist das Multichannel-Framework.
+Die Frameworks die innerhalb von diesem Praxisbericht und dem vorherigen
+Praxisbericht evaluiert wurden, weisen viele Gemeinsamkeiten auf. Besondere
+Aufmerksamkeit muss auf Tabellen gelegt werden. Dieser Bereich und der, welcher
+zum Steuern der Events verantwortlich ist, werden den größten Teil des
+Multichannel-Frameworks ausmachen.\\
+Hierbei ist zu unterscheiden ob in der deg ein komplett neues
+Multichannel-Framework eingeführt werden soll, oder das Bestehende erweitert
+wird. Aufgrund dessen muss vorerst geprüft werden, ob eine Erweiterung in Bezug
+auf bestimmte GUI-Frameworks überhaupt möglich ist.
+ 
+\pagebreak
+\bibliography{mybib}{}
+$
+Vaadin Lt: Book of Vaadin: Vaadin 7 Edition - 1st Revision \\
+URL: https://vaadin.com/book \\
+(27.09.2013)\\
+\\
+$
+
+\section*{Abbildungen}
+
+
+\begin{figure}[!htb]
+			\begin{tabular}[c]{|l|}
+			\hline\hline
+			 \textbf{Vorteile} \\
+				\hline\hline
+				J2SE-API ist im vollen Umfang nutzbar \\
+				\hline
+				komplexe Anwendungen in Zusammenarbeit mit Servlets und
+				Applikationsservern\\
+				\hline
+				Installation lokaler Software ist unnötig\\
+				\hline
+				In unterschiedlichen Browsern nutzbar \\
+				\hline
+				GUI muss nur einmal mithilfe eines Frameworks implementiert werden \\
+				\hline
+				Der Client muss (gezwungenermaßen) klein gehalten werden \\
+				\hline
+				\hline
+				\textbf{Nachteile} \\
+				\hline\hline
+				Java-Plugin wird benötigt (Sicherheitsrisiko) \\
+				\hline
+				Java-Script muss aktiviert sein (Sicherheitsrisiko)\\
+				\hline
+				Abgleich der Java-Versionen notwendig\\
+				\hline
+				lange Initialisierung der JVM\\
+				\hline
+				Applet muss komplett heruntergeladen werden\\
+				
+			
+\hline
+\hline
+			\end{tabular}
+		\caption{Vor- und Nachteile von Java-Applets}
+	\end{figure}	
+	\begin{figure}[!htb]
+			\begin{tabular}[c]{|l||ll|}
+			\hline\hline
+				\textbf{} & \textbf{WingS} 							&   \vline\textbf{Vaadin}\\
+				\hline\hline
+				\textbf{Container} & Servlet & \vline  { Servlet, Portlet}\\
+				\hline
+				\textbf{Stylability} &\multicolumn{2}{l|}{ Css, Layout-Templates}
+				\tabularnewline\cline{2-3} & & \vline { Sass\footnote{Erweiterung von
+				CSS3}}\\
+				\hline
+				\textbf{Komponenten} & \multicolumn{2}{l|}{unterschiedliche GUI-Elemente,
+				eigene Komponenten}\\
+				\hline
+				\textbf{Render-Technik} & \multicolumn{2}{l|}{HTML, CSS, Java-Script} \\
+				\hline
+				
+				\textbf{Verbreitung} &\multicolumn{2}{l|}{ großer Bekanntheitsgrad}
+\tabularnewline 
+& & \vline { v.a. durch das GWT}\\
+\hline
+\hline
+			\end{tabular}
+		\caption{Vergleich: WingS - Vaadin}
+	\end{figure}
+	\begin{figure}[!htb]
+				\includegraphics[width=12cm]{JavaFX-Baum}
+			\caption{JavaFX-Struktur}
+		\end{figure}
+	\begin{figure}[!htb]
+				\includegraphics[width=12cm]{archwings}
+			\caption{Wings-Architektur}
+		\end{figure}
+	\begin{figure}[!htb]
+				\includegraphics[width=12cm]{architecture}
+			\caption{Vaadin-Architektur}
+		\end{figure}
+\end{document}
+
+
