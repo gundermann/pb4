@@ -100,20 +100,36 @@ aufgelistet sind.\\
 
 
 \section{Web-Frameworks}
-Bei einem Web-Framework handelt es sich um ein anderes Framework, als JavaFX.
-Hier wird auf der Basis von Java-Code eine Datei generiert, die anschließend im
-Browser gerendert wird und die implementierten Funktionalitäten bereitstellt.\\
-Fakt ist, dass durch den Einsatz dieser Technologien, eine \grqq doppelte\grqq
-~Implementierung der GUI im gewissen Maße notwendig ist. Um dieses Maß möglichst
-klein zu halten, wird nach einem Framework gesucht, dass die wichtigen Features
-für Profil C/S mitbringt und vom Aufbau her so viele Ähnlichkeiten wie möglich
-zu JavaFX besitzt. Grund dafür ist, dass es dann weniger umfangreich ist ein
-Multichannel-Framework zu implementieren.\\
-Ausgehend von den eben genannten Bedingungen, liegt es nahe ein Frameworks zu
-betrachten das auf Java basiert, um grobe syntaktische Differenzen von
-vornherein auszuschließen. Aus diesen Grund wird im Folgenden das
-Vaadin-Framework vorgestellt. Da die deg momentan das Wings-Framework einsetzt,
-werden nach der Vorstellung von Vaadin beide Frameworks verglichen.
+Web-Frameworks bieten die Möglichkeit bestimmte Inhalte mit Hilfe von
+Technologien zu visualisieren, die vor allem in Internet-Browsern benutzt
+werden. In der Regel ist das Ausführen von Programmen, die mit Web-Frameworks
+implementiert wurden, auf dem Desktop nicht möglich. Wir ein solches Framework
+zum Beispiel neben JavaFX eingesetzt, ist es Möglich die Logik zentral zu
+implementieren und die Visualisierung zu separieren.\\
+Der Nachteil, in Bezug auf die Implemetierung, ist, dass für unterschiedliche
+Frameworks, die unterschiedliche Technologien nutzen, auch doppelter Aufwand
+aufkommt. Um diese doppelten Aufwad möglichstklein zu halten, wurde dafür bei
+der deg ein Multichannel implementiert.
+\subsection{Multichannel}
+Bezogen auf dieses Problem führt der Multichannel das Framework für die
+Visualisierung auf dem Desktop und das für die Visualisierung im Browser
+zusammen. Die Programm-spezifische GUI-Implementierung wird in der Syntax und
+Semantik des Multichannel-Framework geschrieben. Die Entwickler müssen somit
+nicht die unterschiedlichen GUI-Frameworks kennen, sondern nur das
+Multichannel-Framework. Je nachdem, auf welcher Plattform das Programm
+ausgeführt wird, wird die GUI vom Multichannel über das entsprechende Framework
+erstellt.\\
+Je größer die syntaktischen Unterschiede der GUI-Frameworks sind, desto
+komplexer wird das Multichannel-Framework. Demnach ist für einen neuen
+Mutlichannel wünschenswert, dass die GUI-Frameworks syntaktisch möglichst viele
+Gemeinsamkeiten haben. Zumindest was die zu nutzenden Komponenten angeht.\\
+Ausgegangen wird davon, dass als GUI-Framework für den Desktop JavaFX
+genutzt wird. Ausgehend davon liegt es nahe ein Framework zu betrachten das auf
+Java basiert, um grobe syntaktische Differenzen von vornherein auszuschließen.
+Aus diesen Grund wird im Folgenden das Vaadin-Framework vorgestellt.
+%TODO AUCH SPÄTER: Da die deg momentan das Wings-Framework einsetzt, werden nach
+% der Vorstellung
+von Vaadin beide Frameworks verglichen.
 \subsection{Vaadin}
 Das Vaadin-Framework ist ein Open-Source Framework, das es relativ einfach
 erlaubt Userinterfaces zu implementieren. Dies kann wie bei JavaFX auf zwei
@@ -432,6 +448,23 @@ unterschiedliche Layout, die wie folgt importiert werden.
 @import url("<../runo/styles.css"<)
 \end{lstlisting}
 
+\subsection{Probleme der deg im Web}
+Große Probleme in der deg bezüglich der GUI des Web-Clients bereitet die
+Struktirierung. Im Desktop-Bereich wird dazu das GridBag-Layout genutzt. Die
+Web-Frameworks stellen ein solchen Layout auch nicht mit ähnlichen Funktionen
+bereit.\\
+Aus diesem Grund wird in den Web-Client derzeit auf eine Strukturierung mittels
+Tabellen zurückgegriffen. Bezüglich Wartbarkeit und Änderbarkeit ist dies
+aufgrund der komplexen Struktur keine gute Lösung.\\
+
+Eine Lösung für die Nutzung von Gridbag-Layouts mit Vaadin oder anderen
+Web-Frameworks kann ich nicht geben. Eine kleiner Versuch zeigt aber, dass mit
+Vaadin eine solches Layout schon mit weitaus weniger Komplexität umsetzbar
+ist.\\
+
+Probleme bereiten weiter hin die Zwischenabstände der Komponenten (Insets).
+Diese müssten im Web über einen \emph{margin} realisiert werden, der bei Vaadin
+nicht direkt gesetzt werden kann, sondern nur über CSS änderbar ist.
 
 \subsection{Vergleich zu Wings}
 Wings ist das Web-Framework welches momentan von der deg eingesetzt wird. Das
