@@ -105,11 +105,10 @@ Frameworks, die unterschiedliche Technologien nutzen, auch doppelter Aufwand
 aufkommt. Um diese doppelten Aufwad möglichstklein zu halten, wurde dafür bei
 der deg ein Multichannel implementiert.
 \subsection{Multichannel}
-Bezogen auf dieses Problem führt der Multichannel das Framework für die
-Visualisierung auf dem Desktop und das für die Visualisierung im Browser
-zusammen. Die Programm-spezifische GUI-Implementierung wird in der Syntax und
-Semantik des Multichannel-Framework geschrieben. Die Entwickler müssen somit
-nicht die unterschiedlichen GUI-Frameworks kennen, sondern nur das
+Bezogen auf dieses Problem führt der Multichannel unterschiedlichen
+Frameworks für die Visualisierung auf dem Desktop und im Browser
+zusammen. Die Userinterfaces werden dann in der Syntax und Semantik des
+Multichannel-Framework geschrieben. Die Entwickler müssen somit nicht die unterschiedlichen GUI-Frameworks kennen, sondern nur das
 Multichannel-Framework. Je nachdem, auf welcher Plattform das Programm
 ausgeführt wird, wird die GUI vom Multichannel über das entsprechende Framework
 erstellt.\\
@@ -160,36 +159,21 @@ und Client wird Mittels AJax abgewickelt.
 Von daher sind zusätzliche Plugins für Java-Anwendungen nicht nötig und somit
 besteht auch das durch Plugins enstehende Sicherheitsrisiko nicht mehr.
 
-\subsection{Syntaktische Gemeinsamkeiten und Unterschiede zu JavaFX} 
+\subsection{Anforderung an die Profil C/S - GUI} 
 Sollte es zu einer Implementierung eines neuen Multichannel-Frameworks kommen,
-wäre es - wie schon erwähnt - vorteilhaft, wenn die unterschiedlichen Frameworks
-syntaktisch und sematisch große Ählichkeiten aufweisen. Beispielsweise ist es
-bei syntaktisch gleichen Frameworks nur notwendig darauf zu achten die richtigen Bibliotheken für den
-entsprechenden Client zu nutzen.
-%Beispiel
-Je unterschiedlicher die Frameworks sind,
-desto mehr Ausnahmen sind dabei zu beachten. Der Multichannel würde demnach
-durch große Unterschiede ein größeres Ausmaß annehmen.\\
-Aus diesem Grund habe ich vorerst eine Web-Variante der GUI implementiert, die
-aus dem vorangegangen Praxisbericht - \grqq Prototypische Implementierung eines
-JavaFX-Channels zur Integration ins MulitChannel-Framework der deg\grqq
-~ - entstand. Ziel war es dieselben Funktionalitäten und einen ähnlichen
-Aufbau umzusetzen.\\
+müssen Techologien und Framework eingesetzt werden, die den Anforderung von
+Profil C/S gerecht werden. Im Folgenden wird untersucht ob es möglich ist mit
+dem Vaadin-Framework eine allgemeine GUI, wie sie in Profil C/S zur Anwendung
+kommt, zu implemetieren. Dabei werde ich mich an der mit JavaFX-GUI, die aus dem orangegangen Praxisbericht - \grqq Prototypische Implementierung eines
+JavaFX-Channels zur Integration ins MulitChannel-Framework der deg\grqq ~
+hervorgegangen ist, orientieren. Ziel dabei ist vor allem, die gleich
+Funktionalitäten umzusetzen.\\
 Die Logik konnte aufgrund dessen, dass beide Frameworks auf
-Java aufsetzen komplett übernommen werden. Einige der wichtigsten Komponenten brauchten nicht verändert zu werden.
-Lediglich die importierten Bibliotheken mussten angepasst werden.
-\begin{lstlisting}
-Label lb = new Label();
-Button bt = new Button();
-TextField tf = new TextField();
-MenuBar menu = new MenuBar();
-\end{lstlisting}
-Des weiteren enthält Vaadin alle Komponenten, die für die Umsetzung des
-Prototypen notwendig waren. Der Aufbau musste somit nicht verändert werden,
-sondern nur einige Typen angepasst werden. Im Folgenden sind die
-korrespondierenden Komponenten von JavaFX und Vaadin aufgelistet die zur
-Umsetzung notwendig waren.\\
-\emph{Vaadin}
+Java aufsetzen komplett übernommen werden.\\
+Da Vaadin alle Komponenten, die für die Umsetzung des
+Prototypen notwendig waren, enthält, musste der Aufbau nicht
+verändert werden, sondern nur einige Typen angepasst werden. Im Folgenden sind die
+Vaadin-Komponenten aufgelistet die zur Umsetzung notwendig waren.\\
 \begin{lstlisting}
 Tree documentTree = new Tree();
 VerticalLayout documentBox = new VerticalLayout();
@@ -199,63 +183,38 @@ GridLayout menuPane = new GridLayout(1,2);
 BorderLayout borderLayout = new BorderLayout();
 Table table = new Table();
 \end{lstlisting}
-\emph{JavaFX}
-\begin{lstlisting}
-TreeView<String> documentTree = new TreeView<String>();
-VBox documentBox = new VBox();
-HBox statusbar = new HBox();
-SplitPane horizontalerSplit = new SplitPane();
-GridPane menuPane = new GridPane();
-BorderPane borderPane = new BorderPane();
-TableView<TeilvorgaeneTableData> table = new TableView<TeilvorgaeneTableData>();
-\end{lstlisting}
-Die ersten Unterschiede treten bei der Implementation des Menüs auf. Bei JavaFX
-gibt es ein spezielles Objekt namens \emph{Menu} bzw. \emph{MenuItem}. Diese
-Elemente sind speziell zum füllen eines Menüs entworfen worden. Dabei ist ein
-\emph{Menu} das Obermenü, dem entsprechende Menüpunkte \emph{Menu} oder
-wiederum weitere Untermenüs hinzugefügt werden können. Vaadin hingegen
-unterstützt nur das \emph{MenuItem}. Damit ist es jedoch auch möglich eine
-Hierarchie innerhalb eines Menüs aufzubauen.\\ 
-\emph{Vaadin}
+
+Bei der Implementierung der Menüleiste, gab es keine weiteren Problem. Hier
+bietet Vaadin ein entsprechend vorgefertigten \emph{MenueBar}-Typ an. Dieser
+kann mit Elementengefüllt werden, wie es auch schon von JavaFX bekannt ist. Auch
+die Verschachtelung von Untermenüs ist hier möglich.
+%Wirklich?
+%Listener???
 \begin{lstlisting}
 MenuBar menu = new MenuBar();
 MenuBar.MenuItem bearbeitung = menu.addItem("Bearbeitung", null);
 \end{lstlisting}
-\emph{JavaFX}
-\begin{lstlisting}
-MenuBar menu = new MenuBar();
 
-Menu bearbeitung = new Menu("Bearbeiten");
-menu.getMenus().add(bearbeitung);
-
-MenuItem drucken = new MenuItem("Drucken");
-bearbeitung.getItems().add(drucken);
-\end{lstlisting}
-Weitere leichte Unterschiede gibt es bei den Layouts. Diese beschränken sich
-weitestgehend auf die Methoden zum hinzufügen von Elementen. Eine Ausnahme die
-auffiel ist, dass JavaFX die Ausrichtung von gesplitteten Layouts durch eine
-Instanzvariable im Objekt steuert. Vaadin hingegen kennt zwei Objekte mit
-unterschiedlichen Ausrichtungen dafür.\\
-\emph{Vaadin}
+Für die Umsetzung geteilter Layout bietet Vaadin zwei Komponenten an, die je
+nach Orientierung der Teilungsrichtung verwendet werden sollten. Dazugehört zum
+einen das \emph{VerticalSplitPanel} - für die vertikale Teilung - und das
+\emph{HorizontalSplitPanel} - für die horizontale Teilung.\\
+Voraneinstellung für die Aufteilung der geteilten Bereiche, können durch die
+Methode \emph{setSplitPosition(value, unit)} getroffen werden. Die \emph{unit}
+bestimmt dabei, ob es sich um einen absoluten Wert handelt, oder einen
+prozentualen.\\
+Mit dieser Komponente ist es jedoch nur möglich einen Bereich in zwei weitere
+Bereiche aufzuteilen. Diese können dann mittels \emph{setFirstComponent} und
+\emph{setSecondComponent} befüllt werden.
 \begin{lstlisting}
 VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel();
 
 vertikalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE);	
-// --> Standardposition des Trennbalkens
 	
 vertikalerSplit.setFirstComponent(Component);
 vertikalerSplit.setSecondComponent(Component);
 \end{lstlisting}
-  \emph{JavaFX}
- \begin{lstlisting}
-SplitPane vertikalerSplit = new SplitPane();
-vertikalerSplit.setOrientation(Orientation.VERTICAL);
-	
-vertikalerSplit.setDividerPositions(0.3); // --> Standardposition des Trennbalkens
- 
-vertikalerSplit.getItems().add(Node);
-vertikalerSplit.getItems().add(Node);
- \end{lstlisting}
+
   Bei den Tabellen sind die Unterschiede etwas größer. Die Klassen für die
   Strukturierung der Inhalte von Tabellen konnten übernommen werden. Die
   Implementation für den Aufbau der Tabellen-GUI sind weniger deckungsgleich.
@@ -284,40 +243,6 @@ vertikalerSplit.getItems().add(Node);
  }
  \end{lstlisting}
  
- \emph{JavaFX}
- \begin{lstlisting}
- TableView<TeilvorgaeneTableData> table = new TableView<TeilvorgaeneTableData>();
- TableColumn<TeilvorgaeneTableData, String> vorgangCol = 
- 	new TableColumn<TeilvorgaeneTableData, String>("Vorgang");
- vorgangCol.setCellValueFactory(
- 	new PropertyValueFactory<TeilvorgaeneTableData, String>("vorgang"));
- TableColumn<TeilvorgaeneTableData, String> statusCol = 
- 	new TableColumn<TeilvorgaeneTableData, String>("Status");
- statusCol.setCellValueFactory(
- 	new PropertyValueFactory<TeilvorgaeneTableData, String>("status"));
- TableColumn<TeilvorgaeneTableData, String> zuwendungssummeCol = 
- 	new TableColumn<TeilvorgaeneTableData, String>("Zuwendungs-\nsumme [EUR]");
- zuwendungssummeCol.setCellValueFactory(
- 	new PropertyValueFactory<TeilvorgaeneTableData, String>("zuwendungssumme"));
- TableColumn<TeilvorgaeneTableData, String> zahlungsbetragCol = 
- 	new TableColumn<TeilvorgaeneTableData, String>("Zahlungs-\nbetrag [EUR]");
- zahlungsbetragCol.setCellValueFactory(
- 	new PropertyValueFactory<TeilvorgaeneTableData, String>("zahlungsbetrag"));
- TableColumn<TeilvorgaeneTableData, String> zahlungdatumCol = 
- 	new TableColumn<TeilvorgaeneTableData, String>("Zahlungs-\ndatum");
- zahlungdatumCol.setCellValueFactory(
- 	new PropertyValueFactory<TeilvorgaeneTableData, String>("zahlungsdatum"));
- table.getColumns().addAll(vorgangCol, statusCol, 
- zuwendungssummeCol, zahlungsbetragCol, zahlungdatumCol);
- 		
- private void initLines(TableView<TeilvorgaeneTableData> table) {
- 	ObservableList<TeilvorgaeneTableData> vorgaenge = FXCollections.observableArrayList();
- 	for(Document teilvorgang : teilvorgaenge){
- 		vorgaenge.add(new TeilvorgaeneTableData(teilvorgang));		
- 	}
- 	table.setItems(vorgaenge);
- }
- \end{lstlisting}
   Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
   Diese werden durch ein zweidimensionales Array abgebildet. Hinzu kommt noch,
   dass Elternelemente speziell gesetzt werden müssen. Bei JavaFX unterscheidet
