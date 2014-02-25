@@ -183,25 +183,35 @@ Table table = new Table();
 Bei der Implementierung der Menüleiste, gab es keine weiteren Problem. Hier
 bietet Vaadin ein entsprechend vorgefertigten \emph{MenueBar}-Typ an. Dieser
 kann mit Elementengefüllt werden, wie es auch schon von JavaFX bekannt ist. Auch
-die Verschachtelung von Untermenüs ist hier möglich.
-%TODO Wirklich?
-%TODO Listener???
+die Verschachtelung von Untermenüs und das Anfügen von Icon an die Menüpunkte
+ist durch die Methode \emph{addItem(TEXT, ICON)} möglich.
 \begin{lstlisting}
 MenuBar menu = new MenuBar();
-MenuBar.MenuItem bearbeitung = menu.addItem("Bearbeitung", null);
+MenuBar.MenuItem schliessen = menu.addItem("Schließen", null);
 \end{lstlisting}
-
+Um Aktionen an diesem Menü ausführen zu können muss auch bei Vaadin ein
+ensprechendet Listener implementiert. Dies geschieht über die Methode
+\emph{setCommand(COMMAND)}. Diese Listener-Interfaces gleichen von der
+Implementierung her den Action-Listener, aus dem Swing- oder
+JavaFX-Framework.
+\begin{lstlisting}
+schliessen.setCommand(new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				close();
+			}
+		});
+\end{lstlisting}
 Für die Umsetzung geteilter Layout bietet Vaadin zwei Komponenten an, die je
-nach Orientierung der Teilungsrichtung verwendet werden sollten. Dazugehört zum
-einen das \emph{VerticalSplitPanel} - für die vertikale Teilung - und das
-\emph{HorizontalSplitPanel} - für die horizontale Teilung.\\
+nach Orientierung der Teilungsrichtung verwendet werden sollten. Dazugehört zum einen das \emph{VerticalSplitPanel} - für die vertikale Teilung - und das \emph{HorizontalSplitPanel} - für die horizontale Teilung.\\
 Voraneinstellung für die Aufteilung der geteilten Bereiche, können durch die
-Methode \emph{setSplitPosition(value, unit)} getroffen werden. Die \emph{unit}
+Methode \emph{setSplitPosition(VALUE, UNIT)} getroffen werden. Die \emph{UNIT}
 bestimmt dabei, ob es sich um einen absoluten Wert handelt, oder einen
 prozentualen.\\
 Mit dieser Komponente ist es jedoch nur möglich einen Bereich in zwei weitere
-Bereiche aufzuteilen. Diese können dann mittels \emph{setFirstComponent} und
-\emph{setSecondComponent} befüllt werden.
+Bereiche aufzuteilen. Diese können dann mittels
+\emph{setFirstComponent(COMPONENT)} und \emph{setSecondComponent(COMPONENT)}
+befüllt werden.
 \begin{lstlisting}
 VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel();
 
@@ -210,25 +220,15 @@ vertikalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE);
 vertikalerSplit.setFirstComponent(Component);
 vertikalerSplit.setSecondComponent(Component);
 \end{lstlisting}
-
 Tabellen sind weitaus komplexer strulturiert. Die Spalter werden bei Vaadin als
 Container betrachtet. Das hat den Vorteil, dass je Spalte auch festgelegt werden
 kann, welcher Datentyp dort angezeigt wird. Das geschieht mit der
-Methode \emph{addContainerProperty(VALUE, TYPE, DEFAULT)}- Allgemein ist
-somit gewährleistet, dass nur Typen angezeigt werde, die auch angezeigt werden sollen. Bezogen auf Objektorientierte Programmierung, ist diese Art der
+Methode \emph{addContainerProperty(TEXT, TYPE, DEFAULT)}- Allgemein
+ist somit gewährleistet, dass nur Typen angezeigt werde, die auch angezeigt werden sollen. 
+Bezogen auf Objektorientierte Programmierung, ist diese Art der
 Strukurierung vorteilhaft, da mit Objekten und nicht mit nativen Datentypen gearbeitet wird.
-%TODO Quelle?
 Im Prototypen wird dieser Vorteil jedoch nicht genutzt. Der Grund dafür ist,
 dass für Zeichenketten und Zahlen keine spezifischen Typen implementiert wurden.
-Die Klassen für die Strukturierung der Inhalte von Tabellen konnten übernommen
-werden.\\
-Will man Daten in die Tabelle einfügen, so hat man auf objektorientierten Ebene
-viele Freiheiten, da die Methode \emph{addItem(Object[])} Werte vom Typ
-%TODO Prüfen 
-\emph{Object} erwartet. Um die Typisierung an dieser Stellen zu verbessern
-müsste die Vaadin-\emph{Table} erweitert werden.
-%TODO implementieren
-\emph{Vaadin}
 \begin{lstlisting}
 Table table = new Table();
 table.addContainerProperty("Vorgang", String.class, "");
@@ -249,6 +249,21 @@ private void initLines(Table table) {
 	}
 }
 \end{lstlisting}
+Will man Daten in die Tabelle einfügen, so hat man auf objektorientierten Ebene
+viele Freiheiten, da die Methode \emph{addItem(OBJECT[])} Werte vom Typ
+\emph{Object} erwartet. Ist der Typ jedoch durch
+\emph{addContainerProperty(TEXT, TYPE, DEFAULT)} festgelegt, wird für den
+Fall, dass ein falscher Typ in die Tabelle geschrieben werden soll, der
+Standardwert eingetragen. Die in der Klasse \emph{TableTest} im Anhang ist ein
+solcher Fall implementiert\footnote{vgl. Abbildung 3 - TestTable-GUI}.
+Bezüglich der Wartbarkeit und der Objektorientierung sollte bei Angabe eines
+falschen Types nicht einfach der Standardwert zurückgegeben werden. Vielmehr
+sollte hier darauf hingewiesen werden, dass der Falsche Typ verwendet wurde.
+Dies kann zum einen im Code durch eine generische Erweiterun der
+Vaadin-\emph{Table} oder durch entsprechende Fehlermeldungen realisiert
+werden.
+%TODO implementieren
+
  
   Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
   Diese werden durch ein zweidimensionales Array abgebildet. Hinzu kommt noch,
@@ -267,16 +282,6 @@ private void initLines(Table table) {
  }
  \end{lstlisting}
  
- \emph{JavaFX}
- \begin{lstlisting}
- private void appendDocuments(Document doc, TreeItem treeItem) {
- 	for (Document children : doc.getChildren()) {
- 		TreeItem documentItem = new TreeItem();
- 		documentItem.setValue(children.getTitel());
- 		treeItem.getChildren().add(documentItem);
- 	}
- }
- \end{lstlisting}
 Das größte Problem bei der Umsetzung des Prototypen war die Toolbar. Das
 Problem ist, dass dies keine Standardkomponente von Vaadin ist. Jedoch gibt es
 ein Addon dafür. Die Dokumentation dafür ist allerdings veraltet. Daher war es
@@ -302,19 +307,6 @@ JavaFX.\\
 	 
 		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
 \end{lstlisting}
-  \emph{JavaFX}
- \begin{lstlisting}
-		ToolBar toolbar = new ToolBar();
-				
-		Image imageDrop = new Image("ressources/TbCopy.gif");
-		Image imagePrint = new Image("ressources/TbPrint.gif");
-		
-		Button btDrop = new Button(null, new ImageView(imageDrop));
-		Button btPrint = new Button(null, new ImageView(imagePrint));
-		btPrint.setDisable(true);
-		
-		toolbar.getItems().addAll(btDrop, new Separator(), btPrint);
- \end{lstlisting}
   Der Web-Client der deg hält die unterschiedlichen Fenster in Tabs. Dadurch
   musste bei diesem Prototyp eine Tab-Ansicht als übergreifendes GUI-Element
   implementiert werden. Dadurch verändern sich auch die Methoden zum öffnen
@@ -355,17 +347,6 @@ Einbindung in der Hauptklasse wie folgt.\\
 \begin{lstlisting}
 @Theme("sampletheme")
 public class MyApplication extends UI {
-\end{lstlisting}
-\emph{JavaFX}
-\begin{lstlisting}
-String css = "layout.css";
-ObservableList<String> cssStyle = loadSkin(css);
-
-protected final ObservableList<String> loadSkin(String cssFileName) {
-	ObservableList<String> cssStyle = FXCollections.observableArrayList();
-	cssStyle.addAll(getClass().getResource(cssFileName).toExternalForm());
-	return cssStyle;
-}
 \end{lstlisting}
 
 Innerhalb der CSS-Datei ist es wichtig, dass ein Standard-Theme importiert
@@ -456,16 +437,8 @@ auf bestimmte GUI-Frameworks überhaupt möglich ist.
  
 \pagebreak
 \bibliography{mybib}{}
-$
-Vaadin Lt: Book of Vaadin: Vaadin 7 Edition - 1st Revision \\
-URL: https://vaadin.com/book \\
-(27.09.2013)\\
-\\
-$
 
 \section*{Abbildungen}
-
-
 \begin{figure}[!htb]
 			\begin{tabular}[c]{|l|}
 			\hline\hline
@@ -528,6 +501,12 @@ $
 			\end{tabular}
 		\caption{Vergleich: WingS - Vaadin}
 	\end{figure}
+	
+	%Bilder
+	\begin{figure}[!htb]
+				\includegraphics[width=12cm]{TestTable}
+			\caption{Abbildung 3 - TestTable-GUI}
+		\end{figure}
 	\begin{figure}[!htb]
 				\includegraphics[width=12cm]{JavaFX-Baum}
 			\caption{JavaFX-Struktur}

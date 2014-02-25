@@ -2,6 +2,7 @@ package com.example.vaadinprofilsample;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.example.vaadinprofilsample.trythings.table.TableTest;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -27,6 +28,9 @@ public class VaadinProfilSampleUI extends UI {
 		VertragsMappenView vertragsMappe = new VertragsMappenView(null);
 		tabsheet.addTab(vertragsMappe).setCaption(vertragsMappe.getTitle());
 		tabsheet.getTab(vertragsMappe).setClosable(true);
+		
+		TableTest tabletest = new TableTest();
+		tabsheet.addTab(tabletest);
 
 	}
 

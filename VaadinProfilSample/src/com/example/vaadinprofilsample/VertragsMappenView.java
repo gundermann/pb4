@@ -17,6 +17,7 @@ import com.example.mappe.Document;
 import com.example.mappe.Vertrag;
 import com.example.mappe.VertragsMappe;
 import com.example.mappe.Vertragsblatt;
+import com.example.vaadinprofilsample.guicomponents.Label;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
@@ -24,11 +25,12 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
+import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
  * 
@@ -85,6 +87,8 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		MenuBar.MenuItem sample = hilfe.addItem("JavaFX sample", null);
 		menu.setWidth("100%"); // CSS
 
+		schliessen.setCommand(new SchliessenCommand(this)); 
+			
 		return menu;
 	}
 
