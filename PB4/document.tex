@@ -250,29 +250,20 @@ private void initLines(Table table) {
 }
 \end{lstlisting}
 Will man Daten in die Tabelle einfügen, so hat man auf objektorientierten Ebene
-viele Freiheiten, da die Methode \emph{addItem(OBJECT[])} Werte vom Typ
-\emph{Object} erwartet. Ist der Typ jedoch durch
+viele Freiheiten, da die Methode \emph{addItem(OBJECT[])} ein Array mit Werten
+vom Typ \emph{Object} erwartet. Ist der Typ jedoch durch
 \emph{addContainerProperty(TEXT, TYPE, DEFAULT)} festgelegt, wird für den
 Fall, dass ein falscher Typ in die Tabelle geschrieben werden soll, der
 Standardwert eingetragen. Die in der Klasse \emph{TableTest} im Anhang ist ein
 solcher Fall implementiert\footnote{vgl. Abbildung 3 - TestTable-GUI}.
-Bezüglich der Wartbarkeit und der Objektorientierung sollte bei Angabe eines
-falschen Types nicht einfach der Standardwert zurückgegeben werden. Vielmehr
-sollte hier darauf hingewiesen werden, dass der Falsche Typ verwendet wurde.
-Dies kann zum einen im Code durch eine generische Erweiterung der
-Vaadin-\emph{Table} oder durch entsprechende Fehlermeldungen realisiert
-werden.\\
-Bei Profil C/S werden nicht direkt die Objekte in die Tabellen geladen, sonder
-Tabellen-Daten-Objekte, die ihre Werte wiederrum von den entsprechenden
-Buinessobjekten beziehen. Dadruch wurde zwischen Visualisierung und Daten eine
-weitere Schicht eingezogen, die dem Multichannel zugute kommt. Würde diese
-Schicht nicht vorliegen, müsste die Übernahme der Werte aus den Businessobjekten
-in die Tabellen doppelt implementiert werden.\\
-Im Prototypen kann somit über das Inteface \emph{TableData} direkt auf die
-Werte, der Businessobjekte zugegriffen werden. Egal in welchem Client man sich
-befindet, werden immer \emph{SimpleStringProperties} zurückgegeben, die vom
-Multichannel aus als Strings weitergegeben werden und an der
-entsprechenden Stellen ausgegeben werden können.\\
+Bezüglich der Typsicherheit müssen hier noch Erweiterungen vorgenommen
+werden. Bei Angabe eines falschen Types sollte nicht einfach der Standardwert
+zurückgegeben werden. Vielmehr sollte hier darauf hingewiesen werden, dass der Falsche Typ verwendet wurde.
+Dies könnte durch eine generische Erweiterung der Vaadin-\emph{Table}
+und einem Container, der die zu visualisierenden Daten des
+Businessobjekt enthält, realisiert werden. Durch den Container wird dann
+ausgeschlossen, dass die Tabelle inkompatible Typen enthalten soll.\\
+%TODO Beispiel
 
  
   Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
