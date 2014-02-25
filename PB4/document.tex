@@ -7,7 +7,7 @@
 \usepackage{listings} 
 \usepackage{multirow}
 \usepackage{cite}
-\lstset{language=command.com} 
+\lstset{language=java} 
 \lstset{basicstyle=\scriptsize}
 \lstset{numbers=left, numberstyle=\tiny, numbersep=2pt} 
 
@@ -51,7 +51,6 @@ rendern.\\
 Im Anschluss wird das Vaadin-Framework, als Beispiel für ein mögliches
 Web-Framework, genauer beleuchtet. Dazu gehört auch ein Vergleich zum
 bestehenden Wings-Framework.\\ 
-%TODO Systaktische Ähnlichkeit zu JavaFX später 
 Zum Ende wird ein Prototyp einer PROFIL-C/S
 GUI für den Einsatz im Web vorgestellt und auf Probleme in Bezug auf das
 Multichannel-Framework der deg eingegangen.
@@ -112,17 +111,15 @@ Multichannel-Framework geschrieben. Die Entwickler müssen somit nicht die unters
 Multichannel-Framework. Je nachdem, auf welcher Plattform das Programm
 ausgeführt wird, wird die GUI vom Multichannel über das entsprechende Framework
 erstellt.\\
-Je größer die syntaktischen Unterschiede der GUI-Frameworks sind, desto
-komplexer wird das Multichannel-Framework. Demnach ist für einen neuen
-Mutlichannel wünschenswert, dass die GUI-Frameworks syntaktisch möglichst viele
-Gemeinsamkeiten haben. Zumindest was die zu nutzenden Komponenten angeht.\\
-Ausgegangen wird davon, dass als GUI-Framework für den Desktop JavaFX
-genutzt wird. Ausgehend davon liegt es nahe ein Framework zu betrachten das auf
-Java basiert, um grobe syntaktische Differenzen von vornherein auszuschließen.
-Aus diesen Grund wird im Folgenden das Vaadin-Framework vorgestellt.
-%TODO AUCH SPÄTER: Da die deg momentan das Wings-Framework einsetzt, werden nach
-% der Vorstellung
-von Vaadin beide Frameworks verglichen.
+Um einen Multichannel implmentieren zu können, bedarf es einer gemeinsamen
+Basis, der unterschiedlichen Frameworks. Die von den Frameworks genutzten
+Technologien sind hierbei in erster Linie uninteressant. Das Ziel ist ein
+allgemeines Framework zu schreiben, sodass nur noch unterschieden werden muss,
+auf welcher Visualisierungsplattform man sich befindet.\\
+Ausgegangen wird davon, dass als GUI-Framework für den Desktop JavaFX oder - wie
+aktuell - Swing genutzt wird. Somit liegt es nahe ein Framework zu
+betrachten das auf Java basiert, um die JVM als gemeinsame Basis nutzten zu
+können. Aus diesen Grund wird im Folgenden das Vaadin-Framework vorgestellt.
 \subsection{Vaadin}
 Das Vaadin-Framework ist ein Open-Source Framework, das es erlaubt
 Userinterfaces für Weboberflächen zu implementieren. Dies kann wie bei JavaFX
@@ -141,8 +138,8 @@ Der Service bzw. die Unterstützung ist gegeben. Durch verständliche Tutorials,
 der guten Dokumentation sowie entsprechenden Plugins für unterschiedliche
 Entwicklungsumgebungen, findet man leicht einen Zugang zu dem Framework und kann
 es ohne große Konfiguration einsetzen. Auch wenn in der offiziellen
-Dokumentation \footnote{Book of Vaadin} lediglich die Standardkomponenten
-erklärt sind, gibt es zu jedem AddOn eine kurze Einweisung, sowie Beispiele und
+Dokumentation \footnote{Book of Vaadin (siehe [Vaa13])} lediglich die
+Standardkomponenten erklärt sind, gibt es zu jedem AddOn eine kurze Einweisung, sowie Beispiele und
 Erklärungen. Auch die Community macht einen sehr aktiven Eindruck
 \footnote{https://vaadin.com/forum}. Des weiteren stellen die Vaadin-Entwickler
 ihr Know-How als externe Berater zur Verfügung.\\
@@ -153,9 +150,8 @@ sind\footnote{Bspw. Scala, Ruby, Groovy, Clojure, Python}, erstellt werden.
 Weiterhin kann Vaadin auf allen Servern bereitgestellt werden, die einen 
 Servlet- oder Portlet-Container enthalten. Beispiele dafür sind
 Tomcat, Glasfish oder der in der deg eingesetzte JBoss.\\
-Die Entwicklung findet auf dem Server statt. Die Kommunikation zwischen Server
-und Client wird Mittels AJax abgewickelt.
-%Quelle
+Die Entwicklung findet auf dem Server statt. Für die Kommunikation zwischen
+Server und Client wird AJAX verwendet\cite[S. 23ff.]{Vaadin}.
 Von daher sind zusätzliche Plugins für Java-Anwendungen nicht nötig und somit
 besteht auch das durch Plugins enstehende Sicherheitsrisiko nicht mehr.
 
@@ -188,8 +184,8 @@ Bei der Implementierung der Menüleiste, gab es keine weiteren Problem. Hier
 bietet Vaadin ein entsprechend vorgefertigten \emph{MenueBar}-Typ an. Dieser
 kann mit Elementengefüllt werden, wie es auch schon von JavaFX bekannt ist. Auch
 die Verschachtelung von Untermenüs ist hier möglich.
-%Wirklich?
-%Listener???
+%TODO Wirklich?
+%TODO Listener???
 \begin{lstlisting}
 MenuBar menu = new MenuBar();
 MenuBar.MenuItem bearbeitung = menu.addItem("Bearbeitung", null);
@@ -215,33 +211,44 @@ vertikalerSplit.setFirstComponent(Component);
 vertikalerSplit.setSecondComponent(Component);
 \end{lstlisting}
 
-  Bei den Tabellen sind die Unterschiede etwas größer. Die Klassen für die
-  Strukturierung der Inhalte von Tabellen konnten übernommen werden. Die
-  Implementation für den Aufbau der Tabellen-GUI sind weniger deckungsgleich.
-  Grund dafür ist vor allem, dass Tabellen bei JavaFX generisch implementiert
-  werden und bei Vaadin nicht. Dennoch ist es bei beiden Implementationen
-  möglich den Inhalt der Zellen zu typisieren.\\
-  \emph{Vaadin}
- \begin{lstlisting}
- Table table = new Table();
- table.addContainerProperty("Vorgang", String.class, ""); //(VALUE, TYPE, DEFAULT)
- table.addContainerProperty("Status", String.class, ""); 
- table.addContainerProperty("Zuwendungs-\nsumme [EUR]", String.class, ""); 
- table.addContainerProperty("Zahlungs-\nbetrag [EUR]", String.class, ""); 
- table.addContainerProperty("Zahlungs-\ndatum", String.class, ""); 
- 		
- initLines(table);
+Tabellen sind weitaus komplexer strulturiert. Die Spalter werden bei Vaadin als
+Container betrachtet. Das hat den Vorteil, dass je Spalte auch festgelegt werden
+kann, welcher Datentyp dort angezeigt wird. Das geschieht mit der
+Methode \emph{addContainerProperty(VALUE, TYPE, DEFAULT)}- Allgemein ist
+somit gewährleistet, dass nur Typen angezeigt werde, die auch angezeigt werden sollen. Bezogen auf Objektorientierte Programmierung, ist diese Art der
+Strukurierung vorteilhaft, da mit Objekten und nicht mit nativen Datentypen gearbeitet wird.
+%TODO Quelle?
+Im Prototypen wird dieser Vorteil jedoch nicht genutzt. Der Grund dafür ist,
+dass für Zeichenketten und Zahlen keine spezifischen Typen implementiert wurden.
+Die Klassen für die Strukturierung der Inhalte von Tabellen konnten übernommen
+werden.\\
+Will man Daten in die Tabelle einfügen, so hat man auf objektorientierten Ebene
+viele Freiheiten, da die Methode \emph{addItem(Object[])} Werte vom Typ
+%TODO Prüfen 
+\emph{Object} erwartet. Um die Typisierung an dieser Stellen zu verbessern
+müsste die Vaadin-\emph{Table} erweitert werden.
+%TODO implementieren
+\emph{Vaadin}
+\begin{lstlisting}
+Table table = new Table();
+table.addContainerProperty("Vorgang", String.class, "");
+table.addContainerProperty("Status", String.class, ""); 
+table.addContainerProperty("Zuwendungs-\nsumme [EUR]", String.class, ""); 
+table.addContainerProperty("Zahlungs-\nbetrag [EUR]", String.class, ""); 
+table.addContainerProperty("Zahlungs-\ndatum", String.class, ""); 
+		
+initLines(table);
 ... 		
  		
- private void initLines(Table table) {
- 	int i = 0;
- 	for(Document teilvorgang : teilvorgaenge){
- 		TeilvorgaeneTableData data = new TeilvorgaeneTableData(teilvorgang);
- 		table.addItem(new Object[]{ data.getVorgang(), data.getStatus(), 
- 		data.getZuwendungssumme(), data.getZahlungsbetrag(), data.getZahlungsdatum()}, i++);
- 	}
- }
- \end{lstlisting}
+private void initLines(Table table) {
+	int i = 0;
+	for(Document teilvorgang : teilvorgaenge){
+		TeilvorgaeneTableData data = new TeilvorgaeneTableData(teilvorgang);
+		table.addItem(new Object[]{ data.getVorgang(), data.getStatus(), 
+		data.getZuwendungssumme(), data.getZahlungsbetrag(), data.getZahlungsdatum()}, i++);
+	}
+}
+\end{lstlisting}
  
   Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
   Diese werden durch ein zweidimensionales Array abgebildet. Hinzu kommt noch,
