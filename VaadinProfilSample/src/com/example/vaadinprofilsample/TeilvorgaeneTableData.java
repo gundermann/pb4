@@ -18,7 +18,7 @@ import com.example.mappe.Vertrag;
  * 
  * @author lede92
  */
-class TeilvorgaeneTableData extends TableData {
+class TeilvorgaeneTableData implements TableData {
 
 	private SimpleStringProperty vorgang;
 	private SimpleStringProperty status;

@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author lede92
  */
-public abstract class TableData {
+public interface TableData {
     
-    abstract public List<SimpleStringProperty> getAllValues();
+    List<SimpleStringProperty> getAllValues();
 }

@@ -259,10 +259,20 @@ solcher Fall implementiert\footnote{vgl. Abbildung 3 - TestTable-GUI}.
 Bezüglich der Wartbarkeit und der Objektorientierung sollte bei Angabe eines
 falschen Types nicht einfach der Standardwert zurückgegeben werden. Vielmehr
 sollte hier darauf hingewiesen werden, dass der Falsche Typ verwendet wurde.
-Dies kann zum einen im Code durch eine generische Erweiterun der
+Dies kann zum einen im Code durch eine generische Erweiterung der
 Vaadin-\emph{Table} oder durch entsprechende Fehlermeldungen realisiert
-werden.
-%TODO implementieren
+werden.\\
+Bei Profil C/S werden nicht direkt die Objekte in die Tabellen geladen, sonder
+Tabellen-Daten-Objekte, die ihre Werte wiederrum von den entsprechenden
+Buinessobjekten beziehen. Dadruch wurde zwischen Visualisierung und Daten eine
+weitere Schicht eingezogen, die dem Multichannel zugute kommt. Würde diese
+Schicht nicht vorliegen, müsste die Übernahme der Werte aus den Businessobjekten
+in die Tabellen doppelt implementiert werden.\\
+Im Prototypen kann somit über das Inteface \emph{TableData} direkt auf die
+Werte, der Businessobjekte zugegriffen werden. Egal in welchem Client man sich
+befindet, werden immer \emph{SimpleStringProperties} zurückgegeben, die vom
+Multichannel aus als Strings weitergegeben werden und an der
+entsprechenden Stellen ausgegeben werden können.\\
 
  
   Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
@@ -383,14 +393,14 @@ korrespondierende Framework für den Desktop-Client ist derzeit Swing.
 Das größte Problem das sich bei dem Einsatz von Wings abzeichnet ist der
 rückläufige Support. Die letzten Updates für Wings stammen aus dem Jahr 2008.
 Seit dem wurde das Framework nicht weiterentwickelt. Das lässt ein baldiges
-aussterben des Frameworks vermuten. \\
+aussterben vermuten. \\
 Die größte Gemeinsamkeit von Wings und Vaadin besteht darin, dass beide die
 Kommunikation zwischen Serven und Client über AJAX abwickeln.\\
 Die größten Unterschieden bestehen darin, das Vaadin eine weitaus größere
 Community hat. Das liegt unter anderem auch daran, dass Vaadin auf dem GWT
 aufsetzt. Weiterhin ist die Struktur von Vaadin nicht so stark an Swing
 orientiert.\\
-Weitere Unterschiede sind Abbildung 2 zu entnehmen:
+Weitere Gemeinsamkeiten und Unterschiede sind Abbildung 2 zu entnehmen.
 
 Die Unterschiede zwischen den Frameworks in Bezug auf die obigen Schwerpunkte
 sind nicht sehr groß. Das zeigt, dass Vaadin ebenfalls die nötigen Features mit
