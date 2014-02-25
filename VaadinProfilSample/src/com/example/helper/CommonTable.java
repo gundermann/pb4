@@ -1,34 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.helper;
 
-import com.vaadin.ui.Table;
 import java.util.List;
+
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
+
+import com.vaadin.ui.Table;
 
 /**
  *
  * @author lede92
  */
-public class CommonTable extends Table{
+public class CommonTable<T extends TableData> extends Table{
     
-    public CommonTable(){
-        super();
-    }
     
-    public void setItems(ObservableList<? extends TableData> dataList){
+	private static final long serialVersionUID = 7091630112351519990L;
+
+	
+	public void setListe(List<T> dataList){
         for(TableData data : dataList){
-            Object[] dataObject = new Object[data.getAllValues().size()];
-        
-            int i = 0;
-            for(SimpleStringProperty value : data.getAllValues()){
-                dataObject[i] = value.getValue();
-                i++;
+        	Object[] dataObject = new Object[data.getClass().getDeclaredFields().length];
+            for( Observable dataValue : data.getAllValues()){
+            	dataValue.
             }
-            this.addItem(dataObject);
+        	addItem(data.getAllValues());
         }
+        
     }
 }

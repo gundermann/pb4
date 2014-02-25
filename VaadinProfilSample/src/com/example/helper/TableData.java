@@ -5,7 +5,6 @@
 package com.example.helper;
 
 import java.util.List;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
@@ -13,5 +12,5 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public interface TableData {
     
-    List<SimpleStringProperty> getAllValues();
+    List<Object> getAllValues();
 }
