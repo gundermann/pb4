@@ -1,0 +1,25 @@
+\begin{thebibliography}{{Ora}13b}
+
+\bibitem[{Mar}13]{Vaadin}
+{\sc {Marko Grönroos}}: {\em Book of Vaadin - Vaadin 7 Edition - 1st Revision}.
+\newblock Vaadin Ltd, 2013.
+
+\bibitem[{Ora}13a]{JavaFXDoc:Online}
+{\sc {Oracle}}: {\em JavaFx Documentation Home: Deploying JavaFX Applications}.
+\newblock \url{URL:
+  http://docs.oracle.com/javafx/2/deployment/jfxpub-deployment.htm}, 2013.
+\newblock [Online; eingesehen 30. August 2013].
+
+\bibitem[{Ora}13b]{DeployTutJar}
+{\sc {Oracle}}: {\em Oracle Deployment Tutorial}.
+\newblock \url{URL:
+  http://docs.oracle.com/javase/tutorial/deployment/jar/intro.html}, 2013.
+\newblock [Online; eingesehen 30. August 2013].
+
+\bibitem[{Ora}14]{DeployTutApp}
+{\sc {Oracle}}: {\em Oracle Deployment Tutorial}.
+\newblock \url{URL:
+  http://docs.oracle.com/javase/tutorial/deployment/applet/index.html}, 2014.
+\newblock [Online; eingesehen 28. Januar 2013].
+
+\end{thebibliography}
