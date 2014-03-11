@@ -5,31 +5,17 @@ import java.util.ArrayList;
 
 public class Vertrag extends Document implements Serializable{
 	
+	private static final long serialVersionUID = 7439340379508011150L;
 	public int jahr;
-	public String status;
 	public float zuwendung;
-	private ArrayList<Document> documents = new ArrayList<Document>();
-	
-	
-	public ArrayList<Document> getChildren() {
-		return documents;
-	}
-	
-	public void setDocuments(ArrayList<Document> documents) {
-		this.documents = documents;
-	}
+
 	public int getJahr() {
 		return jahr;
 	}
 	public void setJahr(int jahr) {
 		this.jahr = jahr;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+	
 	public float getZuwendung() {
 		return zuwendung;
 	}

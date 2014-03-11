@@ -4,7 +4,7 @@
  */
 package com.example.helper;
 
-import java.util.List;
+import java.util.HashMap;
 
 /**
  *
@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface TableData {
     
-    List<Object> getAllValues();
+    HashMap<String, Object[]> getAllValues();
 }

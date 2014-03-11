@@ -1,7 +1,6 @@
 package com.example.mappe;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class VertragsMappe extends Document implements Serializable {
 
@@ -14,11 +13,6 @@ public class VertragsMappe extends Document implements Serializable {
 	private String euCode;
 	private String erstzahlungsjahr;
 	private String status;
-	private ArrayList<Document> teilvorgaenge;
-
-	public ArrayList<Document> getChildren() {
-		return teilvorgaenge;
-	}
 
 	public String getBnrzd() {
 		return bnrzd;
@@ -83,13 +77,6 @@ public class VertragsMappe extends Document implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public ArrayList<Document> getTeilvorgaenge() {
-		if (teilvorgaenge == null) {
-			teilvorgaenge = new ArrayList<Document>();
-		}
-		return teilvorgaenge;
 	}
 
 }

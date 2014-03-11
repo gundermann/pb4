@@ -29,8 +29,8 @@ public class MappenLoader extends DefaultHandler {
 	private VertragsMappe mappe;
 	private String eName;
 	private StringBuffer textBuffer = null;
-	private Document vorgang = null;
-	private Document docInVorgang = null;
+	private Document document = null;
+	private Document docInDoc = null;
 
 	public VertragsMappe mappeLaden(VertragsMappe mappe, int number)
 			throws IOException {
@@ -76,7 +76,7 @@ public class MappenLoader extends DefaultHandler {
 		textPuffer();
 		eName = ("".equals(localName)) ? qName : localName;
 		if (eName.equals("Bezeichnung")) {
-			mappe.getTeilvorgaenge().add(vorgang);
+			mappe.getUnterDokumente().add(document);
 		}
 	}
 
@@ -106,18 +106,18 @@ public class MappenLoader extends DefaultHandler {
 
 	private void createVorgang(String value) {
 		if (value.equals("VNS-Vertrag")) {
-			vorgang = new Vertrag();
+			document = new Vertrag();
 		}
 		if (value.equals("Auszahlung"))
-			vorgang = new Auszahlung();
-		vorgang.setTitel(value);
+			document = new Auszahlung();
+		document.setTitel(value);
 	}
 
 	private void createDocInVorgang() {
-		if (vorgang.getTitel().equals("VNS-Vertrag")) {
+		if (document.getTitel().equals("VNS-Vertrag")) {
 
-			docInVorgang = new Vertragsblatt();
-			vorgang.getChildren().add(docInVorgang);
+			docInDoc = new Vertragsblatt();
+			document.getUnterDokumente().add(docInDoc);
 		}
 
 	}
@@ -148,25 +148,25 @@ public class MappenLoader extends DefaultHandler {
 			if (key.equals("Bezeichnung"))
 				createVorgang(value);
 			if (key.equals("VStatus")) {
-				if (vorgang instanceof Vertrag) {
-					((Vertrag) vorgang).setStatus(value);
+				if (document instanceof Vertrag) {
+					((Vertrag) document).setStatus(value);
 				}
-				if (vorgang instanceof Auszahlung) {
-					((Auszahlung) vorgang).setStatus(value);
+				if (document instanceof Auszahlung) {
+					((Auszahlung) document).setStatus(value);
 				}
 			}
 			if (key.equals("Zuwendungssumme")) {
-				if (vorgang instanceof Vertrag) {
-					((Vertrag) vorgang).setZuwendung(Float.parseFloat(value));
+				if (document instanceof Vertrag) {
+					((Vertrag) document).setZuwendung(Float.parseFloat(value));
 				}
-				if (vorgang instanceof Auszahlung) {
-					((Auszahlung) vorgang).setZuwendungssumme(Float
+				if (document instanceof Auszahlung) {
+					((Auszahlung) document).setZuwendungssumme(Float
 							.parseFloat(value));
 				}
 			}
 			if (key.equals("Zahlungsbetrag")) {
-				if (vorgang instanceof Auszahlung) {
-					((Auszahlung) vorgang).setZahlungsbetrag(Float
+				if (document instanceof Auszahlung) {
+					((Auszahlung) document).setZahlungsbetrag(Float
 							.parseFloat(value));
 				}
 			}
@@ -174,52 +174,52 @@ public class MappenLoader extends DefaultHandler {
 			// Vertragsblatt
 			if (key.equals("Vertragsbeginn")) {
 				createDocInVorgang();
-				((Vertragsblatt) docInVorgang).setVertragsbeginn(value);
+				((Vertragsblatt) docInDoc).setVertragsbeginn(value);
 			}
 			if (key.equals("Vertragslaufzeit"))
-				((Vertragsblatt) docInVorgang).setLaufzeit(Integer
+				((Vertragsblatt) docInDoc).setLaufzeit(Integer
 						.parseInt(value));
 			if (key.equals("Vertragsabschluss"))
-				((Vertragsblatt) docInVorgang).setVertragsabschluss(value);
+				((Vertragsblatt) docInDoc).setVertragsabschluss(value);
 
 			if (key.equals("BezugsJahr")) {
-				((Vertragsblatt) docInVorgang).getZuwendungen().add(
+				((Vertragsblatt) docInDoc).getZuwendungen().add(
 						new Zuwendung());
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setBezugsJahr(Integer.parseInt(value));
 			}
 			if (key.equals("PC"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung().setPC(
+				((Vertragsblatt) docInDoc).getLastZuwendung().setPC(
 						Integer.parseInt(value));
 			if (key.equals("Beihilfesatz"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setBeihilfesatz(Float.parseFloat(value));
 			if (key.equals("Vertragsflaeche"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setVertragsflaeche(Float.parseFloat(value));
 			if (key.equals("Zuwendungsbetrag"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setZuwendungsbetrag(Float.parseFloat(value));
 			if (key.equals("EU-ABB"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung().setEUABB(
+				((Vertragsblatt) docInDoc).getLastZuwendung().setEUABB(
 						value);
 			if (key.equals("EU-Titel"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung().setEUTitel(
+				((Vertragsblatt) docInDoc).getLastZuwendung().setEUTitel(
 						value);
 			if (key.equals("Anteil-EU"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung().setAnteilEU(
+				((Vertragsblatt) docInDoc).getLastZuwendung().setAnteilEU(
 						Float.parseFloat(value));
 			if (key.equals("Landestitel"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setLandestitel(value);
 			if (key.equals("Anteil-Land"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setAnteilLand(Float.parseFloat(value));
 			if (key.equals("Titel-Sonst"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setTitelSonst(value);
 			if (key.equals("Anteil-Sonst"))
-				((Vertragsblatt) docInVorgang).getLastZuwendung()
+				((Vertragsblatt) docInDoc).getLastZuwendung()
 						.setAnteilSonst(Float.parseFloat(value));
 
 			eName = "";

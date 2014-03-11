@@ -5,12 +5,9 @@
 package com.example.vaadinprofilsample;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.example.helper.CommonTable;
 import com.example.mappe.Document;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Table;
 
 /**
  * 
@@ -31,7 +28,7 @@ class TeilvorgaengeTableView extends HorizontalLayout {
 	}
 
 	private void initTable() {
-		TeilvorgaeneTableData table = new TeilvorgaeneTableData(teilvorgaenge);
+		TeilvorgaeneTableModel table = new TeilvorgaeneTableModel(teilvorgaenge);
 		super.addComponent(table);
 	}
 

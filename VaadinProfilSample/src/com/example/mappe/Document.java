@@ -2,11 +2,46 @@ package com.example.mappe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Document implements Serializable {
+import com.example.helper.TableData;
+
+public class Document implements Serializable, TableData {
 
 	private static final long serialVersionUID = -4229888959960647294L;
 	private String titel;
+	private ArrayList<Document> unterDokumente;
+
+	@Override
+	public HashMap<String, Object[]> getAllValues() {
+		HashMap<String, Object[]> values = new HashMap<String, Object[]>();
+		Object[] title = {String.valueOf(getTitel()), String.class};
+		Object[] status = {String.valueOf(getStatus()), String.class};
+		values.put("title", title);
+		values.put("status", status);
+		return values;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String status;
+	
+	public ArrayList<Document> getUnterDokumente() {
+		if(unterDokumente == null){
+			unterDokumente = new ArrayList<Document>();
+		}
+		return unterDokumente;
+	}
+
+	public void setUnterDokumente(ArrayList<Document> unterDokumente) {
+		this.unterDokumente = unterDokumente;
+	}
 
 	public String getTitel() {
 		return titel;
@@ -16,8 +51,5 @@ public class Document implements Serializable {
 		this.titel = titel;
 	}
 
-	public ArrayList<Document> getChildren() {
-		return null;
-	}
 
 }

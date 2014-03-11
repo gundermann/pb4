@@ -31,9 +31,9 @@ class AllgDatenView extends HorizontalLayout {
 		CommonGuiProblems.disableFields(innerGridBag);
 
 		GridLayout border = new GridLayout(1, 2);
-		Label teilvorgaengeHeader = new Label("Teilvorg√§nge");
+		Label teilvorgaengeHeader = new Label("Teilvorg‰nge");
 		HorizontalLayout tableTeilvorgaenge = new TeilvorgaengeTableView(
-				currentMappe.getTeilvorgaenge());
+				currentMappe.getUnterDokumente());
 		border.addComponent(teilvorgaengeHeader, 0, 0);
 		border.addComponent(tableTeilvorgaenge, 0, 1);
 

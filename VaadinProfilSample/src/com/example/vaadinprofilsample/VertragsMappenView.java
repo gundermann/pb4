@@ -195,7 +195,7 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 	}
 
 	private void appendDocuments(Document doc, Tree tree) {
-		for (Document children : doc.getChildren()) {
+		for (Document children : doc.getUnterDokumente()) {
 			tree.addItem(children.getTitel());
 			tree.setParent(children.getTitel(), getRootItem(tree));
 			tree.setChildrenAllowed(children.getTitel(), false);
@@ -311,7 +311,7 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 
 	@Override
 	public void changeDocView(String documentTitle) {
-		for (Document doc : currentMappe.getChildren()) {
+		for (Document doc : currentMappe.getUnterDokumente()) {
 			if (documentTitle.contains(doc.getTitel())) {
 				showDocument(doc);
 				break;

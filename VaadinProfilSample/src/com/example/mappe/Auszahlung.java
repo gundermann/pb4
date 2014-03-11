@@ -1,26 +1,12 @@
 package com.example.mappe;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Auszahlung extends Document implements Serializable {
+public class Auszahlung extends Document {
 
 	private static final long serialVersionUID = -585513093921680216L;
-	public String status;
 	public float zuwendungssumme;
 	public float zahlungsbetrag;
-
-	public ArrayList<Document> getChildren() {
-		return new ArrayList<Document>();
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public float getZuwendungssumme() {
 		return zuwendungssumme;
@@ -36,6 +22,16 @@ public class Auszahlung extends Document implements Serializable {
 
 	public void setZahlungsbetrag(float zahlungsbetrag) {
 		this.zahlungsbetrag = zahlungsbetrag;
+	}
+
+	@Override
+	public HashMap<String, Object[]> getAllValues() {
+		HashMap<String, Object[]> values = super.getAllValues();
+		Object[] zahlungsbetrag = {String.valueOf(getZahlungsbetrag()), String.class};
+		Object[] zuwendungssumme = {String.valueOf(getZuwendungssumme()), String.class};
+		values.put("zahlungsbetrag", zahlungsbetrag);
+		values.put("zuwendungssumme", zuwendungssumme);
+		return values;
 	}
 
 }
