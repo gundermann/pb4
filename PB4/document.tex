@@ -262,27 +262,34 @@ zurückgegeben werden. Vielmehr sollte hier darauf hingewiesen werden, dass der F
 Dies könnte durch eine generische Erweiterung der Vaadin-\emph{Table}
 und einem Container, der die zu visualisierenden Daten des
 Businessobjekt enthält, realisiert werden. Durch den Container wird dann
-vom Compiler geprüft, ob die Tabelle inkompatible Typen enthält.\\
-%TODO Beispiel
+abgesichert, dass die Tabelle keine inkompatible Typen enthält.\\
+Im Prototypen wird geschieht dies in der Klasse /emph{CommonTable}. Hier
+fungiert die Methode /emph{getAllValues()} als ein solcher Container, der die
+Werte und die dazugehörigen Typen mitliefert. Da die Klassen, die von
+/emph{CommonTable} erben, generisch auf das entsprechende Datenobjekt abgestimmt
+sind, kann es nicht mehr zu inkompatiblen Typen kommen.\\
+Beim Befüllen des Verweise- und Inhaltsbaum traten keine weiteren Probleme
+auf. Hierbei handelt es sich um eine einfache Eltern-Kind-Beziehung. Jedoch
+muss neben dem hinzufügen zum Baum, auch das Elterelement explizit gesetzt
+werden. Dieses Problem kann allerdings durch Auslagerung in eine
+allgemeine Methode vereinfacht werden
+\begin{lstlisting}
+private void appendDocuments(Document doc, Tree tree) {
+	for (Document children : doc.getUnterDokumente()) {
+		tree.addItem(children.getTitel());
+		tree.setParent(children.getTitel(), getRootItem(tree));
+		tree.setChildrenAllowed(children.getTitel(), false);
+	}
+}
+\end{lstlisting}
+Bei den Klick-Events für die Bäume ist folgende Codezeile besonders wichtig.
+\begin{lstlisting}
+getVerweiseTree().setImmediate(true);
+\end{lstlisting}
+Das hat zur Folge, dass der Listener sofort auf den Klick reagiert. Ansonsten
+wird das entsprechende Event später abgesetzt.
 
- 
-  Beim Befüllen des Verweise- und Inhaltsbaum traten ähnliche Probleme auf.
-  Diese werden durch ein zweidimensionales Array abgebildet. Hinzu kommt noch,
-  dass Elternelemente speziell gesetzt werden müssen. Bei JavaFX unterscheidet
-  sich die Prozedur nicht sonderlich von anderen Codeabschnitten in denen einem
-  Element ein anderes hinzugefügt wird. Das liegt vor allem an der
-  Baumstruktur\footnote{Abbildung 3}, die sich durch JavaFX zieht.\\
- \emph{Vaadin}
- \begin{lstlisting}
- private void appendDocuments(Document doc, Tree tree) {
- 	for (Document children : doc.getChildren()) {
- 		tree.addItem(children.getTitel());
- 		tree.setParent(children.getTitel(), getRootItem(tree));
- 		tree.setChildrenAllowed(children.getTitel(), false);
- 	}
- }
- \end{lstlisting}
- 
+%GOON
 Das größte Problem bei der Umsetzung des Prototypen war die Toolbar. Das
 Problem ist, dass dies keine Standardkomponente von Vaadin ist. Jedoch gibt es
 ein Addon dafür. Die Dokumentation dafür ist allerdings veraltet. Daher war es
@@ -291,7 +298,6 @@ bestehende Komponente zu implementieren. Deshalb ist Implementation an dieser
 Stelle etwas umfangreicher. Letztendlich schafft das die Möglichkeit eine
 Toolbar-Klasse zu implementieren, die eine gleiche Syntax ausweist wie die aus
 JavaFX.\\
-\emph{Vaadin}
 \begin{lstlisting}
 		HorizontalLayout toolBar = new HorizontalLayout();
 
@@ -308,6 +314,7 @@ JavaFX.\\
 	 
 		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
 \end{lstlisting}
+
   Der Web-Client der deg hält die unterschiedlichen Fenster in Tabs. Dadurch
   musste bei diesem Prototyp eine Tab-Ansicht als übergreifendes GUI-Element
   implementiert werden. Dadurch verändern sich auch die Methoden zum öffnen
@@ -323,28 +330,13 @@ VertragsMappenView vertragsMappe = new VertragsMappenView(null);
 tabsheet.addTab(vertragsMappe).setCaption(vertragsMappe.getTitle());
 tabsheet.getTab(vertragsMappe).setClosable(true);
 \end{lstlisting}
-Bei den Klick-Events für die Bäume ist folgende Codezeile besonders wichtig.
-\begin{lstlisting}
-getVerweiseTree().setImmediate(true);
-\end{lstlisting}
-Das hat zur Folge, dass der Listener sofort auf den Klick reagiert. Ansonsten
-wird das entsprechende Event später abgesetzt.
-\begin{lstlisting}
-getVerweiseTree().addValueChangeListener(new Property.ValueChangeListener() {
-	@Override
-	public void valueChange(Property.ValueChangeEvent event) {
-		String selectedDocument =  getVerweiseTree().getValue().toString();
-		ladeUndOeffneEntsprechendeMappe(selectedDocument);
-	}
-});           
-\end{lstlisting}
+
 Das Styling lässt sich bei Vaadin auch mittels Cascading-Style-Sheets umsetzen.
 Somit ist es möglich dieselbe Datei zu verwenden, die auch bei JavaFX zum Einsatz
 kommt. Die Einbindung der CSS-Datein erfolgt bei Vaadin jedoch auf einem
 anderen Weg. Hier wird sie in folgendes Verzeichnis gelegt:
 \emph{WebContent/VAADIN/themes/sampletheme/sample.css}. Im Code erfolgt die
 Einbindung in der Hauptklasse wie folgt.\\
-\emph{Vaadin}
 \begin{lstlisting}
 @Theme("sampletheme")
 public class MyApplication extends UI {
