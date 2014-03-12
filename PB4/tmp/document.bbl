@@ -1,5 +1,15 @@
 \begin{thebibliography}{{Ora}13b}
 
+\bibitem[{Jon}]{AOTool}
+{\sc {Jonathan Nash}}: {\em Toolbar}.
+\newblock \url{URL: https://vaadin.com/directory#addon/toolbar}.
+\newblock [Online; eingesehen 12. März 2014].
+
+\bibitem[{Jou}]{AOToolWin}
+{\sc {Jouni Koivuviita}}: {\em ToolbarWindow}.
+\newblock \url{URL: https://vaadin.com/directory#addon/toolbarwindow}.
+\newblock [Online; eingesehen 12. März 2014].
+
 \bibitem[{Mar}13]{Vaadin}
 {\sc {Marko Grönroos}}: {\em Book of Vaadin - Vaadin 7 Edition - 1st Revision}.
 \newblock Vaadin Ltd, 2013.

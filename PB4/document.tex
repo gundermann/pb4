@@ -54,13 +54,12 @@ bestehenden Wings-Framework.\\
 Zum Ende wird ein Prototyp einer PROFIL-C/S
 GUI für den Einsatz im Web vorgestellt und auf Probleme in Bezug auf das
 Multichannel-Framework der deg eingegangen.
-
-
-\section{JavaFX alleine als Multichannel?}
-Ausgehend davon, dass ein Multichannel die Möglichkeit bieten soll, die UIs nur
-einmal implementieren zu müssen und im Anschluss auf mehreren Oberflächen
-eingesetzt zu werden. Von einer zumindest ähnlichen Darstellung auf den
-unterschiedlichen Oberflächen wird dabei ebenfalls ausgegangen.\\
+\section{JavaFX im Web?}
+Ausgehend davon, dass es Ziel sein soll, einen Web-Channel für die deg zu
+evaluieren und prototypisch zu implementieren, biete es sich an zu prüfen, ob
+der schon bestehende Prototyp mit dem JavaFX-Framework ohne weiteres im Web
+gerendert werden kann. Von einer ähnlichen Darstellung auf den unterschiedlichen
+Oberflächen durch das gleiche Framework wird dabei ebenfalls ausgegangen.\\
 JavaFX bietet die Möglichkeit sowohl auf dem Desktop, als auch in
 einem Browser gerendert zu werden\cite{JavaFXDoc:Online}
 Hierbei handelt es sich um ein Java-Applet. Das Deployment solcher Applets ist
@@ -89,9 +88,6 @@ kann. Zusätzlich ist die Aktivierung von Java-Script und damit das
 Umgehen von Sicherheitsrichtlinien von Nöten.\cite{DeployTutApp}\\
 Abbildung 1 zeigt eine Tabelle in der Vor- und Nachteile dieser Technologie
 aufgelistet sind.\\
-
-
-
 \section{Web-Frameworks}
 Web-Frameworks bieten die Möglichkeit bestimmte Inhalte mit Hilfe von
 Technologien zu visualisieren, die vor allem in Internet-Browsern benutzt
@@ -288,33 +284,30 @@ getVerweiseTree().setImmediate(true);
 \end{lstlisting}
 Das hat zur Folge, dass der Listener sofort auf den Klick reagiert. Ansonsten
 wird das entsprechende Event später abgesetzt.
-
-%GOON
-Das größte Problem bei der Umsetzung des Prototypen war die Toolbar. Das
-Problem ist, dass dies keine Standardkomponente von Vaadin ist. Jedoch gibt es
-ein Addon dafür. Die Dokumentation dafür ist allerdings veraltet. Daher war es
-nicht möglich die Funktionsweise nachzuvollziehen und die Toolbar als
-bestehende Komponente zu implementieren. Deshalb ist Implementation an dieser
-Stelle etwas umfangreicher. Letztendlich schafft das die Möglichkeit eine
-Toolbar-Klasse zu implementieren, die eine gleiche Syntax ausweist wie die aus
-JavaFX.\\
+Das größte Problem bei der Umsetzung des Prototypen war die Toolbar. Hierfür
+gibt es keine Standardkomponente, wie man es von anderen UI-Framework gewohnt
+ist. Es gibt zwar zwei Toolbar-Add-Ons, die in das Projekt eingebunden werden
+können\cite{AOTool,AOToolWin}. Diese werden jedoch ab Vaadin 7 nicht mehr unterstützt.\\
+Aufgrund dessen musste ich für den Prototypen eine eigene Toolbar
+implementieren. Den Aufbau habe ich dabei so einfach wie möglich gehalten. Die
+Toolbar ist ein Layout-Container in den mehrere Buttons eingefügt werden.\\
 \begin{lstlisting}
-		HorizontalLayout toolBar = new HorizontalLayout();
-
-		String basepath = VaadinService.getCurrent().getBaseDirectory().getPath();
-		FileResource imageDrop = new FileResource(new File(basepath+"/img/TbCopy.gif"));
-		FileResource imagePrint = new FileResource(new File(basepath+"/img/TbPrint.gif"));
+HorizontalLayout toolBar = new HorizontalLayout();
+String basepath = VaadinService.getCurrent().getBaseDirectory().getPath();
+FileResource imageDrop = new FileResource(new File(basepath+"/img/TbCopy.gif"));
+FileResource imagePrint = new FileResource(new File(basepath+"/img/TbPrint.gif"));
  		
-		Button btDrop = new Button();
-		btDrop.setIcon(imageDrop);
+Button btDrop = new Button();
+btDrop.setIcon(imageDrop);
 
-		Button btPrint = new Button();
-		btPrint.setIcon(imagePrint);
-		btPrint.setEnabled(false);
+Button btPrint = new Button();
+btPrint.setIcon(imagePrint);
+btPrint.setEnabled(false);
 	 
-		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
+toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
 \end{lstlisting}
 
+%TODO GOON
   Der Web-Client der deg hält die unterschiedlichen Fenster in Tabs. Dadurch
   musste bei diesem Prototyp eine Tab-Ansicht als übergreifendes GUI-Element
   implementiert werden. Dadurch verändern sich auch die Methoden zum öffnen
