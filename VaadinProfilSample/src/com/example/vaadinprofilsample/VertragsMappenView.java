@@ -18,6 +18,7 @@ import com.example.mappe.Vertrag;
 import com.example.mappe.VertragsMappe;
 import com.example.mappe.Vertragsblatt;
 import com.example.vaadinprofilsample.guicomponents.Label;
+import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
@@ -26,11 +27,9 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
-import com.vaadin.ui.MenuBar.MenuItem;
 
 /**
  * 
@@ -226,7 +225,7 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 
 	private void initVerweiseBaumController() {
 		getVerweiseTree().setImmediate(true);
-		getVerweiseTree().addItemClickListener(new VerweiseClickListenernew());
+		getVerweiseTree().addItemClickListener(new VerweiseClickListener());
 	}
 
 	private void initDocumentTreeController() {
