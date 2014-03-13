@@ -201,7 +201,6 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		}
 	}
 
-	// TODO casten
 	private Object getRootItem(Tree tree) {
 		Object rootItem = null;
 		for (Object i : tree.rootItemIds()) {
@@ -219,8 +218,6 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 
 	private void initToolbarController() {
 		// TODO
-		// throw new UnsupportedOperationException("Not supported yet."); //To
-		// change body of generated methods, choose Tools | Templates.
 	}
 
 	private void initVerweiseBaumController() {

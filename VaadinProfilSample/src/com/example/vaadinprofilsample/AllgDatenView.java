@@ -6,11 +6,11 @@ package com.example.vaadinprofilsample;
 
 import com.example.helper.CommonGuiProblems;
 import com.example.mappe.VertragsMappe;
+import com.example.vaadinprofilsample.guicomponents.Label;
 import com.example.vaadinprofilsample.guicomponents.gridbag.Constraint;
 import com.example.vaadinprofilsample.guicomponents.gridbag.GridBagLayout;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 
 /**
  * 
