@@ -1,5 +1,11 @@
 \begin{thebibliography}{{Ora}13b}
 
+\bibitem[{IT }]{CodeGL}
+{\sc {IT Mill Ltd.}}: {\em Code: Vaadin GridLayout}.
+\newblock \url{URL: http://grepcode.com/file/repo1.maven.org/maven2/
+  com.vaadin/vaadin/6.6.0/com/vaadin/ui/GridLayout.java}.
+\newblock [Online; eingesehen 13. März 2014].
+
 \bibitem[{Jon}]{AOTool}
 {\sc {Jonathan Nash}}: {\em Toolbar}.
 \newblock \url{URL: https://vaadin.com/directory#addon/toolbar}.
@@ -31,5 +37,22 @@
 \newblock \url{URL:
   http://docs.oracle.com/javase/tutorial/deployment/applet/index.html}, 2014.
 \newblock [Online; eingesehen 28. Januar 2013].
+
+\bibitem[Wina]{WingsAllg}
+{\em wingS}.
+\newblock \url{URL: http://java-source.net/open-source/web-frameworks/wings}.
+\newblock [Online; eingesehen 13. März 2014].
+
+\bibitem[{win}b]{CodeGBL}
+{\sc {wings development team}}: {\em Code: Wings GridBagLayout}.
+\newblock \url{URL:
+  http://www.java2s.com/Open-Source/Java/Swing-Library/wings3/org/wings/SGridBagLayout.java.htm}.
+\newblock [Online; eingesehen 13. März 2014].
+
+\bibitem[{win}c]{CodeGBLCG}
+{\sc {wings development team}}: {\em Code: Wings GridBagLayoutCG}.
+\newblock \url{URL:
+  http://www.java2s.com/Open-Source/Java/Swing-Library/wings3/org/wings/plaf/css/GridBagLayoutCG.java.htm}.
+\newblock [Online; eingesehen 13. März 2014].
 
 \end{thebibliography}
