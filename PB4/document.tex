@@ -10,7 +10,7 @@
 \lstset{language=java} 
 \lstset{basicstyle=\scriptsize}
 \lstset{numbers=left, numberstyle=\tiny, numbersep=2pt} 
-
+ 
 \graphicspath{{Bilder/}}
 
 \linespread{1.5}
@@ -86,8 +86,8 @@ der eine jnlp-Datei mittels Java-Script eingebunden wird. Weiterhin muss der Anw
 Browser arbeiten, in dem das Java-Plugin integriert oder installiert werden
 kann. Zusätzlich ist die Aktivierung von Java-Script und damit das
 Umgehen von Sicherheitsrichtlinien von Nöten.\cite{DeployTutApp}\\
-Abbildung 1 zeigt eine Tabelle in der Vor- und Nachteile dieser Technologie
-aufgelistet sind.\\
+Abbildung \ref{tab:applets} zeigt eine Tabelle in der Vor- und Nachteile dieser
+Technologie aufgelistet sind.\\
 \section{Web-Frameworks}
 Web-Frameworks bieten die Möglichkeit bestimmte Inhalte mit Hilfe von
 Technologien zu visualisieren, die vor allem in Internet-Browsern benutzt
@@ -175,7 +175,6 @@ GridLayout menuPane = new GridLayout(1,2);
 BorderLayout borderLayout = new BorderLayout();
 Table table = new Table();
 \end{lstlisting}
-
 Bei der Implementierung der Menüleiste, gab es keine weiteren Problem. Hier
 bietet Vaadin ein entsprechend vorgefertigten \emph{MenueBar}-Typ an. Dieser
 kann mit Elementengefüllt werden, wie es auch schon von JavaFX bekannt ist. Auch
@@ -192,11 +191,11 @@ Implementierung her den Action-Listener, aus dem Swing- oder
 JavaFX-Framework.
 \begin{lstlisting}
 schliessen.setCommand(new Command() {
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				close();
-			}
-		});
+	@Override
+	public void menuSelected(MenuItem selectedItem) {
+		close();
+	}
+});
 \end{lstlisting}
 Für die Umsetzung geteilter Layout bietet Vaadin zwei Komponenten an, die je
 nach Orientierung der Teilungsrichtung verwendet werden sollten. Dazugehört zum einen das \emph{VerticalSplitPanel} - für die vertikale Teilung - und das \emph{HorizontalSplitPanel} - für die horizontale Teilung.\\
@@ -251,7 +250,7 @@ vom Typ \emph{Object} erwartet. Ist der Typ jedoch durch
 \emph{addContainerProperty(TEXT, TYPE, DEFAULT)} festgelegt, wird für den
 Fall, dass ein falscher Typ in die Tabelle geschrieben werden soll, der
 Standardwert eingetragen. Die in der Klasse \emph{TableTest} im Anhang ist ein
-solcher Fall implementiert\footnote{vgl. Abbildung 3 - TestTable-GUI}.
+solcher Fall implementiert\ref{pic:testtable}.
 Bezüglich der Typsicherheit müssen hier noch Erweiterungen vorgenommen
 werden. Bei Angabe eines falschen Types sollte nicht einfach der Standardwert
 zurückgegeben werden. Vielmehr sollte hier darauf hingewiesen werden, dass der Falsche Typ verwendet wurde.
@@ -306,7 +305,6 @@ btPrint.setEnabled(false);
 	 
 toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
 \end{lstlisting}
-
 Der Web-Client der deg hält die unterschiedlichen Fenster in Tabs. Dadurch
 musste bei diesem Prototyp eine Tab-Ansicht als übergreifendes GUI-Element
 implementiert werden. Dadurch verändern sich auch die Methoden zum öffnen
@@ -343,7 +341,6 @@ zwei unterschiedliche Layout, die wie folgt importiert werden.
 //oder
 @import url("<../runo/styles.css"<)
 \end{lstlisting}
-
 \subsection{Probleme der deg im Web}
 Große Probleme in der deg bezüglich der GUI des Web-Clients bereitet die
 Strukturierung. Im Desktop-Bereich wird dazu das GridBag-Layout genutzt. Die
@@ -382,15 +379,16 @@ Die größten Unterschieden bestehen darin, das Vaadin eine weitaus größere
 Community hat. Das liegt unter anderem auch daran, dass Vaadin auf dem GWT
 aufsetzt. Weiterhin ist die Struktur von Vaadin nicht so stark an Swing
 orientiert.\\
-Weitere Gemeinsamkeiten und Unterschiede sind Abbildung 2 zu entnehmen.
+Weitere Gemeinsamkeiten und Unterschiede sind Abbildung \ref{tab:wingsvsvaadin}
+zu entnehmen.
 Die Unterschiede zwischen den Frameworks in Bezug auf die Schwerpunkte bezüglich
 Profil C/S-GUIs sind nicht sehr groß. Das zeigt, dass Vaadin ebenfalls die
 nötigen Features mit sich bringt, die zur Implementation eines Web-Channels für Profil C/S notwendig
 sind.\\
 Ein weiterer großer Unterschied ist in der Architektur zu finden. Diese
-unterscheiden sich dahingehend, dass bei WingS\footnote{Abbildung 4} die
+unterscheiden sich dahingehend, dass bei WingS\ref{pic:wingsarch} die
 Kommunikation zwischen Client und Server ausschließlig über eine Java Servlet
-API abgewickelt wird. Vaadin\footnote{Abbildung 5} hingegen kann diese
+API abgewickelt wird. Vaadin\ref{pic:vaadinarch} hingegen kann diese
 Kommunikation auch über einen Portlet-Container abwickeln.
 %TODO GOON
 \section{Fazit - Ausblick auf den Multichannel}
@@ -406,7 +404,8 @@ auf dem Vaadin aufsetzt ist ebenfalls ein Kandidat dafür. \\
 \pagebreak
 \bibliography{mybib}{}
 
-\section*{Abbildungen}
+\appendix
+\section{Anhang}
 \begin{figure}[!htb]
 			\begin{tabular}[c]{|l|}
 			\hline\hline
@@ -443,6 +442,7 @@ auf dem Vaadin aufsetzt ist ebenfalls ein Kandidat dafür. \\
 \hline
 			\end{tabular}
 		\caption{Vor- und Nachteile von Java-Applets}
+		\label{tab:applets}
 	\end{figure}	
 	\begin{figure}[!htb]
 			\begin{tabular}[c]{|l||ll|}
@@ -468,24 +468,24 @@ auf dem Vaadin aufsetzt ist ebenfalls ein Kandidat dafür. \\
 \hline
 			\end{tabular}
 		\caption{Vergleich: WingS - Vaadin}
+		\label{tab:wingsvsvaadin}
 	\end{figure}
-	
+	 
 	%Bilder
 	\begin{figure}[!htb]
 				\includegraphics[width=12cm]{TestTable}
-			\caption{Abbildung 3 - TestTable-GUI}
-		\end{figure}
-	\begin{figure}[!htb]
-				\includegraphics[width=12cm]{JavaFX-Baum}
-			\caption{JavaFX-Struktur}
+			\caption{TestTable-GUI}
+			\label{pic:testtable}
 		\end{figure}
 	\begin{figure}[!htb]
 				\includegraphics[width=12cm]{archwings}
 			\caption{Wings-Architektur}
+			\label{pic:wingsarch}
 		\end{figure}
 	\begin{figure}[!htb]
 				\includegraphics[width=12cm]{architecture}
 			\caption{Vaadin-Architektur}
+			\label{pic:vaadinarch}
 		\end{figure}
 \end{document}
 
