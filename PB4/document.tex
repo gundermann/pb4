@@ -364,7 +364,6 @@ herkömmlichen Layout-Struktur herausfällt, wie es bei Wings der Fall ist.\\
 Probleme bereiten weiter hin die Zwischenabstände der Komponenten (Insets).
 Diese müssten im Web über einen \emph{margin} realisiert werden, der bei Vaadin
 nicht direkt gesetzt werden kann, sondern nur über CSS änderbar ist.
-%TODO Quellen
 \subsection{Vergleich zu Wings}
 Wings ist das Web-Framework welches momentan von der deg eingesetzt wird. Das
 korrespondierende Framework für den Desktop-Client ist derzeit Swing\cite{WingsAllg}.
@@ -374,7 +373,7 @@ Seit dem wurde das Framework nicht weiterentwickelt. Das lässt ein baldiges
 aussterben vermuten.\\
 Die größte Gemeinsamkeit von Wings und Vaadin besteht darin, dass beide die
 Kommunikation zwischen Serven und Client über AJAX
-abwickeln.\cite[S 23.]{Vaadin, WingsAllg}\\
+abwickeln.\cite[S 23.]{Vaadin}\cite{WingsAllg}\\
 Die größten Unterschieden bestehen darin, das Vaadin eine weitaus größere
 Community hat. Das liegt unter anderem auch daran, dass Vaadin auf dem GWT
 aufsetzt. Weiterhin ist die Struktur von Vaadin nicht so stark an Swing
@@ -389,16 +388,26 @@ Ein weiterer großer Unterschied ist in der Architektur zu finden. Diese
 unterscheiden sich dahingehend, dass bei WingS\ref{pic:wingsarch} die
 Kommunikation zwischen Client und Server ausschließlig über eine Java Servlet
 API abgewickelt wird. Vaadin\ref{pic:vaadinarch} hingegen kann diese
-Kommunikation auch über einen Portlet-Container abwickeln.
-%TODO GOON
-\section{Fazit - Ausblick auf den Multichannel}
+Kommunikation auch über einen Portlet-Container
+abwickeln\cite[53-56]{Vaadin }\cite{wingsArt}.
+\section{Fazit}
 Das Wings abgelöst werden muss, steht aufgrund der Stagnation und des mangelnden
 Supports fest. Das Vaadin-Framework eignet sich als Ersatz, aufgrund der
 entsprechenden Standardkomponenten, sowie dem Support der an vielen Stellen in
-Anspruch genommen werden kann. Zur Not kann man dieses auch von den Entwicklern
-von Vaadin in Anspruch nehmen. Auch wenn ich hier das Vaadin-Framework
-vorgestellt wurde, gibt es zahlreiche andere Web-Frameworks, die dafür in Frage kommen. Vor allem das GWT,
-auf dem Vaadin aufsetzt ist ebenfalls ein Kandidat dafür. \\
+Anspruch genommen werden kann. Zur Not kann man auch Unterstützung von den
+Entwicklern von Vaadin in Anspruch nehmen. Auch wenn ich hier das Vaadin-Framework
+vorgestellt wurde, gibt es zahlreiche andere Web-Frameworks, die dafür in Frage kommen. 
+Vor allem das GWT, auf dem Vaadin aufsetzt ist ebenfalls ein Kandidat dafür.\\
+Da mit Abschluss dieses Praxisberichtes jeweils eine neues Framework für den
+Desktop- und den Web-Client für Profil C/S evaluiert wurde, muss festgelegt
+werden welche Frameworks für die neuen Channels eingesetzt werden sollen. Erst
+dann kann eine konkrete Umsetzung dieser erfolgen.\\
+Dabei werden sich die Entwickler an den bestehenden Channels für Swing und wingS
+orientieren müssen. Eine Umstrukturiereung des Multichannels ist meiner Meinung nach 
+keine Option, da die Ressourcen in deg derzeit für solche Umsetzungen zu knapp
+sind.\\
+Jedoch könnte man dabei ein einheitliches \emph{Look and Feel} umsetzen, da mit 
+JavaFX auch der Desktop-Client mittels Css gestaltet werden kann.
 
  
 \pagebreak
