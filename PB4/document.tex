@@ -1,5 +1,6 @@
-\documentclass[bibtotoc]{scrartcl}
+\documentclass[a4paper]{scrartcl}
 \usepackage[ngerman]{babel}
+\addto\captionsngerman{\renewcommand{\refname}{}}
 \usepackage[ansinew]{inputenc}
 \usepackage{lmodern}
 \usepackage[margin=2.5cm]{geometry}
@@ -407,13 +408,12 @@ keine Option, da die Ressourcen in deg derzeit für solche Umsetzungen zu knapp
 sind.\\
 Jedoch könnte man dabei ein einheitliches \emph{Look and Feel} umsetzen, da mit 
 JavaFX auch der Desktop-Client mittels Css gestaltet werden kann.
-
- 
 \pagebreak
-\bibliography{mybib}{}
-
+\section*{Anhänge}
 \appendix
-\section{Anhang}
+\section{Literaturverzeichnis}
+\bibliography{mybib}{}
+\section{Abbildungen}
 \begin{figure}[!htb]
 			\begin{tabular}[c]{|l|}
 			\hline\hline
@@ -444,8 +444,6 @@ JavaFX auch der Desktop-Client mittels Css gestaltet werden kann.
 				lange Initialisierung der JVM\\
 				\hline
 				Applet muss komplett heruntergeladen werden\\
-				
-			
 \hline
 \hline
 			\end{tabular}
