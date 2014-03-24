@@ -17,8 +17,10 @@ import com.example.mappe.Document;
 import com.example.mappe.Vertrag;
 import com.example.mappe.VertragsMappe;
 import com.example.mappe.Vertragsblatt;
+import com.example.vaadinprofilsample.controls.DokumentClickListener;
+import com.example.vaadinprofilsample.controls.SchliessenCommand;
+import com.example.vaadinprofilsample.controls.VerweiseClickListener;
 import com.example.vaadinprofilsample.guicomponents.Label;
-import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
@@ -286,8 +288,6 @@ public class VertragsMappenView extends VerticalLayout implements MappenView {
 		ImageButton btLossOrg = new ImageButton(imageOrg);
 		ImageButton btGetOrg = new ImageButton(imageGetOrg);
 		ImageButton btHelp = new ImageButton(imageHelp);
-		// btPrint.setEnabled(false);
-		// btGetOrg.setEnabled(false);
 
 		toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);
 

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.vaadinprofilsample;
+package com.example.vaadinprofilsample.table;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import com.example.mappe.Document;
  * 
  * @author lede92
  */
-class TeilvorgaeneTableModel extends CommonTable<Document>{
+public class TeilvorgaeneTableModel extends CommonTable<Document>{
 
 	/**
 	 * 

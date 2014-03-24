@@ -1,5 +1,6 @@
-package com.example.vaadinprofilsample;
+package com.example.vaadinprofilsample.controls;
 
+import com.example.vaadinprofilsample.VertragsMappenView;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 

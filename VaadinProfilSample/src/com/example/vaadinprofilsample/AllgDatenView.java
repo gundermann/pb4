@@ -9,6 +9,7 @@ import com.example.mappe.VertragsMappe;
 import com.example.vaadinprofilsample.guicomponents.Label;
 import com.example.vaadinprofilsample.guicomponents.gridbag.Constraint;
 import com.example.vaadinprofilsample.guicomponents.gridbag.GridBagLayout;
+import com.example.vaadinprofilsample.table.*;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 

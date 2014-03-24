@@ -14,7 +14,7 @@ import com.vaadin.ui.UI;
 public class VaadinProfilSampleUI extends UI {
 
 	private static final long serialVersionUID = 6536258243942344949L;
-	static TabSheet tabsheet = new TabSheet();
+	public static TabSheet tabsheet = new TabSheet();
 
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = VaadinProfilSampleUI.class)

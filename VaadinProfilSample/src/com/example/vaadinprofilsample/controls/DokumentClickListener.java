@@ -1,5 +1,6 @@
-package com.example.vaadinprofilsample;
+package com.example.vaadinprofilsample.controls;
 
+import com.example.vaadinprofilsample.MappenView;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 
