@@ -16,7 +16,6 @@ public class DokumentClickListener implements ItemClickListener {
 
 	@Override
 	public void itemClick(ItemClickEvent event) {
-		// TODO changed - important for pb
 		String selectedDocument = event.getItemId().toString();
 		if (selectedDocument.contains(mappenView.getCurrentMappenTitle())) {
 			mappenView.showMappe();

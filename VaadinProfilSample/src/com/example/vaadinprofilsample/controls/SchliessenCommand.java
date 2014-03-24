@@ -1,16 +1,16 @@
 package com.example.vaadinprofilsample.controls;
 
-import com.example.vaadinprofilsample.VertragsMappenView;
+import com.example.vaadinprofilsample.MappenView;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 
 public class SchliessenCommand implements Command {
 
 	private static final long serialVersionUID = 655966665872189783L;
-	private VertragsMappenView vertragsMappenView;
+	private MappenView vertragsMappenView;
 
-	public SchliessenCommand(VertragsMappenView vertragsMappenView) {
-		this.vertragsMappenView = vertragsMappenView;
+	public SchliessenCommand(MappenView mappenView) {
+		this.vertragsMappenView = mappenView;
 	}
 
 	@Override
