@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.mappe.VertragsMappe;
+import com.example.vaadinprofilsample.guicomponents.gridbag.Constraint;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TextField;
 
@@ -50,4 +51,11 @@ public class CommonGuiProblems {
 		return vertragsMappen;
 	}
 
+	
+	public static Constraint getSimpleConstraint(int x, int y) {
+		Constraint c = new Constraint();
+		c.setGridx(x);
+		c.setGridy(y);
+		return c;
+	}
 }
