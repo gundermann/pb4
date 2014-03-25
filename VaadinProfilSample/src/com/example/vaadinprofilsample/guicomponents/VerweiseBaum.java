@@ -16,8 +16,8 @@ public class VerweiseBaum extends Tree {
 			setParent(verweis, verweiseRoot[0][0]);
 			setChildrenAllowed(verweis, false);
 		}
-		
 		setupController();
+		setStyleName("view_default_padding");
 	}
 
 	private void setupController() {

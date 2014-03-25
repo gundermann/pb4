@@ -15,7 +15,6 @@ public class CommonMenuBar extends MenuBar {
 		MenuBar.MenuItem schliessen = bearbeitung.addItem("Schlieﬂen", null);
 		MenuBar.MenuItem hilfe = addItem("Hilfe", null, null);
 		MenuBar.MenuItem sample = hilfe.addItem("JavaFX sample", null);
-		setWidth("100%"); // CSS
 
 		schliessen.setCommand(new SchliessenCommand(mappenView));
 	}

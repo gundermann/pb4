@@ -26,7 +26,7 @@ class AllgDatenView extends HorizontalLayout {
 		CommonGuiProblems.disableFields(innerGridBag);
 
 		GridBagLayout border = new GridBagLayout();
-		Label teilvorgaengeHeader = new Label("Teilvorgänge");
+		Label teilvorgaengeHeader = new Label("tv");
 		HorizontalLayout tableTeilvorgaenge = new TeilvorgaengeTableView(
 				currentMappe.getUnterDokumente());
 		border.setContraints(teilvorgaengeHeader, CommonGuiProblems.getSimpleConstraint(0, 0));

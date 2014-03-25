@@ -39,6 +39,7 @@ public class CommonToolBar extends HorizontalLayout {
 
 		this.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);
 		new OriginalAusleihenButtonCouple(btLossOrg, btGetOrg);
+		this.setStyleName("default_margin");
 	}
 	
 }

@@ -1,24 +1,20 @@
 package com.example.vaadinprofilsample;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 
 import com.example.helper.CommonGuiProblems;
-import com.example.helper.ImageButton;
 import com.example.mappe.Document;
 import com.example.mappe.VertragsMappe;
 import com.example.vaadinprofilsample.guicomponents.CommonMenuBar;
 import com.example.vaadinprofilsample.guicomponents.CommonToolBar;
 import com.example.vaadinprofilsample.guicomponents.InhaltsBaum;
-import com.example.vaadinprofilsample.guicomponents.Label;
 import com.example.vaadinprofilsample.guicomponents.StatusBar;
 import com.example.vaadinprofilsample.guicomponents.VerweiseBaum;
-import com.vaadin.server.FileResource;
+import com.example.vaadinprofilsample.guicomponents.gridbag.GridBagLayout;
 import com.vaadin.server.Sizeable;
-import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -35,6 +31,7 @@ public abstract class MappenView extends VerticalLayout {
 	public MappenView(String parameter) {
 		initMappen(parameter);
 		initGUI();
+		setStyleName("main");
 	}
 
 	protected HorizontalLayout initSplitPane() {
@@ -58,6 +55,7 @@ public abstract class MappenView extends VerticalLayout {
 		horizontalerSplit.setSecondComponent(right);
 
 		splitPaneBereich.addComponent(horizontalerSplit);
+		splitPaneBereich.setStyleName("default_padding");
 		return splitPaneBereich;
 	}
 
@@ -83,14 +81,17 @@ public abstract class MappenView extends VerticalLayout {
 		BorderLayout borderLayout = new BorderLayout();
 		HorizontalLayout splitPane = initSplitPane();
 
-		GridLayout menuPane = new GridLayout(1, 2);
-		menuPane.addComponent(new CommonMenuBar(this), 0, 0);
-		menuPane.addComponent(new CommonToolBar(this), 0, 1);
-		menuPane.setWidth("100%"); // CSS
-
+		GridBagLayout menuPane = new GridBagLayout();
+		menuPane.setContraints(new CommonMenuBar(this),
+				CommonGuiProblems.getSimpleConstraint(0, 0));
+		menuPane.setContraints(new CommonToolBar(this),
+				CommonGuiProblems.getSimpleConstraint(0, 1));
+		menuPane.setStyleName("default_margin");
+		
 		borderLayout.addComponent(menuPane, BorderLayout.Constraint.NORTH);
 		borderLayout.addComponent(splitPane, BorderLayout.Constraint.CENTER);
-		borderLayout.addComponent(new StatusBar(currentMappe), BorderLayout.Constraint.SOUTH);
+		borderLayout.addComponent(new StatusBar(currentMappe),
+				BorderLayout.Constraint.SOUTH);
 		this.addComponent(borderLayout);
 
 		showMappe();
@@ -132,6 +133,7 @@ public abstract class MappenView extends VerticalLayout {
 
 	private VerticalLayout initBearbeitungInhalt() {
 		VerticalLayout inhalt = new VerticalLayout();
+		inhalt.setStyleName("default_padding");
 		guiElemente.put("Bearbeitungsfeld", inhalt);
 		return inhalt;
 	}
