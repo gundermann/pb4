@@ -14,6 +14,7 @@ import com.example.vaadinprofilsample.guicomponents.CommonMenuBar;
 import com.example.vaadinprofilsample.guicomponents.CommonToolBar;
 import com.example.vaadinprofilsample.guicomponents.InhaltsBaum;
 import com.example.vaadinprofilsample.guicomponents.Label;
+import com.example.vaadinprofilsample.guicomponents.StatusBar;
 import com.example.vaadinprofilsample.guicomponents.VerweiseBaum;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Sizeable;
@@ -87,30 +88,12 @@ public abstract class MappenView extends VerticalLayout {
 		menuPane.addComponent(new CommonToolBar(this), 0, 1);
 		menuPane.setWidth("100%"); // CSS
 
-		HorizontalLayout statusbar = initStatusbar();
 		borderLayout.addComponent(menuPane, BorderLayout.Constraint.NORTH);
 		borderLayout.addComponent(splitPane, BorderLayout.Constraint.CENTER);
-		borderLayout.addComponent(statusbar, BorderLayout.Constraint.SOUTH);
+		borderLayout.addComponent(new StatusBar(currentMappe), BorderLayout.Constraint.SOUTH);
 		this.addComponent(borderLayout);
 
 		showMappe();
-	}
-
-	protected HorizontalLayout initStatusbar() {
-		HorizontalLayout statusbar = new HorizontalLayout();
-		Label status = new Label(currentMappe.getStatus());
-		Label mappe = new Label(currentMappe.getFp());
-		Label original = new Label();
-		original.setCaption("Original");
-		FileResource imgAbbrechen = new FileResource(new File(VaadinService
-				.getCurrent().getBaseDirectory().getPath()
-				+ "/WEB-INF/img/TbCopy.gif"));
-		ImageButton btRefresh = new ImageButton(imgAbbrechen);
-		btRefresh.addStyleName("statusButton");
-		guiElemente.put("StatusBarOriginalLabel", original);
-		statusbar.addComponents(btRefresh, mappe, status, original);
-
-		return statusbar;
 	}
 
 	public String getCurrentMappenTitle() {
