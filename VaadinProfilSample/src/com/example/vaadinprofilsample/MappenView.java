@@ -16,7 +16,6 @@ import com.example.vaadinprofilsample.guicomponents.VerweiseBaum;
 import com.example.vaadinprofilsample.guicomponents.gridbag.GridBagLayout;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalLayout;
@@ -29,6 +28,7 @@ public abstract class MappenView extends VerticalLayout {
 	ArrayList<String> verweise = new ArrayList<String>();
 
 	public MappenView(String parameter) {
+		setSizeFull();
 		initMappen(parameter);
 		initGUI();
 		setStyleName("main");
@@ -36,19 +36,23 @@ public abstract class MappenView extends VerticalLayout {
 
 	protected HorizontalLayout initSplitPane() {
 		HorizontalLayout splitPaneBereich = new HorizontalLayout();
+		splitPaneBereich.setSizeFull();
 
 		HorizontalSplitPanel horizontalerSplit = new HorizontalSplitPanel();
+		horizontalerSplit.setSizeFull();
 		horizontalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE);
 
 		VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel();
+		vertikalerSplit.setSizeFull();
 		vertikalerSplit.setFirstComponent(initInhaltsBaum());
 		vertikalerSplit.setSecondComponent(initVerweiseBaum());
 
 		VerticalLayout right = new VerticalLayout();
+		right.setSizeFull();
 		right.addComponent(getBearbeitungsFeld());
 
 		VerticalLayout leftArea = new VerticalLayout();
-		leftArea.setHeight("500px");
+		leftArea.setSizeFull();
 		leftArea.addComponent(vertikalerSplit);
 
 		horizontalerSplit.setFirstComponent(leftArea);
@@ -60,10 +64,11 @@ public abstract class MappenView extends VerticalLayout {
 	}
 
 	private VerticalLayout initInhaltsBaum() {
-		VerticalLayout verweiseBox = new VerticalLayout();
-		verweiseBox.addComponent(new InhaltsBaum(this));
-		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
-		return verweiseBox;
+		VerticalLayout inhaltsBox = new VerticalLayout();
+		inhaltsBox.addComponent(new InhaltsBaum(this));
+		inhaltsBox.setSizeFull();
+//		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
+		return inhaltsBox;
 	}
 
 	public String getTitle() {
@@ -73,7 +78,8 @@ public abstract class MappenView extends VerticalLayout {
 	private VerticalLayout initVerweiseBaum() {
 		VerticalLayout verweiseBox = new VerticalLayout();
 		verweiseBox.addComponent(new VerweiseBaum(verweise));
-		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
+		verweiseBox.setSizeFull();
+//		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
 		return verweiseBox;
 	}
 
@@ -92,6 +98,7 @@ public abstract class MappenView extends VerticalLayout {
 		borderLayout.addComponent(splitPane, BorderLayout.Constraint.CENTER);
 		borderLayout.addComponent(new StatusBar(currentMappe),
 				BorderLayout.Constraint.SOUTH);
+		borderLayout.setSizeFull();
 		this.addComponent(borderLayout);
 
 		showMappe();
@@ -133,6 +140,7 @@ public abstract class MappenView extends VerticalLayout {
 
 	private VerticalLayout initBearbeitungInhalt() {
 		VerticalLayout inhalt = new VerticalLayout();
+		inhalt.setSizeFull();
 		inhalt.setStyleName("default_padding");
 		guiElemente.put("Bearbeitungsfeld", inhalt);
 		return inhalt;

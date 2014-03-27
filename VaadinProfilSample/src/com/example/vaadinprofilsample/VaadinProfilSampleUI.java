@@ -25,8 +25,9 @@ public class VaadinProfilSampleUI extends UI {
 	
 	@Override
 	protected void init(VaadinRequest request) {
+		setSizeFull();
+		tabsheet.setSizeFull();
 		setContent(tabsheet);
-		
 		VertragsMappenView vertragsMappe = new VertragsMappenView(null);
 		tabsheet.addTab(vertragsMappe).setCaption(vertragsMappe.getTitle());
 		tabsheet.getTab(vertragsMappe).setClosable(true);
