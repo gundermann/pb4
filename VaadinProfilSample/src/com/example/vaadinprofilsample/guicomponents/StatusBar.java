@@ -21,6 +21,8 @@ public class StatusBar extends HorizontalLayout {
 		ImageButton btRefresh = new ImageButton(imgAbbrechen);
 		btRefresh.addStyleName("statusButton");
 		addComponents(btRefresh, mappe, status, original);
+		addStyleName("statusBar");
+		setSizeFull();
 	}
 
 }
