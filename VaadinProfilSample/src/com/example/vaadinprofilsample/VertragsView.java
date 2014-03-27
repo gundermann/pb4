@@ -4,6 +4,7 @@
  */
 package com.example.vaadinprofilsample;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +12,12 @@ import org.vaadin.addon.borderlayout.BorderLayout;
 
 import com.example.mappe.Document;
 import com.example.mappe.Vertrag;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -23,17 +26,16 @@ import com.vaadin.ui.Label;
 class VertragsView extends BorderLayout {
 
 	private static final long serialVersionUID = 7176485993775411853L;
-	private String status;
 	private Map<String, Button> controlbuttons = new HashMap<String, Button>();
 	private Vertrag currentTV;
-	private GridLayout grid;
+	private String[] stategraphsImagesPaths;
+	private VerticalLayout stateArea;
 
 	public VertragsView(Document tv) {
 		currentTV = (Vertrag) tv;
-
-		grid = initStates();
-		this.addComponent(grid, BorderLayout.Constraint.CENTER);
-
+		stateArea = new VerticalLayout();
+		initStates();
+		this.addComponent(stateArea, BorderLayout.Constraint.CENTER);
 		HorizontalLayout controlPane = initButtons();
 		initController();
 
@@ -65,7 +67,7 @@ class VertragsView extends BorderLayout {
 	}
 
 	protected int state() {
-		this.status = currentTV.getStatus();
+		String status = currentTV.getStatus();
 		if (status.equals("Initialisiert")) {
 			return 0;
 		} else if (status.equals("Bearbeitung beendet")) {
@@ -91,33 +93,20 @@ class VertragsView extends BorderLayout {
 		return control;
 	}
 
-	private GridLayout initStates() {
-		GridLayout states = new GridLayout(1, 7);
+	private void initStates() {
+		stategraphsImagesPaths = new String[4];
+		String imageBasepath = VaadinService.getCurrent().getBaseDirectory()
+				.getPath()
+				+ "/WEB-INF/graph/";
 
-		Label initialisiert = new Label("Initialisiert");
-		initialisiert.setId("state");
-		initialisiert.setWidth(350, Unit.PIXELS);
-		Label begonnen = new Label("Bearbeitung begonnen");
-		begonnen.setId("state");
-		begonnen.setWidth(350, Unit.PIXELS);
-		Label festgelegt = new Label("Mittel festgelegt");
-		festgelegt.setId("settedState");
-		festgelegt.setWidth(350, Unit.PIXELS);
-		Label beendet = new Label("Bearbeitung beendet");
-		beendet.setId("state");
-		beendet.setWidth(350, Unit.PIXELS);
-
-		states.addComponent(initialisiert, 0, 0);
-		// states.add(CommonGuiProblems.ArrowDown(50, 350), 0, 1, 1, 1);
-		states.addComponent(begonnen, 0, 2);
-		// states.add(CommonGuiProblems.ArrowJumpUp(50, 1), 3, 2, 1, 5);
-		// states.add(CommonGuiProblems.ArrowDown(50, 350), 0, 3, 1, 1);
-		// states.add(CommonGuiProblems.ArrowUp(50, 350), 1, 3, 1, 1);
-		states.addComponent(festgelegt, 0, 4);
-		// states.add(CommonGuiProblems.ArrowDown(50, 350), 0, 5, 1, 1);
-		states.addComponent(beendet, 0, 6);
-
-		return states;
+		stategraphsImagesPaths[0] = imageBasepath
+				+ "initialisiert.png";
+		stategraphsImagesPaths[1] = imageBasepath
+				+ "bearbeitung begonnen.png";
+		stategraphsImagesPaths[2] = imageBasepath
+				+ "mittelfestgelegt.png";
+		stategraphsImagesPaths[3] = imageBasepath
+				+ "bearbeitungbeendet.png";
 	}
 
 	private void setupOrUpdateStateGraph() {
@@ -140,49 +129,42 @@ class VertragsView extends BorderLayout {
 
 	}
 
-	private void changeStateID(String state) {
-		for (int i = 0; i < grid.getColumns(); i++) {
-			for (int j = 0; j < grid.getRows(); j++) {
-				Label label = (Label) grid.getComponent(i, j);
-				if (label instanceof Label) {
-					if (label.getCaption() == null
-							|| label.getCaption().equals(state)) { // getText()
-																	// auf NULL
-																	// prüfen
-						label.setId("settedState");
-					} else {
-						label.setId("state");
-					}
-				}
-			}
-		}
+	private void changeStateID(int state) {
+		FileResource graphImage = new FileResource(new File(stategraphsImagesPaths[state]));
+		stateArea.removeAllComponents();
+		stateArea.addComponent(new Image("", graphImage));
 	}
 
 	private void setInitialisiert() {
-		changeStateID("Initialisiert");
+		changeStateID(INITIALISIERT);
 
 		controlbuttons.get("first").setCaption("Bearbeitung beginnen");
 		controlbuttons.get("sec").setVisible(false);
 	}
 
 	private void setBegonnen() {
-		changeStateID("Bearbeitung begonnen");
+		changeStateID(BEARBEITUNG_BEGONNEN);
 
 		controlbuttons.get("first").setCaption("Mittel festlegen");
 		controlbuttons.get("sec").setVisible(false);
 	}
 
 	private void setFestgelegt() {
-		changeStateID("Mittel festgelegt");
+		changeStateID(MITTEL_FESTGELEGT);
 		controlbuttons.get("first").setCaption("Bearbeitung beginnen");
 		controlbuttons.get("sec").setVisible(true);
 		controlbuttons.get("sec").setCaption("Bearbeitung beenden");
 	}
 
 	private void setBeendet() {
-		changeStateID("Bearbeitung beendet");
+		changeStateID(BEARBEITUNG_BEENDET);
 		controlbuttons.get("first").setCaption("Bearbeitung beginnen");
 		controlbuttons.get("sec").setVisible(false);
 	}
+
+	private static final int INITIALISIERT = 0;
+	private static final int BEARBEITUNG_BEGONNEN = 1;
+	private static final int MITTEL_FESTGELEGT = 2;
+	private static final int BEARBEITUNG_BEENDET = 3;
 
 }
