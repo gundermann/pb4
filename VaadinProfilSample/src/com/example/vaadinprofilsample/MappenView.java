@@ -59,7 +59,7 @@ public abstract class MappenView extends VerticalLayout {
 		horizontalerSplit.setSecondComponent(right);
 
 		splitPaneBereich.addComponent(horizontalerSplit);
-		splitPaneBereich.setStyleName("default_padding");
+		splitPaneBereich.setStyleName("default_padding_border");
 		return splitPaneBereich;
 	}
 
@@ -67,7 +67,6 @@ public abstract class MappenView extends VerticalLayout {
 		VerticalLayout inhaltsBox = new VerticalLayout();
 		inhaltsBox.addComponent(new InhaltsBaum(this));
 		inhaltsBox.setSizeFull();
-//		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
 		return inhaltsBox;
 	}
 
@@ -79,7 +78,6 @@ public abstract class MappenView extends VerticalLayout {
 		VerticalLayout verweiseBox = new VerticalLayout();
 		verweiseBox.addComponent(new VerweiseBaum(verweise));
 		verweiseBox.setSizeFull();
-//		verweiseBox.setHeight(250, Sizeable.Unit.PIXELS);
 		return verweiseBox;
 	}
 
