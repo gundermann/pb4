@@ -2,25 +2,32 @@ package com.example.vaadinprofilsample.guicomponents;
 
 import java.io.File;
 
+import com.example.helper.CommonGuiProblems;
 import com.example.helper.ImageButton;
 import com.example.mappe.VertragsMappe;
+import com.example.vaadinprofilsample.guicomponents.gridbag.GridBagLayout;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 
 public class StatusBar extends HorizontalLayout {
 
 	public StatusBar(VertragsMappe currentMappe) {
+		GridBagLayout grid = new GridBagLayout();
 		Label status = new Label(currentMappe.getStatus());
-		Label mappe = new Label(currentMappe.getFp());
+		Label mappe = new Label(currentMappe.getTitel());
 		Label original = new Label();
 		original.setCaption("Original");
-		FileResource imgAbbrechen = new FileResource(new File(VaadinService
+		FileResource imgRefresh = new FileResource(new File(VaadinService
 				.getCurrent().getBaseDirectory().getPath()
-				+ "/WEB-INF/img/TbCopy.gif"));
-		ImageButton btRefresh = new ImageButton(imgAbbrechen);
-		btRefresh.addStyleName("statusButton");
-		addComponents(btRefresh, mappe, status, original);
+				+ "/WEB-INF/img/SbRefresh.gif"));
+		Image refresh = new Image("", imgRefresh);
+		grid.setContraints(refresh, CommonGuiProblems.getSimpleConstraint(0, 0));
+		grid.setContraints(status, CommonGuiProblems.getSimpleConstraint(1, 0));
+		grid.setContraints(mappe, CommonGuiProblems.getSimpleConstraint(2, 0));
+		grid.setContraints(original, CommonGuiProblems.getSimpleConstraint(3, 0));
+		addComponents(grid);
 		addStyleName("statusBar");
 		setSizeFull();
 	}

@@ -9,7 +9,7 @@ public class Label extends com.vaadin.ui.Label {
 
 	public Label() {
 		super();
-		setStyleName("label");
+		addStyleName("label");
 	}
 
 	public Label(String stringKey) {
@@ -17,10 +17,12 @@ public class Label extends com.vaadin.ui.Label {
 			String string = Strings.getString(stringKey);
 			if (string != null) {
 				setValue(string);
-				setStyleName("label");
 			}
 		} catch (StringNotFoundException e) {
 			System.out.println(e.getMessage());
+			this.setCaption(stringKey);
+		} finally {
+			addStyleName("label");
 		}
 	}
 

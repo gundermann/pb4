@@ -10,7 +10,10 @@ public class Strings {
 	public static String getString(String key) throws StringNotFoundException {
 		if (stringMap.isEmpty())
 			initStringMap();
-		return stringMap.get(key);
+		if(stringMap.keySet().contains(key))
+			return stringMap.get(key);
+		else
+			throw new StringNotFoundException();
 	}
 
 	private static void initStringMap() {
