@@ -1,4 +1,4 @@
-package com.example.helper;
+package com.example.vaadinprofilsample.table;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,10 +46,10 @@ public abstract class CommonTable<T extends TableData> extends Table {
 		HashMap<Integer, Object[]> values = new HashMap<Integer, Object[]>();
 		for (T data : dataList) {
 			Object[] dataObject = new Object[COLUMN_COUNT];
-			for (String referenceKey : data.getAllValues().keySet()) {
+			for (String referenceKey : data.getTableValues().keySet()) {
 				for(int counter = 0; counter < COLUMN_COUNT; counter++)
 				if (referenceKey.equals(columnReference[counter])) {
-					Object[] valueAndType = data.getAllValues().get(referenceKey);
+					Object[] valueAndType = data.getTableValues().get(referenceKey);
 					dataObject[counter] = valueAndType[VALUE];
 					columnType[counter] = (Class<?>) valueAndType[TYPE];
 					break;

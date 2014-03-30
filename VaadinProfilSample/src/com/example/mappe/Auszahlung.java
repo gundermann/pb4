@@ -25,8 +25,8 @@ public class Auszahlung extends Document {
 	}
 
 	@Override
-	public HashMap<String, Object[]> getAllValues() {
-		HashMap<String, Object[]> values = super.getAllValues();
+	public HashMap<String, Object[]> getTableValues() {
+		HashMap<String, Object[]> values = super.getTableValues();
 		Object[] zahlungsbetrag = {String.valueOf(getZahlungsbetrag()), String.class};
 		Object[] zuwendungssumme = {String.valueOf(getZuwendungssumme()), String.class};
 		values.put("zahlungsbetrag", zahlungsbetrag);

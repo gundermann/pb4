@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.helper.TableData;
+import com.example.vaadinprofilsample.table.TableData;
 
 public class Document implements Serializable, TableData {
 
@@ -13,7 +13,7 @@ public class Document implements Serializable, TableData {
 	private ArrayList<Document> unterDokumente;
 
 	@Override
-	public HashMap<String, Object[]> getAllValues() {
+	public HashMap<String, Object[]> getTableValues() {
 		HashMap<String, Object[]> values = new HashMap<String, Object[]>();
 		Object[] title = {String.valueOf(getTitel()), String.class};
 		Object[] status = {String.valueOf(getStatus()), String.class};
