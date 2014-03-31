@@ -25,5 +25,4 @@ public class Label extends com.vaadin.ui.Label {
 			addStyleName("label");
 		}
 	}
-
 }

@@ -91,7 +91,7 @@ Browser arbeiten, in dem das Java-Plugin integriert oder installiert werden
 kann. Zusätzlich ist die Aktivierung von Java-Script und damit das
 Umgehen von Sicherheitsrichtlinien von Nöten.\cite{DeployTutApp}\\
 Abbildung \ref{tab:applets} zeigt eine Tabelle in der Vor- und Nachteile dieser
-Technologie aufgelistet sind.\\
+Technologie aufgelistet sind.
 \section{Web-Frameworks}
 Web-Frameworks bieten die Möglichkeit bestimmte Inhalte mit Hilfe von
 Technologien zu visualisieren, die vor allem in Internet-Browsern benutzt
@@ -124,7 +124,7 @@ können. Aus diesem Grund wird im Folgenden das Vaadin-Framework vorgestellt.
 Das Vaadin-Framework ist ein Open-Source Framework, das es erlaubt
 Userinterfaces für Weboberflächen zu implementieren. Dies kann wie bei JavaFX
 auf zwei Wegen geschehen. Zum einen durch Java-Code und zum Anderen durch einen
-Editor\cite[S. 237ff.]{Vaadin}.
+Editor\cite{Vaadin}[S. 237ff.].
 Im weiteren Verlauf wird auf die erste Möglichkeit Bezug genommen.\\
 Entwickelt wurde Vaadin vorerst als Ajax-Framework. Damals trug es noch
 den Namen \emph{IT Mill Toolkit}. Mit dem Einsatz des GWT für das clientseitige
@@ -153,7 +153,7 @@ Weiterhin kann Vaadin auf allen Servern bereitgestellt werden, die einen
 Servlet- oder Portlet-Container enthalten. Beispiele dafür sind
 Tomcat, Glasfish oder der in der deg eingesetzte JBoss.\\
 Die Entwicklung findet auf dem Server statt. Für die Kommunikation zwischen
-Server und Client wird AJAX verwendet\cite[S. 23ff.]{Vaadin}.
+Server und Client wird AJAX verwendet\cite{Vaadin}[S. 23ff.].
 Von daher sind zusätzliche Plugins für Java-Anwendungen nicht nötig und somit
 besteht auch das durch Plugins enstehende Sicherheitsrisiko nicht mehr.
 
@@ -394,7 +394,7 @@ Seit dem wurde das Framework nicht weiterentwickelt. Das lässt ein baldiges
 aussterben vermuten.\\
 Die größte Gemeinsamkeit von wingS und Vaadin besteht darin, dass beide die
 Kommunikation zwischen Serven und Client über AJAX
-abwickeln.\cite[S 23.]{Vaadin}\cite{wingSAllg}\\
+abwickeln.\cite{Vaadin}[S 23.]\cite{wingSAllg}\\
 Die größten Unterschieden bestehen darin, das Vaadin eine weitaus größere
 Community hat. Das liegt unter anderem auch daran, dass Vaadin auf dem GWT
 aufsetzt. Weiterhin ist die Struktur von Vaadin nicht so stark an Swing
@@ -411,7 +411,8 @@ Diese unterscheiden sich dahingehend, dass bei
 wingS\footnote{siehe Abbildung \ref{pic:wingSarch}} die Kommunikation zwischen
 Client und Server ausschließlich über eine Java Servlet API abgewickelt wird.
 Vaadin\footnote{siehe Abbildung \ref{pic:vaadinarch}} hingegen kann diese
-Kommunikation auch über einen Portlet-Container abwickeln\cite[53-56]{Vaadin }\cite{wingSArt}.
+Kommunikation auch über einen Portlet-Container
+abwickeln\cite{Vaadin}[53-56]\cite{wingSArt}.
 \section{Fazit}
 Dass wingS abgelöst werden muss, steht aufgrund der Stagnation und des
 mangelnden Supports fest. Das Vaadin-Framework eignet sich als Ersatz, aufgrund der
@@ -435,6 +436,11 @@ JavaFX auch der Desktop-Client mittels Css gestaltet werden kann.
 \appendix
 \section{Literaturverzeichnis}
 \bibliography{mybib}{}
+\pagebreak
+\section{Implementierung}
+\begin{itemize}		
+\item{Java-Projekt: VaadinProfilSample (vaadinprofilsample.rar)}
+\end{itemize}
 \pagebreak
 \section{Abbildungen}
 \begin{figure}[!htb]
@@ -516,6 +522,8 @@ JavaFX auch der Desktop-Client mittels Css gestaltet werden kann.
 			\caption{Vaadin-Architektur}
 			\label{pic:vaadinarch}
 		\end{figure}
+		
+		
 \end{document}
 
 

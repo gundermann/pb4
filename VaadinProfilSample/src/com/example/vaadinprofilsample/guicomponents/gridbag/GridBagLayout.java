@@ -34,7 +34,7 @@ public class GridBagLayout extends GridLayout {
 			y2 = rows;
 		}
 
-		component.setSizeFull();
+		// component.setSizeFull();
 		super.addComponent(component, x1, y1, x2, y2);
 
 		// TODO Insets erst möglich, wenn margin an den Componenten gesetzt

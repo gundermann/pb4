@@ -23,8 +23,8 @@ public class TeilvorgaeneTableModel extends CommonTable<Document> {
 		super();
 		addColumn("Vorgang", "title");
 		addColumn("Status", "status");
-		addColumn("Zuwendungs-\nsumme [EUR]", "zuwendungssumme");
-		addColumn("Zahlungs-\nbetrag [EUR]", "zahlungsbetrag");
+		addColumn("Zuwendungssumme [EUR]", "zuwendungssumme");
+		addColumn("Zahlungsbetrag [EUR]", "zahlungsbetrag");
 
 		setSelectable(true);
 		this.setListe(teilvorgaenge);
