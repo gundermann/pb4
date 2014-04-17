@@ -5,15 +5,8 @@ import java.util.ArrayList;
 import com.example.mappe.Document;
 import com.vaadin.ui.HorizontalLayout;
 
-/**
- * 
- * @author lede92
- */
 public class TeilvorgaengeTableView extends HorizontalLayout {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6308502518305308264L;
 	private ArrayList<Document> teilvorgaenge;
 

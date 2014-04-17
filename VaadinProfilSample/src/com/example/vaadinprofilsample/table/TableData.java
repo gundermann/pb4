@@ -6,10 +6,6 @@ package com.example.vaadinprofilsample.table;
 
 import java.util.HashMap;
 
-/**
- *
- * @author lede92
- */
 public interface TableData {
     
     HashMap<String, Object[]> getTableValues();

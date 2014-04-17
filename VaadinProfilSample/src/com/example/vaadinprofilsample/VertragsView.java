@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.vaadinprofilsample;
 
 import java.io.File;
@@ -19,10 +15,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.VerticalLayout;
 
-/**
- * 
- * @author lede92
- */
 class VertragsView extends BorderLayout {
 
 	private static final long serialVersionUID = 7176485993775411853L;
@@ -82,9 +74,7 @@ class VertragsView extends BorderLayout {
 	private HorizontalLayout initButtons() {
 		HorizontalLayout control = new HorizontalLayout();
 		Button btFirst = new Button();
-		// btFirst.getStyleClass().add("controlpanelbutton");
 		Button btSecond = new Button();
-		// btSecond.getStyleClass().add("controlpanelbutton");
 
 		controlbuttons.put("first", btFirst);
 		controlbuttons.put("sec", btSecond);

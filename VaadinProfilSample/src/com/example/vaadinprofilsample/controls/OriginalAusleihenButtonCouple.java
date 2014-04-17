@@ -13,7 +13,6 @@ public class OriginalAusleihenButtonCouple implements ClickListener {
 			ImageButton btGet) {
 				this.btLoss = btLoss;
 				this.btGet = btGet;
-				
 				btLoss.addClickListener(this);
 				btGet.addClickListener(this);
 	}
@@ -22,7 +21,5 @@ public class OriginalAusleihenButtonCouple implements ClickListener {
 	public void buttonClick(ClickEvent event) {
 		btLoss.setEnabled(!btLoss.isEnabled());
 		btGet.setEnabled(!btGet.isEnabled());
-		
 	}
-
 }

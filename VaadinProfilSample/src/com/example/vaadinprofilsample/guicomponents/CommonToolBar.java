@@ -11,8 +11,6 @@ import com.vaadin.ui.HorizontalLayout;
 
 public class CommonToolBar extends HorizontalLayout {
 
-	
-	//TODO margin
 	public CommonToolBar(MappenView mappenView) {
 		String imageBasepath = VaadinService.getCurrent().getBaseDirectory()
 				.getPath()

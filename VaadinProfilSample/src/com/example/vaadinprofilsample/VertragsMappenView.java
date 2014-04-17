@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.vaadinprofilsample;
 
-import com.example.mappe.Auszahlung;
 import com.example.mappe.Document;
 import com.example.mappe.Vertrag;
 import com.example.mappe.Vertragsblatt;
@@ -20,8 +15,6 @@ public class VertragsMappenView extends MappenView {
 			showVertragsblatt(doc);
 		} else if (doc instanceof Vertrag) {
 			showVertrag(doc);
-		} else if (doc instanceof Auszahlung) {
-			showAuszahlung(doc);
 		}
 	}
 
@@ -29,11 +22,6 @@ public class VertragsMappenView extends MappenView {
 		getBearbeitungsFeld().removeAllComponents();
 		VertragsblattView view = new VertragsblattView(doc, currentMappe);
 		getBearbeitungsFeld().addComponent(view);
-	}
-
-	private void showAuszahlung(Document doc) {
-		getBearbeitungsFeld().removeAllComponents();
-		getBearbeitungsFeld().addComponent(new AuszahlungsView(doc));
 	}
 
 	private void showVertrag(Document doc) {

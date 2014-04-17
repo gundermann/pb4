@@ -1,7 +1,6 @@
 package com.example.mappe;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Vertrag extends Document implements Serializable{
 	

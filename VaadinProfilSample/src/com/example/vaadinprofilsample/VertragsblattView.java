@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.vaadinprofilsample;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
@@ -19,10 +15,6 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalSplitPanel;
 
-/**
- * 
- * @author lede92
- */
 class VertragsblattView extends HorizontalLayout {
 
 	private static final long serialVersionUID = 1014813638405269942L;

@@ -29,8 +29,6 @@ public class StatusBar extends HorizontalLayout {
 		grid.setContraints(status, CommonGuiProblems.getSimpleConstraint(1, 0));
 		grid.setContraints(mappe, CommonGuiProblems.getSimpleConstraint(2, 0));
 		grid.setContraints(original, CommonGuiProblems.getSimpleConstraint(3, 0));
-//		grid.setSpacing(false);
-//		grid.setMargin(false);
 		addComponents(grid);
 		addStyleName("statusBar");
 		setSpacing(false);

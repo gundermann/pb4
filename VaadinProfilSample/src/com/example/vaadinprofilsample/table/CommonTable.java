@@ -5,10 +5,6 @@ import java.util.List;
 
 import com.vaadin.ui.Table;
 
-/**
- * 
- * @author lede92
- */
 public abstract class CommonTable<T extends TableData> extends Table {
 
 	private static final long serialVersionUID = 7091630112351519990L;
@@ -38,7 +34,7 @@ public abstract class CommonTable<T extends TableData> extends Table {
 			columnReference[counter] = reference;
 			counter++;
 		} else {
-			// Fehlermeldung
+			// TODO Fehlermeldung
 		}
 	}
 

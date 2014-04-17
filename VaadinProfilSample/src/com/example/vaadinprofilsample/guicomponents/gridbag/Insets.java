@@ -7,7 +7,7 @@ public class Insets {
 	private int right;
 	private int bottom;
 
-	// Kann man auch gut über Css regeln
+	// Kann nur über Css geregelt werden
 	@SuppressWarnings(value = { "Muss bei Vaadin über Css geregelt werden. Wenn der Margin bei Componenten gesetzt werden kann, ist diese Funktionalität verfügbar." })
 	public Insets(int left, int top, int right, int bottom) {
 		this.left = left;

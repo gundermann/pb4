@@ -5,7 +5,7 @@ import com.vaadin.ui.Button;
 
 /*
  * Funktioniert aufgrund der Buttongröße nur mit dem runo-Theme.
- * Ein Ticket für die Größeneinstellung der Button mittels CSS besteht bereits
+ * Eine Anfrage für die Größeneinstellung der Button mittels CSS besteht bereits
  */
 public class ImageButton extends Button {
 

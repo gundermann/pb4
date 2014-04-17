@@ -7,10 +7,6 @@ import com.example.vaadinprofilsample.guicomponents.gridbag.GridBagLayout;
 import com.example.vaadinprofilsample.table.TeilvorgaengeTableView;
 import com.vaadin.ui.HorizontalLayout;
 
-/**
- * 
- * @author lede92
- */
 class AllgDatenView extends HorizontalLayout {
 
 	private static final long serialVersionUID = 6550453322676475529L;
