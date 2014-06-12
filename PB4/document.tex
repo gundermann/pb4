@@ -76,8 +76,9 @@ Integration der einzelnen Kanäle (hier der Swing- und der wingS-Kanal)\footnote{
 		mehr im Einsatz)} zu entnehmen.
 Einfach erklärt arbeitet der Entwickler bei der Umsetzung einer UI mit
 Präsentationsformen. Durch Umgebungseinstellungen wird zur Laufzeit
-entschieden, über welchen Kanal die Ausgabe stattfinden soll. Die einzelnen Kanäle
-implementieren eine ComponentFactory, welche die entsprechenden Wrapper
+entschieden, über welchen Kanal die Ausgabe stattfinden soll.\\
+ Die einzelnen
+Kanäle implementieren eine ComponentFactory, welche die entsprechenden Wrapper
 zu den Präsentationsformen erzeugt. Die Wrapper deligieren die
 Aufrufe, die in den Präsentationsformen stattfinden, an die entsprechenden
 Komponenten des jeweiligen Frameworks weiter. 
@@ -86,7 +87,7 @@ Komponenten des jeweiligen Frameworks weiter.
 				\includegraphics[width=0.6\textwidth]{mcgrob}
 			\caption{\emph{Multichannel} - UI-Komponenten Schema \cite{MCPres}} 
 			\label{pic:mcgrob}
-		\end{figure}\\
+		\end{figure}
 \begin{figure}[!htb] 
 \centering
 				\includegraphics[width=0.9\textwidth]{mcspez}
@@ -126,12 +127,12 @@ umsetzen zu können, wird ein Framework mit folgenden Eigenschaften gesucht.
   \item Neue Web-Technologien werden unterstützt
 \end{itemize}
 
-\subsubsection{Einschätzung}
-Dem wingS-Framework ist zugute zu halten, dass der darauf basierende
-Client funktionsfähig ist und die Kunden der deg damit arbeiten können. Viele
-Fehler, die in dem ursprünglichen Framework vorhanden sind, wurden mit der Zeit
-von den Mitarbeitern der deg behoben.\\
-Abzüge müssen beim Support und der Aktualität gemacht werden.
+%\subsubsection{Einschätzung}
+%Dem wingS-Framework ist zugute zu halten, dass der darauf basierende
+%Client funktionsfähig ist und die Kunden der deg damit arbeiten können. Viele
+%Fehler, die in dem ursprünglichen Framework vorhanden sind, wurden mit der Zeit
+%von den Mitarbeitern der deg behoben.\\
+% Abzüge müssen beim Support und der Aktualität gemacht werden.
 
 \section{JavaFX}
 \subsection{Allgemeines}
@@ -232,17 +233,13 @@ realisiert.} Neue Stages dürfen nicht erzeugt werden.
 public void start(Stage primaryStage) throws Exception {
 		root = new TabPane();
 		scene = new Scene(root, 800, 500);
-		
 		BorderPane borderPane = new BorderPane();
-
 		borderPane.setTop(new MenuPane());
 		borderPane.setCenter(new BearbeitungsPane(currentMappe));
 		borderPane.setBottom(new Statusbar(currentMappe));
-		
 		Tab tab = new Tab(currentMappe.getTitel());
-        tab.setContent(borderPane);       
+        	tab.setContent(borderPane);       
 		root.getTabs().add(tab);
-
 		primaryStage.setTitle("JavaFXSamlpe - Profil");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -281,7 +278,6 @@ Integration in das MC-Framework ist theoretisch möglich. Jedoch müssen
 Darstellungen von Tabellen und Layouts angepasst werden.\\
 Allerdings fordert die Nutzung von Applets die Installation des
 Java-Plugins, was laut Anforderung der Kunden unerwünscht ist.
-
 \section{Vaadin}
 \subsection{Allgemeines}
 Das Vaadin-Framework ist ein Open-Source Framework, welches es erlaubt
@@ -301,10 +297,11 @@ zeigt den Aufbau des Vaadin-Frameworks sowie die Kommunikation zwischen
 Server und Client.
 \begin{figure}[!htb]
 \centering
-				\includegraphics[width=0.55\textwidth]{architecture}
+				\includegraphics[height=0.5\textwidth]{architecture}
 			\caption{Vaadin-Architektur \cite{Vaadin}}
 			\label{pic:vaadinarch}
-		\end{figure}\\
+		\end{figure}
+		
 \subsection{Beispiele für die Nutzung}
 Der Vaadin-Prototyp ist im Anhang \ref{app:VaaProfilSample} zu finden.
 Zur Implementierung der Menüleiste bietet Vaadin einen entsprechend
@@ -314,7 +311,7 @@ MenuBar menu = new MenuBar();
 MenuBar.MenuItem schliessen = menu.addItem("Schließen", null);
 \end{lstlisting}
 Um Aktionen an diesem Menü ausführen zu können, muss auch bei Vaadin ein
-entsprechender Listener implementiert.
+entsprechender Listener implementiert.\\
 \begin{lstlisting}
 public class SchliessenCommand implements Command {
 	private MappenView vertragsMappenView;
@@ -332,19 +329,17 @@ VerticalSplitPanel - für die vertikale Teilung - und das HorizontalSplitPanel - 
 Voreinstellung für die Aufteilung der geteilten Bereiche können durch die
 Methode \emph{setSplitPosition(VALUE, UNIT)} getroffen werden. Die UNIT
 bestimmt dabei, ob es sich um einen absoluten, oder um einen
-prozentualen Wert handelt.\\
+prozentualen Wert handelt.
 \begin{lstlisting}
 VerticalSplitPanel vertikalerSplit = new VerticalSplitPanel();
-
 vertikalerSplit.setSplitPosition(30, Sizeable.Unit.PERCENTAGE);	
-	
 vertikalerSplit.setFirstComponent(Component);
 vertikalerSplit.setSecondComponent(Component);
 \end{lstlisting}
 Bei der Darstellung von Tabellen werden die  Spalten bei Vaadin als
 Container betrachtet. Das hat den Vorteil, dass je Spalte auch festgelegt werden
 kann, welcher Datentyp dort angezeigt wird. Das geschieht mit der
-Methode \emph{addContainerProperty(TEXT, TYPE, DEFAULT)}.\\
+Methode \emph{addContainerProperty(TEXT, TYPE, DEFAULT)}.
 \begin{lstlisting}
 Table table = new Table();
 table.addContainerProperty("Vorgang", String.class, "");
@@ -352,7 +347,6 @@ table.addContainerProperty("Status", String.class, "");
 table.addContainerProperty("Zuwendungs-\nsumme[EUR]", String.class, ""); 
 table.addContainerProperty("Zahlungs-\nbetrag[EUR]", String.class, ""); 
 table.addContainerProperty("Zahlungs-\ndatum", String.class, ""); 
-		
 initLines(table);
 ... 		
  		
@@ -364,7 +358,7 @@ private void initLines(Table table) {
 		data.getZuwendungssumme(), data.getZahlungsbetrag(), data.getZahlungsdatum()}, i++);
 	}
 }
-\end{lstlisting}\\
+\end{lstlisting}
 %Will man Daten in die Tabelle einfügen, so hat man auf objektorientierter Ebene
 %viele Freiheiten, da die Methode \emph{addItem(OBJECT[])} ein Array mit Werten
 %vom Typ \emph{Object} erwartet. Ist der Typ durch
@@ -417,10 +411,8 @@ HorizontalLayout toolBar = new HorizontalLayout();
 String basepath = VaadinService.getCurrent().getBaseDirectory().getPath();
 FileResource imageDrop = new FileResource(new File(basepath+"/img/TbCopy.gif"));
 FileResource imagePrint = new FileResource(new File(basepath+"/img/TbPrint.gif"));
- 		
 Button btDrop = new Button();
 btDrop.setIcon(imageDrop);
-
 Button btPrint = new Button();
 btPrint.setIcon(imagePrint);
 btPrint.setEnabled(false);
@@ -601,9 +593,9 @@ sollte das Framework weiter beobachtet werden.
 \section{Implementierung}
 \begin{itemize}		
 \item{Java-Projekt: JFXprofilSample
-(jfxprofilsample.rar)}\label{app:JavaFXProfilSample}
+(jfxprofilsample.zip)}\label{app:JavaFXProfilSample}
 \item{Java-Projekt: VaadinProfilSample
-(vaadinprofilsample.rar)}\label{app:VaaProfilSample}
+(vaadinprofilsample.zip)}\label{app:VaaProfilSample}
 \end{itemize}
 \subsection*{Integration einer JavaFX-Anwendung in ein
 Applet}
