@@ -16,7 +16,7 @@
 \graphicspath{{Bilder/}}
 % --- Farbdefinitionen ----------------------------------------
 \definecolor{rot}{rgb}{1,0.3,0}
-\definecolor{gelb}{rgb}{0,1,0}
+\definecolor{gelb}{rgb}{1,1,0}
 \definecolor{gruen}{rgb}{0,1,0.4}
 
 \linespread{1.5}
@@ -24,7 +24,7 @@
 \title{Praxisbericht: Prototypische Implementierung eines JavaFX/Web-Channels
 zur Integration ins Multichannel-Framework der deg}
 \author{Niels Gundermann}
-
+ 
 \begin{document}
 \bibliographystyle{geralpha}
 \large
@@ -39,54 +39,70 @@ zur Integration ins Multichannel-Framework der deg}
 %Bedingtes Leerzeichen: \
 
 \section{Einleitung}
-Die deg entwickelt eine Software names \emph{profil c/s}. Dabei handelt es sich
+Die deg entwickelt eine Software names profil c/s. Dabei handelt es sich
 um eine Client-Server Anwendung zur Fördermittelverwaltung in der
-Landwirtschaft. Dieses Programm wurde speziell für die Umsatzung eines
-integrierten Verwaltungs- und Kontrollsystems (\emph{INVEKOS}) in den Ämtern der
-Landwirtschaftsministerien einiger Bundesländer entwickelt. Der Einsatz von profil c/s auf unterschiedlich organisierten
-Systemen in den Ämtern fordert sowohl einen Standalone-Client, als auch einen
-Web-Client. Für den Web-Client gibt es weiterhin die Anforderung, dass der
-Anwender für die Benutzung des Client keine zusätzlichen installieren
-vornehmen muss.\\
-Für die Umsetzung dieser beiden Clients entwickelt die deg zwei
-\emph{Userinterfaces} (UIs) auf zwei unterschiedlichen Plattformen. Um den
-Arbeitsaufwand zu erleichtern, wurde ein \emph{Multichannel} entwickelt. Damit
-ist es möglich, eine implementierte UI über unterschielichen Kanäle
-auszugeben. Dabei wird für den Kanal, über den der Standalone-Client ausgegeben
-wird, das \emph{Swing}-Framework verwendet. Bei der Visualisierung des
-Web-Clients kommt derzeit das \emph{wingS}-Framework zur Anwendung.\\
-Das Problem dabei ist, dass beide Frameworks (\emph{Swing} und \emph{wingS})
-veraltet sind. In dieser Arbeit wird nach Alternativen für das
-\emph{wingS}-Framework gesucht.
+Landwirtschaft. Dieses Programm wurde speziell für die Umsetzung eines
+integrierten Verwaltungs- und Kontrollsystems (INVEKOS) in den Ämtern der
+Landwirtschaftsministerien entwickelt.\\
+Dort werden zwei unterschiedlich Clients für die Arbeit mit profil c/s
+eingesetzt.
+Dabei handelt es sich einerseits um einen Standalone-Client und andererseits um
+einen Web-Client. Beide Clients sind Kundenanforderungen für deren Nutzung
+keine weiteren Installationen von Nöten sein sollen.\\
+Um dieser Anforderung gerecht zu werden, muss die deg die Userinterfaces
+(UIs) für die Clients auf zwei unterschiedlichen Zielplattformen darstellen.
+Dabei kommen zwei Frameworks zum Einsatz. Für den Standalone-Client nutzt die deg das \emph{Swing}-Framework.
+Bei der Visualisierung des Web-Clients kommt derzeit das wingS-Framework zur Anwendung.\\
+Das Problem dabei ist, dass beide Frameworks (Swing und wingS)
+veraltet sind. In dieser Arbeit wird der Einsatz des wingS-Frameworks mit
+dem Einsatz von JavaFX im Web und Vaadin verglichen. Dafür wurde jeweils ein
+Prototyp mit JavaFX und Vaadin implementiert.
+% Um
+%den Arbeitsaufwand zu erleichtern, wurde ein \emph{Multichannel} entwickelt.
+% Damit ist es möglich, eine implementierte UI über unterschielichen Kanäle auszugeben.
 \section{Grundlegendes}
 \subsection{Multichannel-Framework}
-Das \emph{Mutlichannel}-Framework (\emph{MC}-Framework) ist das Rahmenwerk mit
-dessen Hilfe der \emph{Multichannel} der deg umgesetzt wird. Folgender
-Abbildung ist die Integration der einzelnen Kanäle (hier der \emph{Swing}- und der
-\emph{wingS}-Kanal) zu entnehmen.
+Die beiden Clients die bei profil c/s zum Einsatz kommen, haben
+unabhängig von der Zielplattform den gleichen Aufbau. Die beiden dafür
+eingesetzten GUI-Frameworks fordern unterschiedliche Implementierungen für
+diesen Aufbau. Um den Aufwand für die Implementierung beider UIs
+gering zu halten, hat die deg ein eigenes Mutlichannel-Framework
+(MC-Framework) entwickelt. Dabei handelt es sich um ein Rahmenwerk, mit
+dessen Hilfe eine UI einmal implementiert wird und über unterschiedliche Kanäle
+auf unterschiedlichen Zielplattformen dargstellt werden
+kann. Die Kanäle nutzen dabei jeweils ein GUI-Framework.\\
+Folgenden Abbildungen ist die
+Integration der einzelnen Kanäle (hier der Swing- und der wingS-Kanal)\footnote{ULC: Ultra Light Client (ist bei profil c/s nicht
+		mehr im Einsatz)} zu entnehmen.
+Einfach erklärt arbeitet der Entwickler bei der Umsetzung einer UI mit
+Präsentationsformen. Durch Umgebungseinstellungen wird zur Laufzeit
+entschieden, über welchen Kanal die Ausgabe stattfinden soll. Die einzelnen Kanäle
+implementieren eine ComponentFactory, welche die entsprechenden Wrapper
+zu den Präsentationsformen erzeugt. Die Wrapper deligieren die
+Aufrufe, die in den Präsentationsformen stattfinden, an die entsprechenden
+Komponenten des jeweiligen Frameworks weiter. 
 \begin{figure}[!htb]
 	\centering
 				\includegraphics[width=0.6\textwidth]{mcgrob}
-			\caption{\emph{Multichannel} - UI-Komponenten Schema} 
+			\caption{\emph{Multichannel} - UI-Komponenten Schema \cite{MCPres}} 
 			\label{pic:mcgrob}
 		\end{figure}\\
-Eine erleichterung des Arbeitsaufwandes wird dadurch erreicht, da die
-Grundstruktur der UI nur einmal implemetiert werden muss. Die einzelnen Frameworks,
-über die der Client auf unterschiedlichen Plattformen visualisiert werden kann, müssen
-dem Entwickler nicht bekannt sein. Die Alternative in der Anfangszeit von profil
-c/s war, dass für beide Clients zwei von einander separierte GUIs entwickelt
-wurden.
-
+\begin{figure}[!htb] 
+\centering
+				\includegraphics[width=0.9\textwidth]{mcspez}
+			\caption{Integration von unterschiedlichen Frameworks in das
+			MC-Framework \cite{MCPres}}
+			\label{pic:mcspez}
+		\end{figure}
+		
 \subsection{wingS}
-Bei \emph{wingS} handelt es sich um ein Web-Framework. Das
-korrespondierende Framework für den Standalone-Client
-derzeit \emph{Swing}\cite{wingSAllg}.
-Wie eingangs schon erwähnt sind beide Frameworks veraltet. Das größte Problem beim Umgang mit
-\emph{wingS} ist der rückläufige Support.
-Die letzten Updates für \emph{wingS} stammen aus dem Jahr 2008.
-Seit dem wurde das Framework nicht weiterentwickelt.\\
+Bei wingS handelt es sich um ein Open-Source Web-Framework. Wie eingangs
+schon erwähnt, ist dieses Framework veraltet. Die letzten Updates für
+wingS stammen aus dem Jahr 2008. Seitdem wurde das Framework nicht
+weiterentwickelt. Das größte Problem beim Umgang mit wingS ist der Mangel
+an Informationen zur Nutzung des Frameworks.\\
 Abbildung \ref{pic:wingSarch} ist die Architektur
-\emph{wingS}-Frameworks und die Kommunikation zwischen Clienten und Server zu
+wingS-Frameworks und die Kommunikation zwischen Clienten und Server zu
 entnehmen.
 \begin{figure}[!htb]
 \centering
@@ -94,47 +110,47 @@ entnehmen.
 			\caption{wingS-Architektur \cite{wingsArt}}
 			\label{pic:wingSarch}
 		\end{figure}\\
-Das Problem vor dem die deg steht, ist dass die Anforderungen und
-Maßstäbe im Web-Bereich immer weiter wachsen und \emph{wingS} neue
-Web-Technologien nicht mehr unterstützt\footnote{Bspw. jQuery, Flash, HTML5, RSS
-}. Zwar ist es möglich profil c/s derzeit mittels \emph{wingS} abzubilden, das
-heißt aber nicht, dass die visuellen Anfroderungen der Kunden der deg nicht wachsen können.\\
-Um profil c/s in Zukunft am Leben zu erhalten wird ein Framework gesucht,
-welches in das \emph{MC}-Framework integriert werden kann und die neusten
-Technologien für das Web unterstützt.\\
-Wie sich \emph{wingS} in das \emph{MC}-Framwork eingliedert zeigt folgendes
-UML-Diagramm.
-\begin{figure}[!htb] 
-\centering
-				\includegraphics[width=0.9\textwidth]{mcspez}
-			\caption{Integration von \emph{wingS} in das UI-Komponenten Schema des
-			\emph{MC}-Framework} 
-			\label{pic:mcspez}
-		\end{figure}
-\section{Alternative JavaFX}
+Die deg hat das wingS-Framework für ihre Zwecke erweitert. Vor allem
+Darstellungen für Tabellen und Layouts (v.a. GridBagLayout) wurden
+angepasst.\\
+Das Problem vor dem die deg steht, ist dass die Anforderungen und Maßstäbe im
+Web-Bereich immer weiter wachsen und wingS neue
+Web-Technologien\footnote{Bspw. jQuery, Flash, HTML5, RSS } nicht mehr
+unterstützt. Somit besteht die Gefahr, dass künftige Anforderungen bzgl. der
+Visualisierung nicht erfüllt werden können.\\
+Um den Web-Client von profil c/s mit solchen Anforderungen in Zukunft
+umsetzen zu können, wird ein Framework mit folgenden Eigenschaften gesucht.
+\begin{itemize}
+  \item Aktueller Web-Client kann umgesetzt werden
+  \item Integration in das MC-Framework ist möglich
+  \item Neue Web-Technologien werden unterstützt
+\end{itemize}
+
+\subsubsection{Einschätzung}
+Dem wingS-Framework ist zugute zu halten, dass der darauf basierende
+Client funktionsfähig ist und die Kunden der deg damit arbeiten können. Viele
+Fehler, die in dem ursprünglichen Framework vorhanden sind, wurden mit der Zeit
+von den Mitarbeitern der deg behoben.\\
+Abzüge müssen beim Support und der Aktualität gemacht werden.
+
+\section{JavaFX}
 \subsection{Allgemeines}
 JavaFX ist ein von Oracle entwickeltes Framework für Rich Internet
  Applications, welches in der Version 1.0 am 4. Dezember 2008 veröffentlicht wurde. Die
 aktuelle Version 2.2 wurde im August 2012 freigegeben. Es handelt sich dabei um
 ein Framework, welches laut Oracle in Lage ist, sowohl als Standalone- als auch
  als Web-Variante zu fungieren. Die Architektur wird mit Abbildung \ref{pic:visMitJFX}
- auf folgender Seite verdeutlicht.\\
-Interessant für diese Arbeit ist vor allem die Darstellung im Web. Das kann
-JavaFX über das Java-Plugin realisiert werden\cite{JavaFXDoc:Online}.
-Die Nutzung des Java-Plugins hat gewisse Vor- und
-Nachteile, die ansatzweise in einer Tabelle in Abbildung \ref{tab:applets} auf
-der nachfolgenden Seite zusammengefasst sind.
-Notwendig für die Nutzung des Java-Plugins ist eine entsprechende html-Datei, in
-der eine jnlp-Datei mittels Java-Script eingebunden wird. Weiterhin muss der Anwender mit einem Browser arbeiten, in dem das Java-Plugin integriert werden
-kann.\cite{DeployTutApp}\\
-Abbildung \ref{pic:appletExe} stellt dar, wie Java-Applets im Browser ausgeführt
-werden.
-\begin{figure}[!htb]
+ verdeutlicht.\\
+ \begin{figure}[!htb]
 \centering
-				\includegraphics[width=0.45\textwidth]{visMitJFX}
+				\includegraphics[width=0.5\textwidth]{visMitJFX}
 			\caption{JavaFX-Architektur\cite{VisMitJFX}}
 			\label{pic:visMitJFX}
-		\end{figure}
+		\end{figure}\\
+Die Darstellung im Web kann
+über ein Java-Applet realisiert werden\cite{JavaFXDoc:Online}. Die Vor-
+und Nachteile bei der Nutzung von Java-Applets sind ansatzweise in einer Tabelle
+in Abbildung \ref{tab:applets} zusammengefasst.
 \begin{figure}[!htb]
 \centering
 			\begin{tabular}[c]{|l|}
@@ -146,7 +162,7 @@ werden.
 				\cellcolor{gruen}komplexe Anwendungen in Zusammenarbeit mit Servlets und
 				Applikationsservern möglich\\
 				\hline
-				\cellcolor{gruen}In unterschiedlichen Browsern nutzbar \\
+				\cellcolor{gruen}In unterschiedlichen Browsern nutzbar\\
 				\hline
 				\hline
 				\cellcolor{rot}\textbf{Nachteile} \\
@@ -155,20 +171,24 @@ werden.
 				\hline
 				\cellcolor{rot}Java-Script muss aktiviert sein (Sicherheitsrisiko)\\
 				\hline
-				\cellcolor{rot}Signatur notwendig\\
-				\hline
 				\cellcolor{rot}Abgleich der Java-Versionen notwendig\\
 				\hline
 				\cellcolor{rot}lange Initialisierung der JVM\\
-				\hline
-				\cellcolor{rot}Client muss komplett heruntergeladen werden\\
 \hline
 \hline
 			\end{tabular}
-		\caption{Vor- und Nachteile von der Nutzung des Java-Plugins\cite{JVMSpec,
+		\caption{Vor- und Nachteile von der Nutzung des Java-Applets\cite{JVMSpec,
 		DeployTutJar}}
 		\label{tab:applets}
-	\end{figure}
+	\end{figure}\\
+Für die Nutzung von Applets muss der Anwender mit einem Browser arbeiten, in dem
+das Java-Plugin installiert werden kann.\cite{DeployTutApp}
+Weiterhin notwendig für die Ausgabe der JavaFX-GUI über ein Applet im Browser,
+ist eine entsprechende html-Datei, in der eine jnlp-Datei mittels Java-Script eingebunden
+wird.\footnote{Beispiele sind im Anhang \ref{app:JavaFXDeploy} zu finden}
+Abbildung \ref{pic:appletExe} stellt die Kommunikation zwischen Applet und
+Java-Plugin im Browser dar.
+
 
 \begin{figure}[!htb]
 \centering
@@ -176,127 +196,124 @@ werden.
 			\caption{Applet's Execution Enviorment \cite{DeployTutApp}}
 			\label{pic:appletExe}
 		\end{figure}
+		
+		
 \subsection{Beispiele für die Nutzung}
 Der Aufbau einer JavaFX-UI wird in Abbildung \ref{pic:aufbJFX} verdeutlicht.
 \begin{figure}[!htb]
 \centering
-				\includegraphics[width=0.8\textwidth]{aufbjfx.png}
+				\includegraphics[width=0.5\textwidth]{aufbjfx.png}
 				\caption{JavaFX: Allgemeiner Aufbau einer grafischen Oberfläche}
 			\label{pic:aufbJFX}
 \end{figure}\\
-Im Anhang befindet sich der Prototyp, welcher bei der
-Bearbeitung dieser Arbeit entstand. (Anhang \ref{app:JavaFXProfilSample})\\
-Die Implementierung dieses Prototypen ist eine Erweiterung der Implementierung
-aus dem Praxisbericht \emph{Prototypische Implementierung
+Die Stage bildet die Abgrenzung zu anderen Komponenten, die auf der
+Zielplattform dargestellt werden. Die Scene ist der Bereich, in dem
+UI-Komponenten (Node) erstellt werden können.\\
+Im Praxisbericht  \emph{Prototypische Implementierung
 eines JavaFX-Channels zur Integration ins
-MulitChannel-Framework der deg}. Die Implementierung der
-strukturgebenden Bestandteile ist für Standalone- und Web-Variante gleich.
-Nachfolgend sind einige Beispiele aufgelistet.
-\begin{itemize}
-    \item Das Erstellen und Befüllen einer \emph{ToolBar}\\
-  	\begin{lstlisting}
-	ToolBar toolbar = new ToolBar();
-    toolbar.getItems().add(new Button("Speichern"));
-    toolbar.getItems().add(new Separator());
-	\end{lstlisting}
-	\item Das Erstellen und Einstellen geteilter Layouts (\emph{SplitPane})\\
-	\begin{lstlisting}
-  	SplitPane horizontalerSplit = new SplitPane();
-	horizontalerSplit.setDividerPositions(0.3, 0.7);
-	\end{lstlisting}
-	\item Das Erstellen von Baum-Strukturen (\emph{TreeView})\\
-	\begin{lstlisting}
-	TreeView verweiseTree = new TreeView();
-	TreeItem verweiseRoot = new TreeItem();
-	verweiseRoot.setValue("Verweise");
-	verweiseTree.setRoot(verweiseRoot);
-\end{lstlisting}
-\end{itemize}
-Ein Unterschied besteht in der Anzahl der sichtbaren Fenster (\emph{Stages}).
-Beim Standalone-Client wird mit mehrern Fenstern gearbeitet, weshalb der Aufruf
-\emph{new Stage()} öfter vorkommt. Im Browser gibt es nur ein Fenster.
-Das was beim Standalone-Client mit unterschiedlichen \emph{Stages} realisiert
-wird, wird im Web-Client mittels Tabe realisiert. Neue \emph{Stages} dürfen
-nicht erzeugt werden.
-\begin{lstlisting}
- private void initVertragsMappenGui(Stage primaStage) {
-        try {
-            new VertragsMappeFXController(vertragsMappen.get(0), primaStage); 
-            //Im Standalone-Client wird bspw. an dieser Stelle eine neue Stage
-            //erzeugt
-             } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-\end{lstlisting}
-Der große Mehrwert des Einsatzes von JavaFX ist, dass die Implementiertungen
-für Web- und Standalone-Client kaum Unterschiede aufweisen. Beide Clients
-könnten mit einem Framework realisiert werden.
+MultiChannel-Framework der deg} wurde ein Prototyp für einen Standalone-Client
+mit JavaFX implementiert. Der Code kann weitesgehend für einen Web-Client
+übernommen werden. Aus diesem Grund sind Informationen zu der Implementierung
+der GUI-Komponenten der genannten Arbeit zu entnehmen.\\ 
+Der Prototyp für den Web-Client, welcher bei der Bearbeitung dieser Arbeit
+entstand, befindet sich im Anhang \ref{app:JavaFXProfilSample}.\\
+Bei der Umsetzung des Prototypen ist aufgefallen, dass sich
+die Handhabung mit mehreren Fenstern zum Standalone-Client unterscheidet.
+Beim Standalone-Client wird mit mehrern Stages gearbeitet. Ein neues
+Fenster wird dabei mit dem Aufruf \emph{new Stage()} erzeugt.\\
+Im Browser gibt es nur ein Fenster. Das was beim Standalone-Client mit
+unterschiedlichen Stages realisiert wird, muss im Web-Client mittels Tabe
+realisiert werden.\footnote{Wird in bestehenden Web-Client (wingS) auch mit Tabe
+realisiert.} Neue Stages dürfen nicht erzeugt werden.
 
+
+\begin{lstlisting}
+@Override
+public void start(Stage primaryStage) throws Exception {
+		root = new TabPane();
+		scene = new Scene(root, 800, 500);
+		
+		BorderPane borderPane = new BorderPane();
+
+		borderPane.setTop(new MenuPane());
+		borderPane.setCenter(new BearbeitungsPane(currentMappe));
+		borderPane.setBottom(new Statusbar(currentMappe));
+		
+		Tab tab = new Tab(currentMappe.getTitel());
+        tab.setContent(borderPane);       
+		root.getTabs().add(tab);
+
+		primaryStage.setTitle("JavaFXSamlpe - Profil");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+}
+\end{lstlisting}
 \subsection{Ansatz zur Integration in das \emph{MC}-Framework}
-Zur integration von JavaFX in das \emph{MC}-Framework ist es notwendig die
-entsprechenden Wrapper-Klassen zu implementieren und diese in der
-\emph{ComponentFactory} anzumelden. Abbildung \ref{pic:jfxIntoMCgrob} zeigt, die
-Einordnung eines JavaFX-Channels in das \emph{MC}-Framework neben anderen
-Kanälen (Neuerungen sind blau gekennzeichnet).\\
+Zur Integration von JavaFX in das MC-Framework ist es notwendig, die
+entsprechende ComponentFactory und Wrapper-Klassen zu implementieren. Die
+Wrapper-Klassen müssen in der ComponentFactory angemeldet werden.
+Abbildung \ref{pic:jfxIntoMCgrob} zeigt, die Einordnung eines JavaFX-Channels in das \emph{MC}-Framework neben anderen
+Kanälen (Neuerungen sind blau gekennzeichnet).
 \begin{figure}[!htb]
 \centering
-				\includegraphics[height=0.5\textwidth]{JFXIntoMCgrob.png}
+				\includegraphics[height=0.4\textwidth]{JFXIntoMCgrob.png}
 			\caption{Integration von JavaFX in das UI-Komponenten Schema des
-			\emph{MC}-Framework}
+			MC-Framework}
 			\label{pic:jfxIntoMCgrob}
-		\end{figure}
-		Beispielhaft wird die Komponente \emph{javafx.scene.control.Button} in das
-\emph{MC}-Framework eingebunden. Das aus der Integration resultierende
-Klassendiagramm ist Abbildung \ref{pic:jfxIntoMCspez} zu entnehmen (Neuerungen
-sind blau gekennzeichnet).\\
-Dies ist mit der Integration der \emph{wingS}-Komponente \emph{org.wings.SButton} vergleichbar. (Abbildung \ref{pic:mcspez}) 
+		\end{figure}\\
+Beispielhaft wird die Komponente \emph{javafx.scene.control.Button} in das
+MC-Framework eingebunden. Das resultierende
+Diagramm ist Abbildung \ref{pic:jfxIntoMCspez} zu entnehmen (Neuerungen
+sind blau gekennzeichnet. Swing-Komponenten zum Vergleich sind gelb
+gekennzeichnet).\\
+Dies ist mit der Integration der wingS-Komponente \emph{org.wings.SButton} vergleichbar. (Abbildung \ref{pic:mcspez}) 
 \begin{figure}[!htb]
 \centering
-				\includegraphics[height=0.7\textwidth]{jfxIntoMCspez.png}
+				\includegraphics[height=0.6\textwidth]{jfxIntoMCspez.png}
 			\caption{Integration des JavaFX-Buttons in das \emph{MC}-Framework}
 			\label{pic:jfxIntoMCspez}
 		\end{figure}
-Letztlich muss noch eine \emph{ComponentFactory} implementiert werden, in der
-die JavaFX-UI-Objekte über die Wrapperklassen erzeugt werden.
-\section{Alternative Vaadin}
-\subsection{Allgeimeines}
-Das \emph{Vaadin}-Framework ist ein Open-Source Framework, welches es erlaubt
+\subsection{Einschätzung}
+Der große Mehrwert des Einsatzes von JavaFX ist, dass die Implementiertungen
+für Web- und Standalone-Client kaum Unterschiede aufweisen. Beide Clients
+könnten in großen Teilen mit einem Framework realisiert werden. Die
+Integration in das MC-Framework ist theoretisch möglich. Jedoch müssen
+Darstellungen von Tabellen und Layouts angepasst werden.\\
+Allerdings fordert die Nutzung von Applets die Installation des
+Java-Plugins, was laut Anforderung der Kunden unerwünscht ist.
+
+\section{Vaadin}
+\subsection{Allgemeines}
+Das Vaadin-Framework ist ein Open-Source Framework, welches es erlaubt
 UIs für Web-Oberflächen zu implementieren. Dies kann auf zwei Wegen geschehen.
-Zum einen durch Java-Code und zum Anderen durch einen Editor\cite{Vaadin}[S. 237ff.].\\
-Entwickelt wurde \emph{Vaadin} vorerst als Ajax-Framework. Damals trug es noch
-den Namen \emph{IT Mill Toolkit}. Mit dem Einsatz des \emph{Google
-Web-Toolkit (GWT)} für das clientseitige Komponenten-Rendering, wurde auch
-der Name im Jahr 2007 geändert. Seit dem trägt es den Namen \emph{Vaadin}\cite{vaadinJax}.\\
+Zum einen durch Java-Code und zum anderen durch einen Editor\cite{Vaadin}[S.
+237ff.].\\
 Der Service bzw. die Unterstützung ist durch verständliche
 Tutorials, eine gute Dokumentation, sowie entsprechende Plugins für
 unterschiedliche Entwicklungsumgebungen gegeben. Dadurch findet man leicht einen
-Zugang zu dem Framework. Des Weiteren stellen die \emph{Vaadin}-Entwickler ihr
+Zugang zu dem Framework. Des Weiteren stellen die Vaadin-Entwickler ihr
 Know-How als externe Berater zur Verfügung.\\
-Implementieren lassen sich die UI-Komponenten nicht nur mittels Java-Code. Da
-\emph{Vaadin} auf der Client-Seite auf das \emph{GWT} aufbaut, 
-können die UIs auch mittels anderer Sprachen, die zu der JVM kompatibel
-sind\footnote{Bspw. Scala, Ruby, Groovy, Clojure, Python}, erstellt werden.\\
-\emph{Vaadin} kann auf allen Servern bereitgestellt werden, die einen 
+Vaadin kann auf allen Servern bereitgestellt werden, die einen 
 Servlet- oder Portlet-Container enthalten. Beispiele dafür sind
 Tomcat, Glasfish oder der in der deg eingesetzte JBoss.
 Die Entwicklung findet auf dem Server statt. Abbildung \ref{pic:vaadinarch}
-zeigt den Aufbau des \emph{Vaadin}-Frameworks
+zeigt den Aufbau des Vaadin-Frameworks sowie die Kommunikation zwischen
+Server und Client.
 \begin{figure}[!htb]
 \centering
-				\includegraphics[width=0.375\textwidth]{architecture}
+				\includegraphics[width=0.55\textwidth]{architecture}
 			\caption{Vaadin-Architektur \cite{Vaadin}}
 			\label{pic:vaadinarch}
-		\end{figure}
+		\end{figure}\\
 \subsection{Beispiele für die Nutzung}
-Der \emph{Vaadin}-Prototyp ist im Anhang \ref{app:VaaProfilSample} zu finden.
+Der Vaadin-Prototyp ist im Anhang \ref{app:VaaProfilSample} zu finden.
 Zur Implementierung der Menüleiste bietet Vaadin einen entsprechend
-vorgefertigten \emph{MenuBar}-Typ an. Dieser kann mit Elementen gefüllt werden, wie es auch schon von JavaFX bekannt ist.
+vorgefertigten MenuBar-Typ an. Dieser kann mit Elementen gefüllt werden, wie es auch schon von JavaFX bekannt ist.
 \begin{lstlisting}
 MenuBar menu = new MenuBar();
 MenuBar.MenuItem schliessen = menu.addItem("Schließen", null);
 \end{lstlisting}
-Um Aktionen an diesem Menü ausführen zu können muss auch bei Vaadin ein
+Um Aktionen an diesem Menü ausführen zu können, muss auch bei Vaadin ein
 entsprechender Listener implementiert.
 \begin{lstlisting}
 public class SchliessenCommand implements Command {
@@ -310,11 +327,10 @@ public class SchliessenCommand implements Command {
 });
 \end{lstlisting}
 Für die Umsetzung geteilter Layouts bietet Vaadin zwei Komponenten an, die je
-nach Orientierung der Teilungsrichtung verwendet werden sollten. Dazu gehört zum
-Einen das \emph{VerticalSplitPanel} - für die vertikale Teilung - und das
-\emph{HorizontalSplitPanel} - für die horizontale Teilung.\\
+nach Orientierung der Teilungsrichtung verwendet werden. Dazu gehört das
+VerticalSplitPanel - für die vertikale Teilung - und das HorizontalSplitPanel - für die horizontale Teilung.\\
 Voreinstellung für die Aufteilung der geteilten Bereiche können durch die
-Methode \emph{setSplitPosition(VALUE, UNIT)} getroffen werden. Die \emph{UNIT}
+Methode \emph{setSplitPosition(VALUE, UNIT)} getroffen werden. Die UNIT
 bestimmt dabei, ob es sich um einen absoluten, oder um einen
 prozentualen Wert handelt.\\
 \begin{lstlisting}
@@ -328,8 +344,7 @@ vertikalerSplit.setSecondComponent(Component);
 Bei der Darstellung von Tabellen werden die  Spalten bei Vaadin als
 Container betrachtet. Das hat den Vorteil, dass je Spalte auch festgelegt werden
 kann, welcher Datentyp dort angezeigt wird. Das geschieht mit der
-Methode \emph{addContainerProperty(TEXT, TYPE, DEFAULT)}.
-\newpage
+Methode \emph{addContainerProperty(TEXT, TYPE, DEFAULT)}.\\
 \begin{lstlisting}
 Table table = new Table();
 table.addContainerProperty("Vorgang", String.class, "");
@@ -349,7 +364,7 @@ private void initLines(Table table) {
 		data.getZuwendungssumme(), data.getZahlungsbetrag(), data.getZahlungsdatum()}, i++);
 	}
 }
-\end{lstlisting}
+\end{lstlisting}\\
 %Will man Daten in die Tabelle einfügen, so hat man auf objektorientierter Ebene
 %viele Freiheiten, da die Methode \emph{addItem(OBJECT[])} ein Array mit Werten
 %vom Typ \emph{Object} erwartet. Ist der Typ durch
@@ -388,15 +403,15 @@ Bei den Click-Events für die Bäume ist folgende Codezeile besonders wichtig.
 \begin{lstlisting}
 setImmediate(true);
 \end{lstlisting}
-Das hat zur Folge, dass der Listener sofort auf den Klick reagiert. Ansonsten
-wird das entsprechende Event später abgesetzt.\\
+Das hat zur Folge, dass das Event sofort an den Server geschickt wird.
+Ansonsten erfolgt das Senden erst, wenn der Thread in der Methode
+\emph{access()} der Vaadin-Klasse UI beendet wurde.\cite{Vaadin}\\
 Probleme entstanden bei der Umsetzung der Toolbar. Hierfür
 gibt es keine brauchbare Standardkomponente, wie man es von anderen
 UI-Frameworks gewohnt ist. Es gibt zwar Toolbar-Add-Ons, die in das Projekt eingebunden werden
-können\cite{AOTool,AOToolWin}. Diese werden jedoch seit der Version 7
-nicht mehr unterstützt.\\
+können\cite{AOTool,AOToolWin}. Diese werden jedoch nur bis zur Version 6
+unterstützt.\\
 Die Toolbar für diesen Prototypen wurde wie folgt implementiert:
-\newpage
 \begin{lstlisting}
 HorizontalLayout toolBar = new HorizontalLayout();
 String basepath = VaadinService.getCurrent().getBaseDirectory().getPath();
@@ -412,8 +427,8 @@ btPrint.setEnabled(false);
 	 
 toolBar.addComponents(btDrop, btPrint, btLossOrg, btGetOrg, btHelp);	
 \end{lstlisting}
-Die Tab-Ansicht für den Web-Client wird durch ein \emph{TabSheet}
-realisiert. Diese Komonente ist golbal zugänglich, da sie bspw. durch Aktionen,
+Die Tab-Ansicht für den Web-Client wird durch ein TabSheet
+realisiert. Diese Komonente ist global zugänglich, da sie bspw. durch Aktionen,
 die von den Tree-Controller ausgehen, verändert werden kann.
 \begin{lstlisting}
 static TabSheet tabsheet = new TabSheet();
@@ -445,31 +460,30 @@ tabsheet.getTab(vertragsMappe).setClosable(true);
 %//oder
 %@import url("<../runo/styles.css"<)
 %\end{lstlisting}
-\subsection{Ansatz zur Integration in das \emph{MC}-Framework}
-Die  integration von \emph{Vaadin} in das \emph{MC}-Framework gestaltet sich analog
+\subsection{Ansatz zur Integration in das MC-Framework}
+Die Integration von Vaadin in das MC-Framework gestaltet sich analog
 zu der Integration von JavaFX. Die Wrapper-Klassen müssen implementiert werden
-und in der \emph{ComponentFactory} angemeldet werden. Abbildung
+und in der ComponentFactory angemeldet werden. Abbildung
 \ref{pic:jfxIntoMCgrob} zeigt, die Einordnung eines Vaadin-Channels in das
-\emph{MC}-Framework neben anderen Kanälen (Neuerungen sind blau
-gekennzeichnet).\\
-Beispielhaft wird die Komponente \emph{com.vaadin.ui.Button} in das
-\emph{MC}-Framework eingebunden (Neuerungen sind blau gekennzeichnet). Dies ist
-wiederum mit der Integration der \emph{wingS}-Komponente
-\emph{org.wings.SButton} vergleichbar. (Abbildung \ref{pic:mcspez}) 
-\newpage
+MC-Framework neben anderen Kanälen (Neuerungen sind blau
+gekennzeichnet).
 \begin{figure}[!htb]
 \centering
-				\includegraphics[height=0.5\textwidth]{JFXIntoMCgrob.png}
-			\caption{Integration von JavaFX in das GUI-Komponenten Schema des
+				\includegraphics[height=0.4\textwidth]{VaaIntoMCgrob.png}
+			\caption{Integration von \emph{Vaadin} in das UI-Komponenten Schema des
 			\emph{MC}-Framework}
 			\label{pic:jfxIntoMCgrob}
-		\end{figure}
-
+		\end{figure}\\
+Beispielhaft wird die Komponente \emph{com.vaadin.ui.Button} in das
+MC-Framework eingebunden. (Neuerungen sind blau gekennzeichnet.
+Swing-Komponenten zum Vergleich sind gelb gekennzeichnet.)\\
+Dies ist wiederum mit der Integration der wingS-Komponente
+\emph{org.wings.SButton} vergleichbar. (Abbildung \ref{pic:mcspez}) 
 \begin{figure}[!htb]
 				\centering
-				\includegraphics[height=0.7\textwidth]{vaaIntoMCspez.png}
-			\caption{Integration des JavaFX-Buttons in das \emph{MC}-Framework}
-			\label{pic:jfxIntoMCgrob}
+				\includegraphics[height=0.6\textwidth]{vaaIntoMCspez.png}
+			\caption{Integration des \emph{Vaadin}-Buttons in das \emph{MC}-Framework}
+			\label{pic:vaaIntoMCgrob}
 		\end{figure}
 %\subsection{Probleme der deg im Web}
 %Große Probleme in der deg bezüglich der GUI des Web-Clients bereitet die
@@ -527,57 +541,63 @@ wiederum mit der Integration der \emph{wingS}-Komponente
 %Vaadin\footnote{siehe Abbildung \ref{pic:vaadinarch}} hingegen kann diese
 %Kommunikation auch über einen Portlet-Container
 %abwickeln\cite{Vaadin}[53-56]\cite{wingSArt}.
-
+\subsection{Einschätzung}
+Vaadin ist ein sehr aktuelles Web-Framework, für das es immer wieder Updates und
+Erweiterungen gibt. Der Support, der durch die Community und die Entwickler
+gewährleistet wird, ist sehr groß. Der Ansatz zur Integration in das
+MC-Framework ist in der deg bereits umgesetzt. Allerdings gab es auch dabei
+Probleme bei der Darstellung von Tabellen und Layouts.
 \section{Fazit}
-Dass \emph{wingS} abgelöst werden muss, steht aufgrund der Stagnation und des
-mangelnden Supports fest. Folgender Abbildung ist eine Gegenüberstellung der
-vorgestellten Frameworks zu entnehmen.
+wingS ist zwar veraltet, aber funktioniert für profil c/s den Anforderungen
+entspreched. Sollten die Anforderungen bzgl. der Visualisierung wachsen, wird
+die deg viel Arbeit damit haben, Funktionalitäten mit wingS umzusetzen, die in
+anderen Frameworks schon vorgegeben sind. Der Mangel an Informationen
+wird diese Umsetzungen, trotz des großen Know-Hows bzgl. wingS,
+erschweren.\\
+JavaFX wird in der deg für den Web-Client nicht zum Einsatz kommen. Grund
+dafür ist die Notwendigkeit des Java-Plugins im Browser. Das würde eine lokale
+Installation voraussetzen, was nicht den Anforderungen an den Web-Client
+entspricht.\\
+Vaadin eignet sich als Framework für einen neuen Channel
+für das MC-Framework der deg. Dennoch müssen Anpassungen gemacht
+werden, von denen nicht sicher ist, ob sie die Anforderung mindestens im
+gleichen Umfang erfüllen, wie es der wingS-Channel tut.\\
+Folgender Abbildung ist eine Gegenüberstellung der vorgestellten Frameworks zu
+entnehmen. Dabei werden die Wartung und Erweiterung des Frameworks,
+der Support, die Machbarkeit
+der Integration in das MC-Framework und die Abdeckung bestehender Funktionen
+betrachtet.
 \begin{figure}[!htb]
+\centering
+\small
 			\begin{tabular}[c]{|l|c|c|c|}
-			\hline\hline
+			\hline
 				\textbf{Kriterium} & \textbf{wingS} & \textbf{\ JavaFX} &  
 				\textbf{\ Vaadin}\\
 				\hline\hline
-				\textbf{Aktualität} & \cellcolor{rot}\textbf{-} &\cellcolor{gruen}\textbf{+}
-				&\cellcolor{gruen}\textbf{+}\\
+				\textbf{Wartung und Erweiterungen} & \cellcolor{rot}\textbf{-}
+				&\cellcolor{gruen}\textbf{+} &\cellcolor{gruen}\textbf{+}\\
 				\hline
-				\textbf{Support} & \cellcolor{rot}\textbf{-} & \cellcolor{gruen}\textbf{+} & 
-				\cellcolor{gruen}\textbf{+}\\
+				\textbf{Support} & \cellcolor{rot}\textbf{-} & \cellcolor{gruen}\textbf{+}
+				& \cellcolor{gruen}\textbf{+}\\
 				\hline
 				\textbf{Machbarkeit d. Integration}  & \cellcolor{gruen}\textbf{+} & 
-				\cellcolor{gruen}\textbf{+} &  \cellcolor{gruen}\textbf{+}\\
+				\cellcolor{gelb}\textbf{o} &  \cellcolor{gelb}\textbf{o}\\
 				\hline
-				\textbf{Sicherheit}  & \cellcolor{gruen}\textbf{+} & 
-				\cellcolor{rot}\textbf{-} & \cellcolor{gruen}\textbf{+}\\
-				\hline
-				\textbf{Abdeckung allg. Anforderungen}  & \cellcolor{gruen}\textbf{+} & 
-				\cellcolor{rot}\textbf{-} &  \cellcolor{gruen}\textbf{+}\\
-				\hline
+				\textbf{Abdeckung best. Funktionen}  & \cellcolor{gruen}\textbf{+} & 
+				\cellcolor{rot}\textbf{-} &  \cellcolor{gelb}\textbf{o}\\
 				\hline
 			\end{tabular}
 		\caption{Gegenüberstellung: wingS - JavaFX - Vaadin}
 		\label{tab:wingSvsJavaFXvsVaadin}
 	\end{figure}\\
-JavaFX wird in der deg für den Web-Client nicht zum Einsatz kommen. Grund dafür
-ist die Notwendigkommt des Java-Plugins im Browser. Das würde eine lokale
-Installation voraussetzen, was nicht den Anforderungen an den Web-Client
-entspricht.\\
-Nach dieser Analyse eignet sich Vaadin als Framework für einen neuen Web-Channel
-für das \emph{MC}-Framework der deg.\\
-In dieser Arbeit wurde allerdings nur auf grundsätzliche
-Darstellungsmöglichkeiten der einzelnen Frameworks eingegangen. In der deg gibt
-es weitere große Probleme in Bezug auf den Web-Client, die hier nicht in
-Betracht gezogen wurden.
-Ein nächster Schritt wäre eine genaue Auflistungen von technischen Anforderungen
-und Problemen bzgl. der Frameworks, die für unterschiedliche Kanäle im
-\emph{MC}-Framework genutzt werden. Erst dann kann ein Framework für einen neuen
-Kanal evaluiert werden.
+In Bezug auf Vaadin ist zu beachten, dass viele Neuerungen gibt. Aufgrund dessen
+sollte das Framework weiter beobachtet werden.
 \pagebreak
 \section*{Anhänge}
 \appendix
 \section{Literaturverzeichnis}
 \bibliography{mybib}{}
-\pagebreak
 \section{Implementierung}
 \begin{itemize}		
 \item{Java-Projekt: JFXprofilSample
@@ -585,7 +605,82 @@ Kanal evaluiert werden.
 \item{Java-Projekt: VaadinProfilSample
 (vaadinprofilsample.rar)}\label{app:VaaProfilSample}
 \end{itemize}
+\subsection*{Integration einer JavaFX-Anwendung in ein
+Applet}
+HTML-Datei\\
+\begin{lstlisting}
+<html><head>
+  <SCRIPT src="./web-files/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'FXprofilSample.jnlp',
+              },
+            {
+                javafx : '2.2+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbed() {
+        dtjava.embed(
+            {
+                url : 'FXprofilSample.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : 800,
+                height : 600,
+            },
+            {
+                javafx : '2.2+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbed);
+</script>
+
+</head><body>
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder'></div>
+</body></html>
+\end{lstlisting}
+
+JNLP-Datei\\
+\begin{lstlisting}
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="FXprofilSample.jnlp">
+  <information>
+    <title>FXprofilSample</title>
+    <vendor>Niels Gundermann</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <jfx:javafx-runtime version="2.2+" href=
+    "http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="JavaFXApplication2.jar" size="41820" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" 
+  main-class="com.javafx.main.NoJavaFXFallback"  name="FXprofilSample" >
+    <param name="requiredFXVersion" value="2.2+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="helper.Starter"  name="FXprofilSample" />
+  <update check="always"/>
+</jnlp>
+
+\end{lstlisting}
+
+\label{app:JavaFXDeploy}
 \pagebreak
+
 \section{Abbildungen}
 	%\begin{figure}[!htb]
 	%		\begin{tabular}[c]{|l||ll|}
